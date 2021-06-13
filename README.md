@@ -2,6 +2,11 @@
 
 Project for the module "Mobile App Engineering"
 
+# Development
+
+Use "dev" for development and "master" for deployable snapshots. "dev" should at least remain
+runnable, if you add unstable features, use an extra branch until they are stable.
+
 ## Getting Started
 
 This project is a starting point for a Flutter application.
