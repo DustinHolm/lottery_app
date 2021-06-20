@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lottery_app/LotteryGenerator.dart';
 import 'package:lottery_app/models/lottery.dart';
+import 'package:lottery_app/pages/product_detail_page.dart';
 import 'package:lottery_app/sidebar.dart';
 
 class OverviewPage extends StatefulWidget {
@@ -26,6 +27,11 @@ class _OverviewPageState extends State<OverviewPage> {
             return ListTile(
               title: Text("${widget.lotteries[index].product.name}"),
               trailing: Text("${widget.lotteries[index].product.description}"),
+              onTap: () => Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) =>
+                          ProductDetailPage(lottery: widget.lotteries[index]))),
             );
           },
         ));
