@@ -9,7 +9,7 @@ class Lottery {
   DateTime endingDate;
   Map<User, int> ticketsMap;
   User seller;
-  User winner;
+  User? winner;
   CollectType collectType;
   PaymentType paymentType; // Necessary?
 
