@@ -24,9 +24,21 @@ class _OverviewPageState extends State<OverviewPage> {
         body: ListView.builder(
           itemCount: widget.lotteries.length,
           itemBuilder: (context, index) {
+            Lottery lottery = widget.lotteries[index];
+            int ticketsUsed = lottery.getTicketsUsed();
+            Color color = ticketsUsed <= 0
+                ? Colors.grey
+                : ticketsUsed <= 23
+                    ? Colors.yellow
+                    : Colors.red;
             return ListTile(
-              title: Text("${widget.lotteries[index].product.name}"),
-              trailing: Text("${widget.lotteries[index].product.description}"),
+              title: Text("${lottery.product.name}"),
+              trailing: Text(
+                "$ticketsUsed Tickets",
+                style: TextStyle(
+                  color: color,
+                ),
+              ),
               onTap: () => Navigator.push(
                   context,
                   MaterialPageRoute(

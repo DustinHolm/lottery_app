@@ -20,10 +20,16 @@ class LotteryGenerator {
                 shippingCost: 0),
             startingDate: DateTime.now(),
             endingDate: DateTime.now(),
-            ticketsMap: new Map(),
+            ticketsMap: defaultUserMap(i),
             seller: new User(name: "TestUser_$i", address: new Address()),
             winner: null,
             collectType: CollectType.PACKET,
             paymentType: PaymentType.CREDIT_CARD));
   }
 }
+
+Map<User, int> defaultUserMap(int i) => {
+      User(name: "Sandra_$i", address: Address()): i,
+      User(name: "Peter_$i", address: Address()): i * 2,
+      User(name: "Heinz_$i", address: Address()): i * 3,
+    };

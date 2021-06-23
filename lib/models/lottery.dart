@@ -23,4 +23,8 @@ class Lottery {
     required this.collectType,
     required this.paymentType,
   });
+
+  int getTicketsUsed() {
+    return this.ticketsMap.values.reduce((value, element) => value + element);
+  }
 }
