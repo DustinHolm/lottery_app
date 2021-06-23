@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lottery_app/pages/bidder_page.dart';
+import 'package:lottery_app/pages/create_new_product_page.dart';
 import 'package:lottery_app/pages/seller_page.dart';
 import 'package:lottery_app/pages/overview_page.dart';
 
@@ -29,6 +30,7 @@ class MyApp extends StatelessWidget {
           '/': (context) => OverviewPage(),
           '/bidder': (context) => BidderPage(),
           '/seller': (context) => SellerPage(),
+          '/create': (context) => CreateNewProductPage(),
         });
   }
 }

@@ -26,6 +26,13 @@ class Sidebar extends StatelessWidget {
               context,
               '/seller'
             )
+          ),
+          ListTile(
+              title: Text('Angebot selber erstellen'),
+              onTap: () => Navigator.pushNamed(
+                  context,
+                  '/create'
+              )
           )
         ],
       ),
