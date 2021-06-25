@@ -7,12 +7,8 @@ class Sidebar extends StatelessWidget {
       child: ListView(
         children: [
           ListTile(
-            title: Text('Übersicht'),
-            onTap: () => Navigator.pushNamed(
-              context,
-              '/'
-            )
-          ),
+              title: Text('Übersicht'),
+              onTap: () => Navigator.pushNamed(context, '/overview')),
           ListTile(
             title: Text('Offene Gebote'),
             onTap: () => Navigator.pushNamed(
@@ -33,7 +29,10 @@ class Sidebar extends StatelessWidget {
                   context,
                   '/create'
               )
-          )
+          ),
+          ListTile(
+              title: Text('Tickets kaufen'),
+              onTap: () => Navigator.pushNamed(context, '/tickets')),
         ],
       ),
 
