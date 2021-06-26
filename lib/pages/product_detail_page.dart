@@ -13,7 +13,6 @@ class ProductDetailPage extends StatelessWidget {
         ),
         body: ListView(
           children: [
-            //Text(lottery.product.name),
             Text(lottery.product.description),
             Text("Zustand: ${lottery.product.condition.toString()}"),
             Text("Versandgebühr: ${lottery.product.shippingCost.toString()}"),
