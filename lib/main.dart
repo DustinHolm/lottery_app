@@ -6,14 +6,18 @@ import 'package:lottery_app/pages/overview_page.dart';
 import 'package:lottery_app/pages/seller_page.dart';
 import 'package:lottery_app/pages/tickets_buy_page.dart';
 import 'package:lottery_app/pages/welcome_page.dart';
+import 'package:lottery_app/stores/user_store.dart';
 import 'package:provider/provider.dart';
 
 void main() {
   runApp(
-      ChangeNotifierProvider(
-        create: (context) => LotteriesStore(),
-        child: MyApp(),
-      )
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (context) => LotteriesStore()),
+        ChangeNotifierProvider(create: (context) => UserStore()),
+      ],
+      child: MyApp(),
+    )
   );
 }
 

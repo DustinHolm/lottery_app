@@ -1,5 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:lottery_app/models/lottery.dart';
+import 'package:lottery_app/pages/product_detail_page.dart';
 import 'package:lottery_app/sidebar.dart';
+import 'package:lottery_app/stores/lotteries_store.dart';
+import 'package:lottery_app/stores/user_store.dart';
+import 'package:provider/provider.dart';
+
 
 class SellerPage extends StatefulWidget {
   SellerPage({Key? key}) : super(key: key);
@@ -10,39 +16,41 @@ class SellerPage extends StatefulWidget {
 }
 
 class _SellerPageState extends State<SellerPage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
+    UserStore userStore = context.watch<UserStore>();
+    List<Lottery> lotteries = context.select((LotteriesStore store) => store.getOwnedLotteries(userStore.user));
+
     return Scaffold(
       drawer: Sidebar(),
       appBar: AppBar(
         title: Text(widget.title),
       ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text(
-              'You have pushed the button this many times:',
+      body: ListView.builder(
+        itemCount: lotteries.length,
+        itemBuilder: (context, index) {
+          Lottery lottery = lotteries[index];
+          int ticketsUsed = lottery.getTicketsUsed();
+          Color color = ticketsUsed <= 0
+              ? Colors.grey
+              : ticketsUsed <= 23
+              ? Colors.yellow
+              : Colors.red;
+          return ListTile(
+            title: Text("${lottery.product.name}"),
+            trailing: Text(
+              "$ticketsUsed Tickets",
+              style: TextStyle(
+                color: color,
+              ),
             ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headline4,
-            ),
-          ],
-        ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: Icon(Icons.add),
+            onTap: () => Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) =>
+                        ProductDetailPage(lottery: lotteries[index]))),
+          );
+        },
       ),
     );
   }

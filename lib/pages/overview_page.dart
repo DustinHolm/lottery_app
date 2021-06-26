@@ -19,8 +19,8 @@ class OverviewPage extends StatefulWidget {
 class _OverviewPageState extends State<OverviewPage> {
   @override
   Widget build(BuildContext context) {
-    LotteriesStore store = context.read<LotteriesStore>();
-    List<Lottery> lotteries = context.select((LotteriesStore store) => store.lotteries);
+    LotteriesStore store = context.watch<LotteriesStore>();
+    List<Lottery> lotteries = store.lotteries;
 
     return Scaffold(
         drawer: Sidebar(),
