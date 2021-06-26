@@ -1,24 +1,24 @@
 import 'package:flutter/material.dart';
-import 'package:lottery_app/stores/lotteries_store.dart';
 import 'package:lottery_app/pages/bidder_page.dart';
 import 'package:lottery_app/pages/create_new_product_page.dart';
 import 'package:lottery_app/pages/overview_page.dart';
 import 'package:lottery_app/pages/seller_page.dart';
 import 'package:lottery_app/pages/tickets_buy_page.dart';
 import 'package:lottery_app/pages/welcome_page.dart';
+import 'package:lottery_app/stores/lotteries_store.dart';
+import 'package:lottery_app/stores/transform_store.dart';
 import 'package:lottery_app/stores/user_store.dart';
 import 'package:provider/provider.dart';
 
 void main() {
-  runApp(
-    MultiProvider(
-      providers: [
-        ChangeNotifierProvider(create: (context) => LotteriesStore()),
-        ChangeNotifierProvider(create: (context) => UserStore()),
-      ],
-      child: MyApp(),
-    )
-  );
+  runApp(MultiProvider(
+    providers: [
+      ChangeNotifierProvider(create: (context) => LotteriesStore()),
+      ChangeNotifierProvider(create: (context) => UserStore()),
+      ChangeNotifierProvider(create: (context) => TransformStore()),
+    ],
+    child: MyApp(),
+  ));
 }
 
 class MyApp extends StatelessWidget {
