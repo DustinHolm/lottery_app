@@ -1,6 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:lottery_app/components/check_box_state.dart';
+import 'package:lottery_app/enums/collect_type.dart';
+import 'package:lottery_app/enums/condition.dart';
+import 'package:lottery_app/enums/payment_type.dart';
+import 'package:lottery_app/models/lottery.dart';
+import 'package:lottery_app/models/product.dart';
+import 'package:lottery_app/models/user.dart';
 import 'package:lottery_app/sidebar.dart';
+import 'package:lottery_app/stores/lotteries_store.dart';
+import 'package:lottery_app/stores/user_store.dart';
+import 'package:provider/provider.dart';
 
 class CreateNewProductPage extends StatefulWidget {
   CreateNewProductPage({Key? key}) : super(key: key);
@@ -48,6 +57,9 @@ class _CreateNewProductPageState extends State<CreateNewProductPage> {
 
   @override
   Widget build(BuildContext context) {
+    LotteriesStore lotteriesStore = context.read<LotteriesStore>();
+    UserStore userStore = context.read<UserStore>();
+
     return Scaffold(
       drawer: Sidebar(),
       appBar: AppBar(
@@ -171,17 +183,26 @@ class _CreateNewProductPageState extends State<CreateNewProductPage> {
                     // Button to send Information further to Backend/ Server
                     child: TextButton(
                       child: Text('Inserieren'),
-                      onPressed: () => {
-                        print('Inserieren Button gedrückt'),
-                        print(textFieldControllerProductName.text),
-                        print(textFieldControllerProductDescription.text),
-                        print(textFieldControllerProductDetails.text),
-
-                        print(categorieList[0].value),
+                      onPressed: () {
+                        Lottery lottery = new Lottery(
+                            product: new Product(
+                                name: textFieldControllerProductName.text,
+                                description: textFieldControllerProductDescription.text,
+                                images: new List.empty(),
+                                condition: Condition.GOOD,
+                                shippingCost: 0),
+                            startingDate: DateTime.now(),
+                            endingDate: DateTime.now(),
+                            ticketsMap: new Map<User, int>(),
+                            seller: userStore.user!,
+                            winner: null,
+                            collectType: CollectType.PACKET,
+                            paymentType: PaymentType.CREDIT_CARD
+                        );
+                        lotteriesStore.addLottery(lottery);
+                        Navigator.pushNamed(context, "/seller");
                       },
-
                     ),
-
                     ),
                 ],
               ),

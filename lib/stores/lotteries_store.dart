@@ -16,7 +16,7 @@ class LotteriesStore extends ChangeNotifier {
   }
 
   void addLottery(Lottery lottery) {
-    _lotteries.add(lottery);
+    _lotteries = [..._lotteries, lottery];
     notifyListeners();
   }
 

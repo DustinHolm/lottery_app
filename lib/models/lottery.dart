@@ -25,6 +25,9 @@ class Lottery {
   });
 
   int getTicketsUsed() {
-    return this.ticketsMap.values.reduce((value, element) => value + element);
+    if (ticketsMap.isNotEmpty)
+      return ticketsMap.values.reduce((value, element) => value + element);
+    else
+      return 0;
   }
 }
