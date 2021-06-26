@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:lottery_app/LotteryGenerator.dart';
+import 'package:flutter/widgets.dart';
+import 'package:lottery_app/stores/lotteries_store.dart';
+import 'package:lottery_app/lottery_generator.dart';
 import 'package:lottery_app/models/lottery.dart';
 import 'package:lottery_app/pages/product_detail_page.dart';
 import 'package:lottery_app/sidebar.dart';
+import 'package:provider/provider.dart';
+
 
 class OverviewPage extends StatefulWidget {
   OverviewPage({Key? key}) : super(key: key);
   final String title = "Übersicht";
-  final List<Lottery> lotteries = LotteryGenerator.generateLotteries(100);
 
   @override
   _OverviewPageState createState() => _OverviewPageState();
@@ -16,15 +19,18 @@ class OverviewPage extends StatefulWidget {
 class _OverviewPageState extends State<OverviewPage> {
   @override
   Widget build(BuildContext context) {
+    LotteriesStore store = context.read<LotteriesStore>();
+    List<Lottery> lotteries = context.select((LotteriesStore store) => store.lotteries);
+
     return Scaffold(
         drawer: Sidebar(),
         appBar: AppBar(
           title: Text(widget.title),
         ),
         body: ListView.builder(
-          itemCount: widget.lotteries.length,
+          itemCount: lotteries.length,
           itemBuilder: (context, index) {
-            Lottery lottery = widget.lotteries[index];
+            Lottery lottery = lotteries[index];
             int ticketsUsed = lottery.getTicketsUsed();
             Color color = ticketsUsed <= 0
                 ? Colors.grey
@@ -43,9 +49,31 @@ class _OverviewPageState extends State<OverviewPage> {
                   context,
                   MaterialPageRoute(
                       builder: (context) =>
-                          ProductDetailPage(lottery: widget.lotteries[index]))),
+                          ProductDetailPage(lottery: lotteries[index]))),
             );
           },
-        ));
+        ),
+      // TODO: Remove debugging buttons
+      floatingActionButton: Wrap(children: [
+        Container(
+          margin: EdgeInsets.all(10),
+          child: FloatingActionButton(
+            heroTag: "addBtn",
+            onPressed: () => store.addLotteries(LotteryGenerator.generateLotteries(10, lotteries.length)),
+            tooltip: 'Add 10 lotteries',
+            child: Icon(Icons.add),
+          ),
+        ),
+        Container(
+          margin: EdgeInsets.all(10),
+          child: FloatingActionButton(
+            heroTag: "rmvBtn",
+            onPressed: () => store.lotteries = List.empty(),
+            tooltip: 'Remove all lotteries',
+            child: Icon(Icons.remove),
+          ),
+        ),
+      ])
+    );
   }
 }

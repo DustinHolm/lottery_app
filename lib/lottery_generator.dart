@@ -8,20 +8,22 @@ import 'models/lottery.dart';
 import 'models/product.dart';
 
 class LotteryGenerator {
-  static generateLotteries(int n) {
+  static generateLotteries(int n, int? oldIndex) {
+    int index = (oldIndex == null) ? 0 : oldIndex;
+
     return new List.generate(
-        100,
+        n,
         (int i) => new Lottery(
             product: new Product(
-                name: "Product_$i",
-                description: "Description_$i",
+                name: "Product_${i + index}",
+                description: "Description_${i + index}",
                 images: new List.empty(),
                 condition: Condition.GOOD,
                 shippingCost: 0),
             startingDate: DateTime.now(),
             endingDate: DateTime.now(),
-            ticketsMap: defaultUserMap(i),
-            seller: new User(name: "TestUser_$i", address: new Address()),
+            ticketsMap: defaultUserMap(i + index),
+            seller: new User(name: "TestUser_${i + index}", address: new Address()),
             winner: null,
             collectType: CollectType.PACKET,
             paymentType: PaymentType.CREDIT_CARD));

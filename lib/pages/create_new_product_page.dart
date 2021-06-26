@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:lottery_app/components/checkBoxState.dart';
+import 'package:lottery_app/components/check_box_state.dart';
 import 'package:lottery_app/sidebar.dart';
 
 class CreateNewProductPage extends StatefulWidget {
