@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:lottery_app/sidebar.dart';
 import 'package:lottery_app/stores/user_store.dart';
 import 'package:provider/provider.dart';
 
+import 'number_form.dart';
 
 class TicketsBuyForm extends StatefulWidget {
   @override
@@ -12,19 +12,6 @@ class TicketsBuyForm extends StatefulWidget {
     return TicketsBuyFormState();
   }
 }
-
-Widget numberFormField(TextEditingController controller, Icon icon) =>
-    SizedBox(
-        width: 120,
-        child: TextFormField(
-            controller: controller,
-            keyboardType: TextInputType.number,
-            inputFormatters: <TextInputFormatter>[
-              FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
-            ],
-            decoration: InputDecoration(labelText: "Anzahl Tickets", icon: icon)
-        )
-    );
 
 class TicketsBuyFormState extends State<TicketsBuyForm> {
   var numTicketsController = new TextEditingController();
@@ -41,7 +28,8 @@ class TicketsBuyFormState extends State<TicketsBuyForm> {
             padding: const EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 8.0),
             child: Text("Wie viele Tickets willst du kaufen?"),
           ),
-          numberFormField(numTicketsController, Icon(Icons.add_shopping_cart)),
+          numberFormField(numTicketsController, Icon(Icons.add_shopping_cart),
+              "Anzahl Tickets"),
           Padding(
             padding: const EdgeInsets.fromLTRB(40.0, 16.0, 0.0, 0.0),
             child: ElevatedButton(
@@ -82,15 +70,14 @@ class _TicketsBuyPageState extends State<TicketsBuyPage> {
         title: Text(widget.titel),
       ),
       body: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text("Aktuell ${userStore.tickets} Tickets"),
-            TicketsBuyForm(),
-          ],
-        )
-      ),
+          padding: const EdgeInsets.all(8.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text("Aktuell ${userStore.tickets} Tickets"),
+              TicketsBuyForm(),
+            ],
+          )),
     );
   }
 }
