@@ -1,13 +1,13 @@
 import 'package:lottery_app/filter/transform.dart';
 import 'package:lottery_app/models/lottery.dart';
 
-class TicketsLessThanFilter implements ITransform {
-  var _n;
+class SellerFilter implements ITransform {
+  String _name;
 
-  TicketsLessThanFilter(int n) : _n = n;
+  SellerFilter(String name) : _name = name;
 
   @override
   Iterable<Lottery> transformLotteries(Iterable<Lottery> lotteries) {
-    return lotteries.where((lottery) => lottery.getTicketsUsed() < _n);
+    return lotteries.where((lottery) => lottery.seller.name == _name);
   }
 }

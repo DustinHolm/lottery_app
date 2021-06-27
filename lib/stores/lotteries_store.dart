@@ -1,7 +1,6 @@
 import 'dart:collection';
 
 import 'package:flutter/foundation.dart';
-import 'package:lottery_app/filter/lottery_transform.dart';
 import 'package:lottery_app/models/lottery.dart';
 import 'package:lottery_app/models/user.dart';
 
@@ -54,8 +53,4 @@ class LotteriesStore extends ChangeNotifier {
       return UnmodifiableListView(List.empty());
     }
   }
-
-  UnmodifiableListView<Lottery> getTransformedLotteries(
-          LotteryTransform lotteryTransform) =>
-      lotteryTransform.getTransformed(_lotteries);
 }
