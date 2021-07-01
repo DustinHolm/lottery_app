@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:lottery_app/enums/collect_type.dart';
 import 'package:lottery_app/enums/condition.dart';
 import 'package:lottery_app/enums/payment_type.dart';
@@ -10,6 +12,10 @@ import 'models/product.dart';
 class LotteryGenerator {
   static generateLotteries(int n, int? oldIndex) {
     int index = (oldIndex == null) ? 0 : oldIndex;
+    DateTime getRandomEndingDate() {
+      int seconds = Random().nextInt(Duration.secondsPerHour * 6);
+      return DateTime.now().add(Duration(seconds: seconds));
+    }
 
     return new List.generate(
         n,
@@ -21,7 +27,7 @@ class LotteryGenerator {
                 condition: Condition.GOOD,
                 shippingCost: 0),
             startingDate: DateTime.now(),
-            endingDate: DateTime.now(),
+            endingDate: getRandomEndingDate(),
             ticketsMap: defaultUserMap(i + index),
             seller: new User(name: "TestUser_${i + index}", address: new Address()),
             winner: null,

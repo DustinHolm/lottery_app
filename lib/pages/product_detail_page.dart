@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lottery_app/components/product_detail_bidding_data.dart';
 import 'package:lottery_app/stores/lotteries_store.dart';
 import 'package:provider/provider.dart';
 import 'package:lottery_app/models/lottery.dart';
@@ -14,19 +15,37 @@ class ProductDetailPage extends StatelessWidget {
     LotteriesStore lotteriesStore = context.read<LotteriesStore>();
 
     return Scaffold(
-        appBar: AppBar(
-          title: Text(lottery.product.name),
-        ),
-        body: ListView(
-          children: [
-            Text(lottery.product.description),
-            Text("Zustand: ${lottery.product.condition.toString()}"),
-            Text("Versandgebühr: ${lottery.product.shippingCost.toString()}"),
-            Text("Verkäufer: ${lottery.seller.name}"),
-            Text("Läuft bis: ${lottery.endingDate.toString()}"),
-            Text("Anzahl Gebote: ${lottery.getTicketsUsed().toString()}"),
-            Text("Versandart: ${lottery.collectType.toString()}"),
+        body: CustomScrollView(
+          slivers: [
+            SliverAppBar(
+              pinned: true,
+              expandedHeight: 160,
+              flexibleSpace: FlexibleSpaceBar(
+                title: Text(lottery.product.name),
+                background: Image(
+                  image: AssetImage("assets/placeholder_for_product_image.png"),
+                  height: 160,
+                  fit: BoxFit.fitWidth
+                ),
+              ),
+            ),
+            SliverList(
+              delegate: SliverChildListDelegate(
+                [
+                  ProductDetailBiddingData(
+                    endingDate: lottery.endingDate,
+                    ticketsUsed: lottery.getTicketsUsed(),
+                  ),
+                  Text(lottery.product.description),
+                  Text("Zustand: ${lottery.product.condition.toString()}"),
+                  Text("Versandgebühr: ${lottery.product.shippingCost.toString()}"),
+                  Text("Verkäufer: ${lottery.seller.name}"),
+                  Text("Versandart: ${lottery.collectType.toString()}"),
+                ],
+              ),
+            )
           ],
+
         ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
