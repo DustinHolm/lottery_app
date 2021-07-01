@@ -3,24 +3,18 @@ import 'package:flutter/rendering.dart';
 import 'package:timer_count_down/timer_controller.dart';
 import 'package:timer_count_down/timer_count_down.dart';
 
-class ProductDetailBiddingData extends StatefulWidget {
+class ProductDetailBiddingData extends StatelessWidget {
   ProductDetailBiddingData(
       {required this.endingDate, required this.ticketsUsed});
 
   final DateTime endingDate;
   final int ticketsUsed;
-
-  @override
-  State<StatefulWidget> createState() => _ProductDetailBiddingDataState();
-}
-
-class _ProductDetailBiddingDataState extends State<ProductDetailBiddingData> {
   final CountdownController countdownController =
       CountdownController(autoStart: true);
 
   int getTimeLeft() {
-    if (widget.endingDate.isAfter(DateTime.now())) {
-      return widget.endingDate.difference(DateTime.now()).inSeconds;
+    if (endingDate.isAfter(DateTime.now())) {
+      return endingDate.difference(DateTime.now()).inSeconds;
     } else {
       return 0;
     }
@@ -78,7 +72,7 @@ class _ProductDetailBiddingDataState extends State<ProductDetailBiddingData> {
           Expanded(
             child: GridTile(
               child: Text(
-                "${widget.ticketsUsed.toString()}",
+                "${ticketsUsed.toString()}",
                 style: Theme.of(context).textTheme.headline3,
                 textAlign: TextAlign.center,
               ),

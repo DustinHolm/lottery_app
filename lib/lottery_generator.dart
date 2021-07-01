@@ -13,7 +13,7 @@ class LotteryGenerator {
   static generateLotteries(int n, int? oldIndex) {
     int index = (oldIndex == null) ? 0 : oldIndex;
     DateTime getRandomEndingDate() {
-      int seconds = Random().nextInt(Duration.secondsPerHour * 6);
+      int seconds = Random().nextInt(Duration.secondsPerHour * 2);
       return DateTime.now().add(Duration(seconds: seconds));
     }
 
