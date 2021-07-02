@@ -34,31 +34,31 @@ class ProductDetailBiddingData extends StatelessWidget {
           if (days > 1) {
             return Text(
               "$days Tage",
-              style: Theme.of(context).textTheme.headline3,
+              style: Theme.of(context).textTheme.headline3!.apply(color: Colors.black),
               textAlign: TextAlign.center,
             );
           } else if (hours > 1) {
             return Text(
               "$hours h",
-              style: Theme.of(context).textTheme.headline3,
+              style: Theme.of(context).textTheme.headline3!.apply(color: Colors.black),
               textAlign: TextAlign.center,
             );
           } else if (minutes > 1) {
             return Text(
               "$minutes min",
-              style: Theme.of(context).textTheme.headline3,
+              style: Theme.of(context).textTheme.headline3!.apply(color: Colors.black),
               textAlign: TextAlign.center,
             );
           } else if (seconds > 0) {
             return Text(
               "$seconds s",
-              style: Theme.of(context).textTheme.headline3,
+              style: Theme.of(context).textTheme.headline3!.apply(color: Colors.red),
               textAlign: TextAlign.center,
             );
           } else {
             return Text(
               "--",
-              style: Theme.of(context).textTheme.headline3,
+              style: Theme.of(context).textTheme.headline3!.apply(color: Colors.black),
               textAlign: TextAlign.center,
             );
           }
@@ -66,35 +66,37 @@ class ProductDetailBiddingData extends StatelessWidget {
       );
     }
 
-    return Container(
-        padding: EdgeInsets.all(8),
-        height: 80,
-        child: Row(
-            children: ([
-          Expanded(
-            child: GridTile(
-              child: Text(
-                "${ticketsUsed.toString()}",
-                style: Theme.of(context).textTheme.headline3,
-                textAlign: TextAlign.center,
+    return Card(
+        margin: EdgeInsets.all(8),
+        child: Container(
+            padding: EdgeInsets.all(8),
+            height: 80,
+            child: Row(
+                children: ([
+              Expanded(
+                child: GridTile(
+                  child: Text(
+                    "${ticketsUsed.toString()}",
+                    style: Theme.of(context).textTheme.headline3!.apply(color: Colors.black),
+                    textAlign: TextAlign.center,
+                  ),
+                  footer: Text(
+                    "Gebote",
+                    style: Theme.of(context).textTheme.overline,
+                    textAlign: TextAlign.center,
+                  ),
+                ),
               ),
-              footer: Text(
-                "Gebote",
-                style: Theme.of(context).textTheme.overline,
-                textAlign: TextAlign.center,
-              ),
-            ),
-          ),
-          Expanded(
-            child: GridTile(
-              child: renderCountdown(),
-              footer: Text(
-                "Verbleibende Zeit",
-                style: Theme.of(context).textTheme.overline,
-                textAlign: TextAlign.center,
-              ),
-            ),
-          )
-        ])));
+              Expanded(
+                child: GridTile(
+                  child: renderCountdown(),
+                  footer: Text(
+                    "Verbleibende Zeit",
+                    style: Theme.of(context).textTheme.overline,
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+              )
+            ]))));
   }
 }

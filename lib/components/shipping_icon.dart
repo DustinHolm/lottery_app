@@ -22,6 +22,6 @@ class ShippingIcon extends StatelessWidget {
         break;
     }
 
-    return Icon(icon);
+    return Icon(icon, size: 20,);
   }
 }

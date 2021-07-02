@@ -43,10 +43,10 @@ class ProductDetailSellerData extends StatelessWidget {
         return GridTile(
           child: Text(
             "$shippingCost Tickets",
-            style: Theme.of(context).textTheme.headline3,
+            style: Theme.of(context).textTheme.headline5,
             textAlign: TextAlign.center,
           ),
-          footer: Row(children: [
+          footer: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
             ShippingIcon(
               collectType: collectType,
             ),
@@ -60,18 +60,29 @@ class ProductDetailSellerData extends StatelessWidget {
       }
     }
 
-    return Container(
-      padding: EdgeInsets.all(8),
-      height: 80,
-      child: Row(
-        children: [
-          Expanded(child: renderShipping()),
-          Expanded(
-              child: GridTile(
-            child: Text("${seller.name}"),
-            footer: Text("Verkäufer"),
-          )),
-        ],
+    return Card(
+      margin: EdgeInsets.all(8),
+      child: Container(
+        padding: EdgeInsets.all(8),
+        height: 65,
+        child: Row(
+          children: [
+            Expanded(child: renderShipping()),
+            Expanded(
+                child: GridTile(
+              child: Text(
+                "${seller.name}",
+                style: Theme.of(context).textTheme.headline5,
+                textAlign: TextAlign.center,
+              ),
+              footer: Text(
+                "Verkäufer",
+                style: Theme.of(context).textTheme.overline,
+                textAlign: TextAlign.center,
+              ),
+            )),
+          ],
+        ),
       ),
     );
   }

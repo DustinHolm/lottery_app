@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lottery_app/components/product_detail_bidding_data.dart';
+import 'package:lottery_app/components/product_detail_description.dart';
 import 'package:lottery_app/components/product_detail_seller_data.dart';
 import 'package:lottery_app/stores/lotteries_store.dart';
 import 'package:provider/provider.dart';
@@ -23,7 +24,6 @@ class ProductDetailPage extends StatelessWidget {
             pinned: true,
             expandedHeight: 160,
             flexibleSpace: FlexibleSpaceBar(
-              title: Text(lottery.product.name),
               background: Image(
                   image: AssetImage("assets/placeholder_for_product_image.png"),
                   height: 160,
@@ -33,6 +33,16 @@ class ProductDetailPage extends StatelessWidget {
           SliverList(
             delegate: SliverChildListDelegate(
               [
+                Card(
+                    margin: EdgeInsets.all(8),
+                    child: Container(
+                      padding: EdgeInsets.all(8),
+                      child: Text(lottery.product.name,
+                          style: Theme.of(context)
+                              .textTheme
+                              .headline3!
+                              .apply(color: Colors.black)),
+                    )),
                 ProductDetailBiddingData(
                   endingDate: lottery.endingDate,
                   ticketsUsed: lottery.getTicketsUsed(),
@@ -41,21 +51,45 @@ class ProductDetailPage extends StatelessWidget {
                     seller: lottery.seller,
                     collectType: lottery.collectType,
                     shippingCost: lottery.product.shippingCost),
-                Text(lottery.product.description),
-                Text("Zustand: ${lottery.product.condition.toString()}"),
+                ProductDetailDescription(
+                    description: lottery.product.description,
+                    condition: lottery.product.condition),
               ],
             ),
           )
         ],
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          if (userStore.tickets > 0) {
-            lotteriesStore.bidOnLottery(lottery, userStore.user!);
-            userStore.removeTickets(1);
-          }
-        },
-        child: Icon(Icons.attach_money),
+      bottomNavigationBar: BottomAppBar(
+        child: Container(
+          padding: EdgeInsets.all(8),
+          child: Row(
+            children: [
+              Text("Tickets verbleibend: "),
+              Text(
+                "${userStore.tickets}",
+                style: Theme.of(context)
+                    .textTheme
+                    .bodyText1!
+                    .apply(color: Colors.red),
+              ),
+              Spacer(),
+              ElevatedButton(
+                onPressed: userStore.tickets <= 0
+                    ? null
+                    : () {
+                        lotteriesStore.bidOnLottery(lottery, userStore.user!);
+                        userStore.removeTickets(1);
+                      },
+                child: Row(
+                  children: [
+                    Icon(Icons.attach_money),
+                    Text("Jetzt bieten!"),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }
