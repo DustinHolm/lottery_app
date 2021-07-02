@@ -13,26 +13,32 @@ class ConditionIcon extends StatelessWidget {
   Widget build(BuildContext context) {
     IconData icon;
     Color color;
+    String tooltip;
     switch (condition) {
       case Condition.NEW:
         icon = Icons.thumb_up_outlined;
         color = Colors.green;
+        tooltip = "Neu";
         break;
       case Condition.LIKE_NEW:
         icon = Icons.thumb_up_outlined;
         color = Colors.lightGreen;
+        tooltip = "Wie neu";
         break;
       case Condition.GOOD:
         icon = Icons.thumbs_up_down_outlined;
         color = Colors.yellow;
+        tooltip = "Ganz gut";
         break;
       case Condition.OK:
         icon = Icons.thumbs_up_down_outlined;
         color = Colors.orange;
+        tooltip = "Akzeptabel";
         break;
       case Condition.BAD:
         icon = Icons.thumb_down_outlined;
         color = Colors.red;
+        tooltip = "Schlecht";
         break;
     }
 
@@ -41,7 +47,7 @@ class ConditionIcon extends StatelessWidget {
         Text("Zustand: ",
         style: Theme.of(context).textTheme.overline,),
         Tooltip(
-            message: "hi",
+            message: tooltip,
             child: Icon(
               icon,
               size: 20,
