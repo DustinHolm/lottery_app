@@ -2,7 +2,7 @@ import 'dart:collection';
 
 import 'package:flutter/foundation.dart';
 import 'package:lottery_app/models/lottery.dart';
-import 'package:lottery_app/models/user.dart';
+import 'package:lottery_app/models/app_user.dart';
 
 class LotteriesStore extends ChangeNotifier {
   List<Lottery> _lotteries = List.empty();
@@ -30,13 +30,13 @@ class LotteriesStore extends ChangeNotifier {
     notifyListeners();
   }
 
-  void bidOnLottery(Lottery lottery, User user) {
+  void bidOnLottery(Lottery lottery, AppUser user) {
     lottery.ticketsMap.update(user, (val) => val += 1, ifAbsent: () => 1);
     _lotteries[_lotteries.indexOf(lottery)] = lottery;
     notifyListeners();
   }
 
-  UnmodifiableListView<Lottery> getBidOnLotteries(User? user) {
+  UnmodifiableListView<Lottery> getBidOnLotteries(AppUser? user) {
     if (user != null) {
       return UnmodifiableListView(_lotteries
           .where((lottery) => lottery.ticketsMap.keys.contains(user)));
@@ -45,7 +45,7 @@ class LotteriesStore extends ChangeNotifier {
     }
   }
 
-  UnmodifiableListView<Lottery> getOwnedLotteries(User? user) {
+  UnmodifiableListView<Lottery> getOwnedLotteries(AppUser? user) {
     if (user != null) {
       return UnmodifiableListView(
           _lotteries.where((lottery) => lottery.seller == user));
@@ -54,7 +54,7 @@ class LotteriesStore extends ChangeNotifier {
     }
   }
 
-  UnmodifiableListView<Lottery> getAvailableLotteries(User? user) {
+  UnmodifiableListView<Lottery> getAvailableLotteries(AppUser? user) {
     if (user != null) {
       return UnmodifiableListView(
           _lotteries.where((lottery) => lottery.seller != user && lottery.endingDate.isAfter(DateTime.now())));

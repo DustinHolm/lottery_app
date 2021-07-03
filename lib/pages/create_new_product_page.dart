@@ -5,7 +5,7 @@ import 'package:lottery_app/enums/condition.dart';
 import 'package:lottery_app/enums/payment_type.dart';
 import 'package:lottery_app/models/lottery.dart';
 import 'package:lottery_app/models/product.dart';
-import 'package:lottery_app/models/user.dart';
+import 'package:lottery_app/models/app_user.dart';
 import 'package:lottery_app/sidebar.dart';
 import 'package:lottery_app/stores/lotteries_store.dart';
 import 'package:lottery_app/stores/user_store.dart';
@@ -193,8 +193,8 @@ class _CreateNewProductPageState extends State<CreateNewProductPage> {
                                 shippingCost: 0),
                             startingDate: DateTime.now(),
                             endingDate: DateTime.now(),
-                            ticketsMap: new Map<User, int>(),
-                            seller: userStore.user!,
+                            ticketsMap: new Map<AppUser, int>(),
+                            seller: userStore.appUser!,
                             winner: null,
                             collectType: CollectType.PACKET,
                             paymentType: PaymentType.CREDIT_CARD

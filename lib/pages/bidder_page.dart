@@ -19,7 +19,7 @@ class _BidderPageState extends State<BidderPage> {
   Widget build(BuildContext context) {
     UserStore userStore = context.watch<UserStore>();
     List<Lottery> lotteries = context.select(
-        (LotteriesStore store) => store.getBidOnLotteries(userStore.user));
+        (LotteriesStore store) => store.getBidOnLotteries(userStore.appUser));
 
     return Scaffold(
       drawer: Sidebar(),
@@ -43,7 +43,7 @@ class _BidderPageState extends State<BidderPage> {
                 style: TextStyle(
                   color: color,
                 ));
-          } else if (lottery.winner == userStore.user) {
+          } else if (lottery.winner == userStore.appUser) {
             trailing = Text(
               "Gewonnen!",
               style: TextStyle(color: Colors.green),

@@ -33,7 +33,7 @@ class ProductDetailPage extends StatelessWidget {
             ),
             actions: [
               UserDialog(),
-              if (lottery.seller != userStore.user) FavoriteButton()
+              if (lottery.seller != userStore.appUser) FavoriteButton()
             ],
           ),
           SliverList(
@@ -65,7 +65,7 @@ class ProductDetailPage extends StatelessWidget {
           )
         ],
       ),
-      bottomNavigationBar: lottery.seller == userStore.user
+      bottomNavigationBar: lottery.seller == userStore.appUser
           ? null
           : BottomAppBar(
               child: Container(
@@ -86,7 +86,7 @@ class ProductDetailPage extends StatelessWidget {
                           ? null
                           : () {
                               lotteriesStore.bidOnLottery(
-                                  lottery, userStore.user!);
+                                  lottery, userStore.appUser!);
                               userStore.removeTickets(1);
                             },
                       child: Row(

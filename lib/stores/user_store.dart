@@ -1,18 +1,30 @@
-import 'dart:collection';
+import 'dart:developer';
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:lottery_app/models/address.dart';
-import 'package:lottery_app/models/lottery.dart';
-import 'package:lottery_app/models/user.dart';
+import 'package:lottery_app/models/app_user.dart';
+
+enum Status { Uninitialized, Authenticated, Authenticating, Unauthenticated }
 
 class UserStore extends ChangeNotifier {
-  User? _user = User(name: "AdminUser", address: Address());
-  int _tickets = 0; // TODO: Tickets should be some kind of UUID - AssignedUser Map?
+  AppUser? _appUser = AppUser(name: "AdminUser", address: Address());
+  int _tickets =
+      0; // TODO: Tickets should be some kind of UUID - AssignedUser Map?
+  FirebaseAuth _auth;
+  GoogleSignIn _signIn = GoogleSignIn();
+  User? _gUser;
+  Status _status = Status.Uninitialized;
 
-  User? get user => _user;
+  UserStore() : _auth = FirebaseAuth.instance {
+    _auth.authStateChanges().listen(handleAuthChange);
+  }
 
-  set user(User? user) {
-    _user = user;
+  AppUser? get appUser => _appUser;
+
+  set appUser(AppUser? user) {
+    _appUser = user;
     notifyListeners();
   }
 
@@ -30,6 +42,49 @@ class UserStore extends ChangeNotifier {
 
   void removeTickets(int n) {
     _tickets -= n;
+    notifyListeners();
+  }
+
+  Status get status => _status;
+
+  User? get gUser => _gUser;
+
+  Future<bool> signIn() async {
+    try {
+      _status = Status.Authenticating;
+      notifyListeners();
+
+      final GoogleSignInAccount? gUser = await _signIn.signIn();
+      final GoogleSignInAuthentication gAuth = await gUser!.authentication;
+      final AuthCredential credential = GoogleAuthProvider.credential(
+          accessToken: gAuth.accessToken, idToken: gAuth.idToken);
+      await _auth.signInWithCredential(credential);
+
+      _status = Status.Authenticated;
+      notifyListeners();
+      return true;
+    } catch (error) {
+      log(error.toString());
+      _status = Status.Unauthenticated;
+      notifyListeners();
+      return false;
+    }
+  }
+
+  Future<void> signOut() async {
+    _auth.signOut();
+    _signIn.signOut();
+    _status = Status.Unauthenticated;
+    notifyListeners();
+  }
+
+  Future<void> handleAuthChange(User? user) async {
+    if (user == null) {
+      _status = Status.Unauthenticated;
+    } else {
+      _gUser = user;
+      _status = Status.Authenticated;
+    }
     notifyListeners();
   }
 }

@@ -1,11 +1,11 @@
 import 'address.dart';
 
-class User {
+class AppUser {
   String name;
   Address address;
   // Token
 
-  User({
+  AppUser({
     required this.name,
     required this.address
   });

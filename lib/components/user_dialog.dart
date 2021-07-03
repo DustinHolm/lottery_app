@@ -20,7 +20,21 @@ class UserDialog extends StatelessWidget {
                 ),
                 children: [
                   ListTile(
-                    title: Text("${userStore.user?.name}"),
+                    title: Text("${userStore.appUser?.name}"),
+                  ),
+                  ListTile(
+                    title: userStore.gUser != null
+                        ? Text(userStore.gUser!.displayName!)
+                        : Text("Nicht bei Google angemeldet")
+                  ),
+                  Container(
+                    padding: EdgeInsets.all(8),
+                    child: userStore.status == Status.Authenticating
+                      ? CircularProgressIndicator()
+                      : ElevatedButton(
+                        onPressed: () async => await userStore.signIn(),
+                        child: Text("Mit Google anmelden"),
+                    )
                   ),
                 ],
               );

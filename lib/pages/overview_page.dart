@@ -23,7 +23,7 @@ class _OverviewPageState extends State<OverviewPage> {
   Widget build(BuildContext context) {
     LotteriesStore lotteriesStore = context.watch<LotteriesStore>();
     UserStore userStore = context.read<UserStore>();
-    List<Lottery> lotteries = context.select((LotteriesStore store) => store.getAvailableLotteries(userStore.user));
+    List<Lottery> lotteries = context.select((LotteriesStore store) => store.getAvailableLotteries(userStore.appUser));
 
     TransformStore transformStore = context.watch<TransformStore>();
     lotteries = transformStore.getTransformed(lotteries);

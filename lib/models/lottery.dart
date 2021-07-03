@@ -1,15 +1,15 @@
 import 'package:lottery_app/enums/collect_type.dart';
 import 'package:lottery_app/enums/payment_type.dart';
 import 'package:lottery_app/models/product.dart';
-import 'package:lottery_app/models/user.dart';
+import 'package:lottery_app/models/app_user.dart';
 
 class Lottery {
   Product product;
   DateTime startingDate;
   DateTime endingDate;
-  Map<User, int> ticketsMap;
-  User seller;
-  User? winner;
+  Map<AppUser, int> ticketsMap;
+  AppUser seller;
+  AppUser? winner;
   CollectType collectType;
   PaymentType paymentType; // Necessary?
 

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:lottery_app/components/shipping_icon.dart';
 import 'package:lottery_app/enums/collect_type.dart';
-import 'package:lottery_app/models/user.dart';
+import 'package:lottery_app/models/app_user.dart';
 
 class ProductDetailSellerData extends StatelessWidget {
   ProductDetailSellerData(
@@ -10,7 +10,7 @@ class ProductDetailSellerData extends StatelessWidget {
       required this.collectType,
       required this.shippingCost});
 
-  User seller;
+  AppUser seller;
   CollectType collectType;
   int shippingCost;
 

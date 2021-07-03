@@ -19,7 +19,7 @@ class _SellerPageState extends State<SellerPage> {
   Widget build(BuildContext context) {
     UserStore userStore = context.watch<UserStore>();
     List<Lottery> lotteries = context.select(
-        (LotteriesStore store) => store.getOwnedLotteries(userStore.user));
+        (LotteriesStore store) => store.getOwnedLotteries(userStore.appUser));
 
     return Scaffold(
       drawer: Sidebar(),
