@@ -6,7 +6,6 @@ import 'package:lottery_app/stores/lotteries_store.dart';
 import 'package:lottery_app/stores/user_store.dart';
 import 'package:provider/provider.dart';
 
-
 class SellerPage extends StatefulWidget {
   SellerPage({Key? key}) : super(key: key);
   final String title = "Eigene Angebote";
@@ -19,7 +18,8 @@ class _SellerPageState extends State<SellerPage> {
   @override
   Widget build(BuildContext context) {
     UserStore userStore = context.watch<UserStore>();
-    List<Lottery> lotteries = context.select((LotteriesStore store) => store.getOwnedLotteries(userStore.user));
+    List<Lottery> lotteries = context.select(
+        (LotteriesStore store) => store.getOwnedLotteries(userStore.user));
 
     return Scaffold(
       drawer: Sidebar(),
@@ -30,20 +30,34 @@ class _SellerPageState extends State<SellerPage> {
         itemCount: lotteries.length,
         itemBuilder: (context, index) {
           Lottery lottery = lotteries[index];
-          int ticketsUsed = lottery.getTicketsUsed();
-          Color color = ticketsUsed <= 0
-              ? Colors.grey
-              : ticketsUsed <= 23
-              ? Colors.yellow
-              : Colors.red;
+          Text trailing;
+
+          if (lottery.endingDate.isAfter(DateTime.now())) {
+            int ticketsUsed = lottery.getTicketsUsed();
+            Color color = ticketsUsed <= 0
+                ? Colors.grey
+                : ticketsUsed <= 23
+                    ? Colors.yellow
+                    : Colors.red;
+            trailing = Text("$ticketsUsed Tickets",
+                style: TextStyle(
+                  color: color,
+                ));
+          } else if (lottery.winner != null) {
+            trailing = Text(
+              "Verkauft!",
+              style: TextStyle(color: Colors.green),
+            );
+          } else {
+            trailing = Text(
+              "Nicht verkauft",
+              style: TextStyle(color: Colors.red),
+            );
+          }
+
           return ListTile(
             title: Text("${lottery.product.name}"),
-            trailing: Text(
-              "$ticketsUsed Tickets",
-              style: TextStyle(
-                color: color,
-              ),
-            ),
+            trailing: trailing,
             onTap: () => Navigator.push(
                 context,
                 MaterialPageRoute(

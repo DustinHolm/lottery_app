@@ -7,6 +7,7 @@ import 'package:lottery_app/pages/product_detail_page.dart';
 import 'package:lottery_app/sidebar.dart';
 import 'package:lottery_app/stores/lotteries_store.dart';
 import 'package:lottery_app/stores/transform_store.dart';
+import 'package:lottery_app/stores/user_store.dart';
 import 'package:provider/provider.dart';
 
 class OverviewPage extends StatefulWidget {
@@ -20,8 +21,9 @@ class OverviewPage extends StatefulWidget {
 class _OverviewPageState extends State<OverviewPage> {
   @override
   Widget build(BuildContext context) {
-    LotteriesStore store = context.watch<LotteriesStore>();
-    List<Lottery> lotteries = store.lotteries;
+    LotteriesStore lotteriesStore = context.watch<LotteriesStore>();
+    UserStore userStore = context.read<UserStore>();
+    List<Lottery> lotteries = context.select((LotteriesStore store) => store.getAvailableLotteries(userStore.user));
 
     TransformStore transformStore = context.watch<TransformStore>();
     lotteries = transformStore.getTransformed(lotteries);
@@ -68,7 +70,7 @@ class _OverviewPageState extends State<OverviewPage> {
             margin: EdgeInsets.all(10),
             child: FloatingActionButton(
               heroTag: "addBtn",
-              onPressed: () => store.addLotteries(
+              onPressed: () => lotteriesStore.addLotteries(
                   LotteryGenerator.generateLotteries(10, lotteries.length)),
               tooltip: 'Add 10 lotteries',
               child: Icon(Icons.add),
@@ -78,7 +80,7 @@ class _OverviewPageState extends State<OverviewPage> {
             margin: EdgeInsets.all(10),
             child: FloatingActionButton(
               heroTag: "rmvBtn",
-              onPressed: () => store.lotteries = List.empty(),
+              onPressed: () => lotteriesStore.lotteries = List.empty(),
               tooltip: 'Remove all lotteries',
               child: Icon(Icons.remove),
             ),

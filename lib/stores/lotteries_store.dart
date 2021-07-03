@@ -53,4 +53,13 @@ class LotteriesStore extends ChangeNotifier {
       return UnmodifiableListView(List.empty());
     }
   }
+
+  UnmodifiableListView<Lottery> getAvailableLotteries(User? user) {
+    if (user != null) {
+      return UnmodifiableListView(
+          _lotteries.where((lottery) => lottery.seller != user && lottery.endingDate.isAfter(DateTime.now())));
+    } else {
+      return UnmodifiableListView(_lotteries);
+    }
+  }
 }

@@ -18,7 +18,8 @@ class _BidderPageState extends State<BidderPage> {
   @override
   Widget build(BuildContext context) {
     UserStore userStore = context.watch<UserStore>();
-    List<Lottery> lotteries = context.select((LotteriesStore store) => store.getBidOnLotteries(userStore.user));
+    List<Lottery> lotteries = context.select(
+        (LotteriesStore store) => store.getBidOnLotteries(userStore.user));
 
     return Scaffold(
       drawer: Sidebar(),
@@ -29,20 +30,34 @@ class _BidderPageState extends State<BidderPage> {
         itemCount: lotteries.length,
         itemBuilder: (context, index) {
           Lottery lottery = lotteries[index];
-          int ticketsUsed = lottery.getTicketsUsed();
-          Color color = ticketsUsed <= 0
-              ? Colors.grey
-              : ticketsUsed <= 23
-              ? Colors.yellow
-              : Colors.red;
+          Text trailing;
+
+          if (lottery.endingDate.isAfter(DateTime.now())) {
+            int ticketsUsed = lottery.getTicketsUsed();
+            Color color = ticketsUsed <= 0
+                ? Colors.grey
+                : ticketsUsed <= 23
+                    ? Colors.yellow
+                    : Colors.red;
+            trailing = Text("$ticketsUsed Tickets",
+                style: TextStyle(
+                  color: color,
+                ));
+          } else if (lottery.winner == userStore.user) {
+            trailing = Text(
+              "Gewonnen!",
+              style: TextStyle(color: Colors.green),
+            );
+          } else {
+            trailing = Text(
+              "Nicht gewonnen",
+              style: TextStyle(color: Colors.red),
+            );
+          }
+
           return ListTile(
             title: Text("${lottery.product.name}"),
-            trailing: Text(
-              "$ticketsUsed Tickets",
-              style: TextStyle(
-                color: color,
-              ),
-            ),
+            trailing: trailing,
             onTap: () => Navigator.push(
                 context,
                 MaterialPageRoute(
