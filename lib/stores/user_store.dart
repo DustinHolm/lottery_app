@@ -6,16 +6,15 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:lottery_app/models/address.dart';
 import 'package:lottery_app/models/app_user.dart';
 
-enum Status { Uninitialized, Authenticated, Authenticating, Unauthenticated }
+enum Status { Authenticated, Authenticating, Unauthenticated }
 
 class UserStore extends ChangeNotifier {
   AppUser? _appUser = AppUser(name: "AdminUser", address: Address());
-  int _tickets =
-      0; // TODO: Tickets should be some kind of UUID - AssignedUser Map?
+  int _tickets = 0; // TODO: Tickets should be some kind of UUID - AssignedUser Map?
   FirebaseAuth _auth;
   GoogleSignIn _signIn = GoogleSignIn();
   User? _gUser;
-  Status _status = Status.Uninitialized;
+  Status _status = Status.Unauthenticated;
 
   UserStore() : _auth = FirebaseAuth.instance {
     _auth.authStateChanges().listen(handleAuthChange);
@@ -28,7 +27,13 @@ class UserStore extends ChangeNotifier {
     notifyListeners();
   }
 
-  int get tickets => _tickets;
+  int get tickets {
+    if (_status == Status.Authenticated) {
+      return _tickets;
+    } else {
+      return 0;
+    }
+  }
 
   set tickets(int tickets) {
     _tickets = tickets;
@@ -74,6 +79,7 @@ class UserStore extends ChangeNotifier {
   Future<void> signOut() async {
     _auth.signOut();
     _signIn.signOut();
+    _gUser = null;
     _status = Status.Unauthenticated;
     notifyListeners();
   }

@@ -5,7 +5,7 @@ import 'package:lottery_app/stores/user_store.dart';
 class UserDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    UserStore userStore = context.watch<UserStore>();
+    UserStore userStore = context.read<UserStore>();
 
     return IconButton(
         icon: Icon(Icons.account_circle),
@@ -20,22 +20,32 @@ class UserDialog extends StatelessWidget {
                 ),
                 children: [
                   ListTile(
-                    title: Text("${userStore.appUser?.name}"),
-                  ),
-                  ListTile(
-                    title: userStore.gUser != null
-                        ? Text(userStore.gUser!.displayName!)
-                        : Text("Nicht bei Google angemeldet")
-                  ),
+                      title: userStore.status == Status.Authenticated
+                          ? Text(userStore.gUser!.displayName!)
+                          : Text("Nicht bei Google angemeldet")),
+                  if (userStore.status == Status.Authenticated)
+                    ListTile(
+                      title: Text("${userStore.tickets} Tickets"),
+                    ),
                   Container(
-                    padding: EdgeInsets.all(8),
-                    child: userStore.status == Status.Authenticating
-                      ? CircularProgressIndicator()
-                      : ElevatedButton(
-                        onPressed: () async => await userStore.signIn(),
-                        child: Text("Mit Google anmelden"),
-                    )
-                  ),
+                      padding: EdgeInsets.all(8),
+                      child: userStore.status == Status.Authenticating
+                          ? CircularProgressIndicator()
+                          : userStore.status == Status.Unauthenticated
+                              ? ElevatedButton(
+                                  onPressed: () async =>
+                                      await userStore.signIn().then((_) {
+                                    Navigator.pop(context);
+                                  }),
+                                  child: Text("Mit Google anmelden"),
+                                )
+                              : ElevatedButton(
+                                  onPressed: () async =>
+                                      await userStore.signOut().then((_) {
+                                        Navigator.pop(context);
+                                      }),
+                                  child: Text("Abmelden"),
+                                )),
                 ],
               );
             },

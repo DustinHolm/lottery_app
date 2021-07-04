@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lottery_app/components/user_dialog.dart';
 import 'package:lottery_app/models/lottery.dart';
 import 'package:lottery_app/pages/product_detail_page.dart';
 import 'package:lottery_app/sidebar.dart';
@@ -25,47 +26,57 @@ class _SellerPageState extends State<SellerPage> {
       drawer: Sidebar(),
       appBar: AppBar(
         title: Text(widget.title),
+        actions: [
+          UserDialog(),
+        ],
       ),
-      body: ListView.builder(
-        itemCount: lotteries.length,
-        itemBuilder: (context, index) {
-          Lottery lottery = lotteries[index];
-          Text trailing;
+      body: userStore.status != Status.Authenticated
+          ? Center(
+              child: Text(
+              "Diese Funktion ist nur für angemeldete Nutzer verfügbar",
+              style: Theme.of(context).textTheme.headline5,
+              textAlign: TextAlign.center,
+            ))
+          : ListView.builder(
+              itemCount: lotteries.length,
+              itemBuilder: (context, index) {
+                Lottery lottery = lotteries[index];
+                Text trailing;
 
-          if (lottery.endingDate.isAfter(DateTime.now())) {
-            int ticketsUsed = lottery.getTicketsUsed();
-            Color color = ticketsUsed <= 0
-                ? Colors.grey
-                : ticketsUsed <= 23
-                    ? Colors.yellow
-                    : Colors.red;
-            trailing = Text("$ticketsUsed Tickets",
-                style: TextStyle(
-                  color: color,
-                ));
-          } else if (lottery.winner != null) {
-            trailing = Text(
-              "Verkauft!",
-              style: TextStyle(color: Colors.green),
-            );
-          } else {
-            trailing = Text(
-              "Nicht verkauft",
-              style: TextStyle(color: Colors.red),
-            );
-          }
+                if (lottery.endingDate.isAfter(DateTime.now())) {
+                  int ticketsUsed = lottery.getTicketsUsed();
+                  Color color = ticketsUsed <= 0
+                      ? Colors.grey
+                      : ticketsUsed <= 23
+                          ? Colors.yellow
+                          : Colors.red;
+                  trailing = Text("$ticketsUsed Tickets",
+                      style: TextStyle(
+                        color: color,
+                      ));
+                } else if (lottery.winner != null) {
+                  trailing = Text(
+                    "Verkauft!",
+                    style: TextStyle(color: Colors.green),
+                  );
+                } else {
+                  trailing = Text(
+                    "Nicht verkauft",
+                    style: TextStyle(color: Colors.red),
+                  );
+                }
 
-          return ListTile(
-            title: Text("${lottery.product.name}"),
-            trailing: trailing,
-            onTap: () => Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) =>
-                        ProductDetailPage(lottery: lotteries[index]))),
-          );
-        },
-      ),
+                return ListTile(
+                  title: Text("${lottery.product.name}"),
+                  trailing: trailing,
+                  onTap: () => Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) =>
+                              ProductDetailPage(lottery: lotteries[index]))),
+                );
+              },
+            ),
     );
   }
 }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lottery_app/components/check_box_state.dart';
+import 'package:lottery_app/components/user_dialog.dart';
 import 'package:lottery_app/enums/collect_type.dart';
 import 'package:lottery_app/enums/condition.dart';
 import 'package:lottery_app/enums/payment_type.dart';
@@ -64,8 +65,19 @@ class _CreateNewProductPageState extends State<CreateNewProductPage> {
       drawer: Sidebar(),
       appBar: AppBar(
         title: Text(widget.title),
+        actions: [
+          UserDialog(),
+        ],
       ),
-      body: SingleChildScrollView(
+      body: userStore.status != Status.Authenticated
+      ? Center(
+          child: Text(
+            "Diese Funktion ist nur für angemeldete Nutzer verfügbar",
+            style: Theme.of(context).textTheme.headline5,
+            textAlign: TextAlign.center,
+          )
+      )
+      : SingleChildScrollView(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: <Widget>[

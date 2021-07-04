@@ -82,7 +82,7 @@ class ProductDetailPage extends StatelessWidget {
                     ),
                     Spacer(),
                     ElevatedButton(
-                      onPressed: userStore.tickets <= 0
+                      onPressed: (userStore.status != Status.Authenticated || userStore.tickets <= 0)
                           ? null
                           : () {
                               lotteriesStore.bidOnLottery(

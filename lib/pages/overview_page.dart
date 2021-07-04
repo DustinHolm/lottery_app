@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:lottery_app/components/user_dialog.dart';
 import 'package:lottery_app/lottery_generator.dart';
 import 'package:lottery_app/models/lottery.dart';
-import 'package:lottery_app/pages/filter.dart';
+import 'package:lottery_app/components/filter.dart';
 import 'package:lottery_app/pages/product_detail_page.dart';
 import 'package:lottery_app/sidebar.dart';
 import 'package:lottery_app/stores/lotteries_store.dart';
@@ -32,6 +33,9 @@ class _OverviewPageState extends State<OverviewPage> {
         drawer: Sidebar(),
         appBar: AppBar(
           title: Text(widget.title),
+          actions: [
+            UserDialog(),
+          ],
         ),
         body: Column(children: [
           FilterDropdown(),
