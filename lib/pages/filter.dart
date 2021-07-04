@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:lottery_app/enums/collect_type.dart';
 import 'package:lottery_app/enums/condition.dart';
+import 'package:lottery_app/enums/filter.dart';
 import 'package:lottery_app/enums/payment_type.dart';
 import 'package:lottery_app/filter/collect_type_filter.dart';
 import 'package:lottery_app/filter/condition_filter.dart';
-import 'package:lottery_app/filter/ending_date_filter.dart';
 import 'package:lottery_app/filter/ending_soonest_sort.dart';
 import 'package:lottery_app/filter/least_bids_sort.dart';
 import 'package:lottery_app/filter/payment_type_filter.dart';
@@ -13,6 +13,8 @@ import 'package:lottery_app/filter/seller_filter.dart';
 import 'package:lottery_app/filter/tickets_less_than_filter.dart';
 import 'package:lottery_app/stores/transform_store.dart';
 import 'package:provider/provider.dart';
+
+import 'number_form.dart';
 
 class FilterDropdown extends StatefulWidget {
   @override
@@ -22,8 +24,12 @@ class FilterDropdown extends StatefulWidget {
 }
 
 class FilterDropdownState extends State<FilterDropdown> {
-  String? value = "No filter";
+  Filter? value = Filter.NO_FILTER;
   var valueController = new TextEditingController();
+  CollectType? collectTypeValue = CollectType.PACKET_INLAND;
+  var sellerNameController = new TextEditingController();
+  Condition? conditionValue = Condition.NEW;
+  PaymentType? paymentTypeValue = PaymentType.BANKWIRE;
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +37,7 @@ class FilterDropdownState extends State<FilterDropdown> {
 
     return Row(
       children: [
-        (DropdownButton<String>(
+        (DropdownButton<Filter>(
           value: value,
           icon: const Icon(Icons.filter_alt),
           iconSize: 24,
@@ -41,68 +47,128 @@ class FilterDropdownState extends State<FilterDropdown> {
             height: 2,
             color: Colors.deepPurpleAccent,
           ),
-          onChanged: (String? newValue) {
+          onChanged: (Filter? newValue) {
             setState(() {
               value = newValue;
             });
           },
-          items: <String>[
-            "No filter",
-            "Condition Filter",
-            "Collect Type Filter",
-            "Ending Date Filter",
-            "Payment Type Filter",
-            "Seller name Filter",
-            "Tickets less than Filter",
-            "Least Bids Sort",
-            "Ending soonest Sort"
-          ].map<DropdownMenuItem<String>>((String value) {
-            return DropdownMenuItem<String>(
+          items: Filter.values.map<DropdownMenuItem<Filter>>((Filter value) {
+            return DropdownMenuItem<Filter>(
               value: value,
-              child: Text(value),
+              child: Text(value.toFormattedString()),
             );
           }).toList(),
         )),
-        SizedBox(width: 120, child: TextFormField(controller: valueController)),
+        value == Filter.TICKETS_LESS_THAN_FILTER
+            ? numberFormField(valueController, Icon(null), "")
+            : value == Filter.COLLECT_TYPE_FILTER
+                ? (DropdownButton<CollectType>(
+                    value: collectTypeValue,
+                    style: const TextStyle(color: Colors.deepPurple),
+                    underline: Container(
+                      height: 2,
+                      color: Colors.deepPurpleAccent,
+                    ),
+                    onChanged: (CollectType? newValue) {
+                      setState(() {
+                        collectTypeValue = newValue;
+                      });
+                    },
+                    items: CollectType.values
+                        .map<DropdownMenuItem<CollectType>>(
+                            (CollectType collectTypeValue) {
+                      return DropdownMenuItem<CollectType>(
+                        value: collectTypeValue,
+                        child: Text(collectTypeValue.toFormattedString()),
+                      );
+                    }).toList(),
+                  ))
+                : value == Filter.SELLER_NAME_FILTER
+                    ? SizedBox(
+                        width: 120,
+                        child: TextFormField(controller: sellerNameController))
+                    : value == Filter.CONDITION_FILTER
+                        ? (DropdownButton<Condition>(
+                            value: conditionValue,
+                            style: const TextStyle(color: Colors.deepPurple),
+                            underline: Container(
+                              height: 2,
+                              color: Colors.deepPurpleAccent,
+                            ),
+                            onChanged: (Condition? newValue) {
+                              setState(() {
+                                conditionValue = newValue;
+                              });
+                            },
+                            items: Condition.values
+                                .map<DropdownMenuItem<Condition>>(
+                                    (Condition conditionValue) {
+                              return DropdownMenuItem<Condition>(
+                                value: conditionValue,
+                                child: Text(conditionValue.toFormattedString()),
+                              );
+                            }).toList(),
+                          ))
+                        : value == Filter.PAYMENT_TYPE_FILTER
+                            ? (DropdownButton<PaymentType>(
+                                value: paymentTypeValue,
+                                style:
+                                    const TextStyle(color: Colors.deepPurple),
+                                underline: Container(
+                                  height: 2,
+                                  color: Colors.deepPurpleAccent,
+                                ),
+                                onChanged: (PaymentType? newValue) {
+                                  setState(() {
+                                    paymentTypeValue = newValue;
+                                  });
+                                },
+                                items: PaymentType.values
+                                    .map<DropdownMenuItem<PaymentType>>(
+                                        (PaymentType paymentTypeValue) {
+                                  return DropdownMenuItem<PaymentType>(
+                                    value: paymentTypeValue,
+                                    child: Text(
+                                        paymentTypeValue.toFormattedString()),
+                                  );
+                                }).toList(),
+                              ))
+                            : Container(),
         Padding(
           padding: const EdgeInsets.fromLTRB(40.0, 16.0, 0.0, 0.0),
           child: ElevatedButton(
             onPressed: () {
               setState(() {
-                if (value == "No filter") {
+                if (value == Filter.NO_FILTER) {
                   transformStore.clear();
                 }
-                if (value == "Tickets less than filter") {
-                  var v = int.tryParse(
-                      valueController.text); // TOOD warum FormatException?
+                if (value == Filter.TICKETS_LESS_THAN_FILTER) {
+                  var v = int.tryParse(valueController.text);
                   if (v != null) {
                     transformStore.add(TicketsLessThanFilter(v));
                   }
                 }
-                if (value == "Collect Type Filter") {
-                  transformStore.add(CollectTypeFilter(
-                      CollectType.PACKET)); //TODO irgendwie Eingabe
+                if (value == Filter.COLLECT_TYPE_FILTER) {
+                  if (collectTypeValue != null) {
+                    transformStore.add(CollectTypeFilter(collectTypeValue!));
+                  }
                 }
-                if (value == "Payment Type Filter") {
-                  transformStore.add(PaymentTypeFilter(PaymentType.PAYPAL));
+                if (value == Filter.PAYMENT_TYPE_FILTER) {
+                  if (paymentTypeValue != null)
+                    transformStore.add(PaymentTypeFilter(paymentTypeValue!));
                 }
-                if (value == "Ending Date Filter") {
-                  transformStore.add(EndingDateFilter(DateTime.now()));
+                if (value == Filter.CONDITION_FILTER) {
+                  if (conditionValue != null) {
+                    transformStore.add(ConditionFilter(conditionValue!));
+                  }
                 }
-                if (value == "Condition Filter") {
-                  transformStore.add(ConditionFilter(Condition.NEW));
-                }
-                if (value == "Tickets less than Filter") {
-                  transformStore.add(
-                      TicketsLessThanFilter(int.parse(valueController.text)));
-                }
-                if (value == "Seller name Filter") {
+                if (value == Filter.SELLER_NAME_FILTER) {
                   transformStore.add(SellerFilter(valueController.text));
                 }
-                if (value == "Least Bids Sort") {
+                if (value == Filter.LEAST_BIDS_SORT) {
                   transformStore.add(LeastBidsSort());
                 }
-                if (value == "Ending soonest Sort") {
+                if (value == Filter.ENDING_SOONEST_SORT) {
                   transformStore.add(EndingSoonestSort());
                 }
               });
