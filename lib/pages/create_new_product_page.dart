@@ -1,3 +1,6 @@
+
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:lottery_app/components/check_box_state.dart';
 import 'package:lottery_app/components/user_dialog.dart';
@@ -11,10 +14,12 @@ import 'package:lottery_app/sidebar.dart';
 import 'package:lottery_app/stores/lotteries_store.dart';
 import 'package:lottery_app/stores/user_store.dart';
 import 'package:provider/provider.dart';
+import 'package:image_picker/image_picker.dart';
 
 class CreateNewProductPage extends StatefulWidget {
   CreateNewProductPage({Key? key}) : super(key: key);
   final String title = 'Angebot erstellen';
+
   //String enteredProductName = '';
   //String enteredProductDescription = '';
   //String enteredProductDetails = '';
@@ -30,12 +35,23 @@ class _CreateNewProductPageState extends State<CreateNewProductPage> {
   final textFieldControllerProductDescription = TextEditingController();
   final textFieldControllerProductDetails = TextEditingController();
 
+  Condition productCondition = Condition.OK; //default
+
+  final _picker = ImagePicker();
+  PickedFile _productImage = new PickedFile('assets/placeholder_for_product_image.png');
+
+
   //Generate Checkboxes for the Categories
   final categorieList = [
     //dummy data for testing
     CheckBoxState(title: 'Elektroartikel'),
     CheckBoxState(title: 'Küchenzubehör'),
     CheckBoxState(title: 'Haushaltsgeräte'),
+    CheckBoxState(title: 'Möbel'),
+    CheckBoxState(title: 'Dekoration'),
+    CheckBoxState(title: 'Garten'),
+    CheckBoxState(title: 'Bücher'),
+    CheckBoxState(title: 'Sonstiges'),
   ];
 
   @override
@@ -78,8 +94,10 @@ class _CreateNewProductPageState extends State<CreateNewProductPage> {
           )
       )
       : SingleChildScrollView(
+
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
+
           children: <Widget>[
             Container(
               margin: EdgeInsets.fromLTRB(0, 0, 5, 10),
@@ -90,24 +108,28 @@ class _CreateNewProductPageState extends State<CreateNewProductPage> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: <Widget>[
-                      Image(
-                        image: AssetImage(
-                            'assets/placeholder_for_product_image.png'),
-                        width: 220,
-                        height: 170,
+                      ClipRRect(
+                        borderRadius: BorderRadius.horizontal(),
+                        child: Image.file(
+                          File(_productImage.path),
+                          width: 100,
+                          height: 100,
+                          fit: BoxFit.fitHeight,
+                        ),
                       ),
                       IconButton(
-                        onPressed: () => {
+                        onPressed: () async => {
                           //TODO: after pressing the button, open the phones camera and replace the placeholder with the chosen image
-                          print('Camera IconButton was pressed')
+
+                          _productImage = (await _picker.getImage(source: ImageSource.camera))!,
                         },
                         iconSize: 50.0,
                         icon: Icon(Icons.camera_alt),
                       ),
                       IconButton(
-                        onPressed: () => {
+                        onPressed: ()  async=> {
                           //TODO: after pressing the button, open the phones folders/gallery and replace the placeholder with the chosen image
-                          print('Folder IconButton was pressed')
+                        _productImage = (await _picker.getImage(source: ImageSource.gallery))!,
                         },
                         iconSize: 50.0,
                         icon: Icon(Icons.folder),
@@ -126,7 +148,7 @@ class _CreateNewProductPageState extends State<CreateNewProductPage> {
                   Container(
                     //width: 300.0,
                     child: TextField(
-                      //TODO: styling InputDialog, looking more into async functions
+
                       decoration: InputDecoration(
                         border: OutlineInputBorder(),
                         //labelText: 'Produktame',
@@ -180,15 +202,40 @@ class _CreateNewProductPageState extends State<CreateNewProductPage> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
-                          Text('Geben Sie Details über ihr Produkt an'),
-                          TextField(
+                          Text('Geben Sie den Zustand ihres Produktes an'),
+                          DropdownButton<String>(
+                            items: <String>['Neu', 'Fast wie neu', 'Gut', 'Gebraucht', 'Schlecht'].map((String value) {
+                              return DropdownMenuItem<String>(
+                                value: value,
+                                child: new Text(value),
+                              );
+                            }).toList(),
+                            onChanged: (_) {
+                              switch(_){
+                                case 'Neu': productCondition = Condition.NEW;
+                                break;
+                                case 'Fast wie neu': productCondition = Condition.LIKE_NEW;
+                                break;
+                                case 'Gut': productCondition = Condition.GOOD;
+                                break;
+                                case 'Gebraucht': productCondition = Condition.OK;
+                                break;
+                                case 'Schlecht': productCondition = Condition.BAD;
+                                break;
+                                default: productCondition = Condition.OK;
+                              }
+                              print(productCondition);
+                            },
+
+                          )
+                          /*TextField(
                               decoration: InputDecoration(
                                 border: OutlineInputBorder(),
                               ),
                               keyboardType: TextInputType.multiline,
                               maxLines: 4,
                               controller: textFieldControllerProductDetails,
-                          ),
+                          ),*/
                         ],
                       )),
                   Container(
@@ -201,7 +248,7 @@ class _CreateNewProductPageState extends State<CreateNewProductPage> {
                                 name: textFieldControllerProductName.text,
                                 description: textFieldControllerProductDescription.text,
                                 images: new List.empty(),
-                                condition: Condition.GOOD,
+                                condition: productCondition,
                                 shippingCost: 0),
                             startingDate: DateTime.now(),
                             endingDate: DateTime.now(),
