@@ -53,6 +53,24 @@ class _CreateNewProductPageState extends State<CreateNewProductPage> {
     CheckBoxState(title: 'Sonstiges'),
   ];
 
+  Future _getImageCamera() async {
+    PickedFile image = (await _picker.getImage(source: ImageSource.camera))!;
+
+    setState(() {
+      _productImage = image;
+    });
+  }
+
+  Future _getImageGallery() async {
+    PickedFile image = (await _picker.getImage(source: ImageSource.gallery))!;
+
+    setState(() {
+      _productImage = image;
+    });
+  }
+
+
+
   @override
   void dispose() {
     // cleans up the controller after use
@@ -107,29 +125,17 @@ class _CreateNewProductPageState extends State<CreateNewProductPage> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: <Widget>[
-                      ClipRRect(
-                        borderRadius: BorderRadius.horizontal(),
-                        child: Image.file(
-                          File(_productImage.path),
-                          width: 100,
-                          height: 100,
-                          fit: BoxFit.fitHeight,
-                        ),
+                      Container(
+                        //TODO fitting picture in Container, Opening camera
+                        child: _productImage.path == 'assets/placeholder_for_product_image.png' ? Icon(Icons.image) : Image.file(File(_productImage.path)),
                       ),
                       IconButton(
-                        onPressed: () async => {
-                          //TODO: after pressing the button, open the phones camera and replace the placeholder with the chosen image
-
-                          _productImage = (await _picker.getImage(source: ImageSource.camera))!,
-                        },
+                        onPressed: _getImageCamera,
                         iconSize: 50.0,
                         icon: Icon(Icons.camera_alt),
                       ),
                       IconButton(
-                        onPressed: ()  async=> {
-                          //TODO: after pressing the button, open the phones folders/gallery and replace the placeholder with the chosen image
-                        _productImage = (await _picker.getImage(source: ImageSource.gallery))!,
-                        },
+                        onPressed: _getImageGallery,
                         iconSize: 50.0,
                         icon: Icon(Icons.folder),
                       ),
