@@ -60,7 +60,8 @@ class UserStore extends ChangeNotifier {
       notifyListeners();
 
       final GoogleSignInAccount? gUser = await _signIn.signIn();
-      final GoogleSignInAuthentication gAuth = await gUser!.authentication;
+      if (gUser == null) throw Error();
+      final GoogleSignInAuthentication gAuth = await gUser.authentication;
       final AuthCredential credential = GoogleAuthProvider.credential(
           accessToken: gAuth.accessToken, idToken: gAuth.idToken);
       await _auth.signInWithCredential(credential);
@@ -68,8 +69,9 @@ class UserStore extends ChangeNotifier {
       _status = Status.Authenticated;
       notifyListeners();
       return true;
-    } catch (error) {
-      log(error.toString());
+    } catch (error, stacktrace) {
+      print(error);
+      print(stacktrace);
       _status = Status.Unauthenticated;
       notifyListeners();
       return false;
