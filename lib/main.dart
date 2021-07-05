@@ -25,7 +25,7 @@ void main() async {
 }
 
 class MyApp extends StatelessWidget {
-  var firstVisit = true; // TODO: Move to persistent store
+  final firstVisit = true; // TODO: Move to persistent store
 
   @override
   Widget build(BuildContext context) {

@@ -10,9 +10,9 @@ class ProductDetailSellerData extends StatelessWidget {
       required this.collectType,
       required this.shippingCost});
 
-  AppUser seller;
-  CollectType collectType;
-  int shippingCost;
+  final AppUser seller;
+  final CollectType collectType;
+  final int shippingCost;
 
   String getCollectTypeString() {
     switch (collectType) {

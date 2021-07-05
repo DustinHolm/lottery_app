@@ -6,7 +6,6 @@ import 'package:lottery_app/components/check_box_state.dart';
 import 'package:lottery_app/components/user_dialog.dart';
 import 'package:lottery_app/enums/collect_type.dart';
 import 'package:lottery_app/enums/condition.dart';
-import 'package:lottery_app/enums/payment_type.dart';
 import 'package:lottery_app/models/lottery.dart';
 import 'package:lottery_app/models/product.dart';
 import 'package:lottery_app/models/app_user.dart';
@@ -256,7 +255,6 @@ class _CreateNewProductPageState extends State<CreateNewProductPage> {
                             seller: userStore.appUser!,
                             winner: null,
                             collectType: CollectType.PACKET,
-                            paymentType: PaymentType.CREDIT_CARD
                         );
                         lotteriesStore.addLottery(lottery);
                         Navigator.pushNamed(context, "/seller");
