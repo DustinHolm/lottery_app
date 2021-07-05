@@ -2,7 +2,6 @@ import 'dart:math';
 
 import 'package:lottery_app/enums/collect_type.dart';
 import 'package:lottery_app/enums/condition.dart';
-import 'package:lottery_app/enums/payment_type.dart';
 import 'package:lottery_app/models/app_user.dart';
 
 import 'models/address.dart';
@@ -29,10 +28,10 @@ class LotteryGenerator {
             startingDate: DateTime.now(),
             endingDate: getRandomEndingDate(),
             ticketsMap: defaultUserMap(i + index),
-            seller: new AppUser(name: "TestUser_${i + index}", address: new Address()),
+            seller: new AppUser(
+                name: "TestUser_${i + index}", address: new Address()),
             winner: null,
-            collectType: CollectType.PACKET,
-            paymentType: PaymentType.CREDIT_CARD));
+            collectType: CollectType.PACKET));
   }
 }
 

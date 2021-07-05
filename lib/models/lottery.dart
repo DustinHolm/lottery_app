@@ -1,7 +1,6 @@
 import 'package:lottery_app/enums/collect_type.dart';
-import 'package:lottery_app/enums/payment_type.dart';
-import 'package:lottery_app/models/product.dart';
 import 'package:lottery_app/models/app_user.dart';
+import 'package:lottery_app/models/product.dart';
 
 class Lottery {
   Product product;
@@ -11,7 +10,6 @@ class Lottery {
   AppUser seller;
   AppUser? winner;
   CollectType collectType;
-  PaymentType paymentType; // Necessary?
 
   Lottery({
     required this.product,
@@ -21,7 +19,6 @@ class Lottery {
     required this.seller,
     required this.winner,
     required this.collectType,
-    required this.paymentType,
   });
 
   int getTicketsUsed() {

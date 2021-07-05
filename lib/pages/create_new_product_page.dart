@@ -3,10 +3,9 @@ import 'package:lottery_app/components/check_box_state.dart';
 import 'package:lottery_app/components/user_dialog.dart';
 import 'package:lottery_app/enums/collect_type.dart';
 import 'package:lottery_app/enums/condition.dart';
-import 'package:lottery_app/enums/payment_type.dart';
+import 'package:lottery_app/models/app_user.dart';
 import 'package:lottery_app/models/lottery.dart';
 import 'package:lottery_app/models/product.dart';
-import 'package:lottery_app/models/app_user.dart';
 import 'package:lottery_app/sidebar.dart';
 import 'package:lottery_app/stores/lotteries_store.dart';
 import 'package:lottery_app/stores/user_store.dart';
@@ -48,13 +47,13 @@ class _CreateNewProductPageState extends State<CreateNewProductPage> {
   }
 
   Widget buildSingleCheckbox(CheckBoxState checkbox) => CheckboxListTile(
-    controlAffinity: ListTileControlAffinity.leading,
-    value: checkbox.value,
-    title: Text(
-      checkbox.title,
-    ),
-    onChanged: (value) => setState(() => checkbox.value = value!),
-  );
+        controlAffinity: ListTileControlAffinity.leading,
+        value: checkbox.value,
+        title: Text(
+          checkbox.title,
+        ),
+        onChanged: (value) => setState(() => checkbox.value = value!),
+      );
 
   @override
   Widget build(BuildContext context) {
@@ -70,159 +69,157 @@ class _CreateNewProductPageState extends State<CreateNewProductPage> {
         ],
       ),
       body: userStore.status != Status.Authenticated
-      ? Center(
-          child: Text(
-            "Diese Funktion ist nur für angemeldete Nutzer verfügbar",
-            style: Theme.of(context).textTheme.headline5,
-            textAlign: TextAlign.center,
-          )
-      )
-      : SingleChildScrollView(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: <Widget>[
-            Container(
-              margin: EdgeInsets.fromLTRB(0, 0, 5, 10),
+          ? Center(
+              child: Text(
+              "Diese Funktion ist nur für angemeldete Nutzer verfügbar",
+              style: Theme.of(context).textTheme.headline5,
+              textAlign: TextAlign.center,
+            ))
+          : SingleChildScrollView(
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: <Widget>[
-                  Text('Fügen Sie ihrem Produkt ein Bild hinzu'),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: <Widget>[
-                      Image(
-                        image: AssetImage(
-                            'assets/placeholder_for_product_image.png'),
-                        width: 220,
-                        height: 170,
-                      ),
-                      IconButton(
-                        onPressed: () => {
-                          //TODO: after pressing the button, open the phones camera and replace the placeholder with the chosen image
-                          print('Camera IconButton was pressed')
-                        },
-                        iconSize: 50.0,
-                        icon: Icon(Icons.camera_alt),
-                      ),
-                      IconButton(
-                        onPressed: () => {
-                          //TODO: after pressing the button, open the phones folders/gallery and replace the placeholder with the chosen image
-                          print('Folder IconButton was pressed')
-                        },
-                        iconSize: 50.0,
-                        icon: Icon(Icons.folder),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ), //For Picture and Picture Select Buttons
-            Container(
-              margin: EdgeInsets.fromLTRB(0, 0, 5, 10),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Text('Geben Sie ihrem Produkt einen Name'),
                   Container(
-                    //width: 300.0,
-                    child: TextField(
-                      //TODO: styling InputDialog, looking more into async functions
-                      decoration: InputDecoration(
-                        border: OutlineInputBorder(),
-                        //labelText: 'Produktame',
-                      ),
-                      controller: textFieldControllerProductName,
-
+                    margin: EdgeInsets.fromLTRB(0, 0, 5, 10),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Text('Fügen Sie ihrem Produkt ein Bild hinzu'),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: <Widget>[
+                            Image(
+                              image: AssetImage(
+                                  'assets/placeholder_for_product_image.png'),
+                              width: 220,
+                              height: 170,
+                            ),
+                            IconButton(
+                              onPressed: () => {
+                                //TODO: after pressing the button, open the phones camera and replace the placeholder with the chosen image
+                                print('Camera IconButton was pressed')
+                              },
+                              iconSize: 50.0,
+                              icon: Icon(Icons.camera_alt),
+                            ),
+                            IconButton(
+                              onPressed: () => {
+                                //TODO: after pressing the button, open the phones folders/gallery and replace the placeholder with the chosen image
+                                print('Folder IconButton was pressed')
+                              },
+                              iconSize: 50.0,
+                              icon: Icon(Icons.folder),
+                            ),
+                          ],
+                        ),
+                      ],
                     ),
-                  ),
-                ],
-              ),
-            ), //For the Product Name Text Field
-
-            Container(
-                margin: EdgeInsets.fromLTRB(0, 0, 5, 10),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Text('Geben Sie ihrem Produkt eine Beschreibung'),
-                    Container(
-                      child: TextField(
-                          decoration: InputDecoration(
-                            border: OutlineInputBorder(),
+                  ), //For Picture and Picture Select Buttons
+                  Container(
+                    margin: EdgeInsets.fromLTRB(0, 0, 5, 10),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Text('Geben Sie ihrem Produkt einen Name'),
+                        Container(
+                          //width: 300.0,
+                          child: TextField(
+                            //TODO: styling InputDialog, looking more into async functions
+                            decoration: InputDecoration(
+                              border: OutlineInputBorder(),
+                              //labelText: 'Produktame',
+                            ),
+                            controller: textFieldControllerProductName,
                           ),
-                          keyboardType: TextInputType.multiline,
-                          maxLines: 7,
-                          controller: textFieldControllerProductDescription,
+                        ),
+                      ],
                     ),
-                    ),
-                  ],
-                )), //Product Description
-            Container(
-                margin: EdgeInsets.fromLTRB(0, 0, 5, 10),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Text('Wählen Sie passende Kategorien aus'),
+                  ), //For the Product Name Text Field
 
-                    ...categorieList.map(buildSingleCheckbox).toList(),  // '...' is here the 'spread' operator
-                  ],
-                ),
-            ), //Select a Product Category
-
-            Container(
-
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
                   Container(
-
                       margin: EdgeInsets.fromLTRB(0, 0, 5, 10),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
-                          Text('Geben Sie Details über ihr Produkt an'),
-                          TextField(
+                          Text('Geben Sie ihrem Produkt eine Beschreibung'),
+                          Container(
+                            child: TextField(
                               decoration: InputDecoration(
                                 border: OutlineInputBorder(),
                               ),
                               keyboardType: TextInputType.multiline,
-                              maxLines: 4,
-                              controller: textFieldControllerProductDetails,
+                              maxLines: 7,
+                              controller: textFieldControllerProductDescription,
+                            ),
                           ),
                         ],
-                      )),
+                      )), //Product Description
                   Container(
-                    // Button to send Information further to Backend/ Server
-                    child: TextButton(
-                      child: Text('Inserieren'),
-                      onPressed: () {
-                        Lottery lottery = new Lottery(
-                            product: new Product(
-                                name: textFieldControllerProductName.text,
-                                description: textFieldControllerProductDescription.text,
-                                images: new List.empty(),
-                                condition: Condition.GOOD,
-                                shippingCost: 0),
-                            startingDate: DateTime.now(),
-                            endingDate: DateTime.now(),
-                            ticketsMap: new Map<AppUser, int>(),
-                            seller: userStore.appUser!,
-                            winner: null,
-                            collectType: CollectType.PACKET,
-                            paymentType: PaymentType.CREDIT_CARD
-                        );
-                        lotteriesStore.addLottery(lottery);
-                        Navigator.pushNamed(context, "/seller");
-                      },
+                    margin: EdgeInsets.fromLTRB(0, 0, 5, 10),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Text('Wählen Sie passende Kategorien aus'),
+
+                        ...categorieList
+                            .map(buildSingleCheckbox)
+                            .toList(), // '...' is here the 'spread' operator
+                      ],
                     ),
+                  ), //Select a Product Category
+
+                  Container(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        Container(
+                            margin: EdgeInsets.fromLTRB(0, 0, 5, 10),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: <Widget>[
+                                Text('Geben Sie Details über ihr Produkt an'),
+                                TextField(
+                                  decoration: InputDecoration(
+                                    border: OutlineInputBorder(),
+                                  ),
+                                  keyboardType: TextInputType.multiline,
+                                  maxLines: 4,
+                                  controller: textFieldControllerProductDetails,
+                                ),
+                              ],
+                            )),
+                        Container(
+                          // Button to send Information further to Backend/ Server
+                          child: TextButton(
+                            child: Text('Inserieren'),
+                            onPressed: () {
+                              Lottery lottery = new Lottery(
+                                product: new Product(
+                                    name: textFieldControllerProductName.text,
+                                    description:
+                                        textFieldControllerProductDescription
+                                            .text,
+                                    images: new List.empty(),
+                                    condition: Condition.GOOD,
+                                    shippingCost: 0),
+                                startingDate: DateTime.now(),
+                                endingDate: DateTime.now(),
+                                ticketsMap: new Map<AppUser, int>(),
+                                seller: userStore.appUser!,
+                                winner: null,
+                                collectType: CollectType.PACKET,
+                              );
+                              lotteriesStore.addLottery(lottery);
+                              Navigator.pushNamed(context, "/seller");
+                            },
+                          ),
+                        ),
+                      ],
                     ),
+                  ), //
                 ],
               ),
-            ), //
-          ],
-        ),
-      ),
+            ),
     );
   }
-
 }
