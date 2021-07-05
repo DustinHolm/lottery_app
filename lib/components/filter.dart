@@ -3,12 +3,10 @@ import 'package:flutter/widgets.dart';
 import 'package:lottery_app/enums/collect_type.dart';
 import 'package:lottery_app/enums/condition.dart';
 import 'package:lottery_app/enums/filter.dart';
-import 'package:lottery_app/enums/payment_type.dart';
 import 'package:lottery_app/filter/collect_type_filter.dart';
 import 'package:lottery_app/filter/condition_filter.dart';
 import 'package:lottery_app/filter/ending_soonest_sort.dart';
 import 'package:lottery_app/filter/least_bids_sort.dart';
-import 'package:lottery_app/filter/payment_type_filter.dart';
 import 'package:lottery_app/filter/seller_filter.dart';
 import 'package:lottery_app/filter/tickets_less_than_filter.dart';
 import 'package:lottery_app/stores/transform_store.dart';
@@ -29,7 +27,6 @@ class FilterDropdownState extends State<FilterDropdown> {
   CollectType? collectTypeValue = CollectType.PACKET_INLAND;
   var sellerNameController = new TextEditingController();
   Condition? conditionValue = Condition.NEW;
-  PaymentType? paymentTypeValue = PaymentType.BANKWIRE;
 
   @override
   Widget build(BuildContext context) {
@@ -109,31 +106,7 @@ class FilterDropdownState extends State<FilterDropdown> {
                               );
                             }).toList(),
                           ))
-                        : value == Filter.PAYMENT_TYPE_FILTER
-                            ? (DropdownButton<PaymentType>(
-                                value: paymentTypeValue,
-                                style:
-                                    const TextStyle(color: Colors.deepPurple),
-                                underline: Container(
-                                  height: 2,
-                                  color: Colors.deepPurpleAccent,
-                                ),
-                                onChanged: (PaymentType? newValue) {
-                                  setState(() {
-                                    paymentTypeValue = newValue;
-                                  });
-                                },
-                                items: PaymentType.values
-                                    .map<DropdownMenuItem<PaymentType>>(
-                                        (PaymentType paymentTypeValue) {
-                                  return DropdownMenuItem<PaymentType>(
-                                    value: paymentTypeValue,
-                                    child: Text(
-                                        paymentTypeValue.toFormattedString()),
-                                  );
-                                }).toList(),
-                              ))
-                            : Container(),
+                        : Container(),
         Padding(
           padding: const EdgeInsets.fromLTRB(40.0, 16.0, 0.0, 0.0),
           child: ElevatedButton(
@@ -152,10 +125,6 @@ class FilterDropdownState extends State<FilterDropdown> {
                   if (collectTypeValue != null) {
                     transformStore.add(CollectTypeFilter(collectTypeValue!));
                   }
-                }
-                if (value == Filter.PAYMENT_TYPE_FILTER) {
-                  if (paymentTypeValue != null)
-                    transformStore.add(PaymentTypeFilter(paymentTypeValue!));
                 }
                 if (value == Filter.CONDITION_FILTER) {
                   if (conditionValue != null) {

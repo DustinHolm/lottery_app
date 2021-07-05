@@ -27,18 +27,17 @@ class TicketsBuyFormState extends State<TicketsBuyForm> {
         children: <Widget>[
           Padding(
             padding: const EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 8.0),
-            child: Text("Wie viele Tickets willst du kaufen?"),
+            child: Text("Wie viele Tickets möchtest du kaufen?"),
           ),
-          numberFormField(numTicketsController, Icon(Icons.add_shopping_cart),
-              "Anzahl Tickets"),
+          numberFormField(
+              numTicketsController, Icon(Icons.add_shopping_cart), "Anzahl"),
           Padding(
             padding: const EdgeInsets.fromLTRB(40.0, 16.0, 0.0, 0.0),
             child: ElevatedButton(
-              onPressed: () {
-                userStore.addTickets(int.parse(numTicketsController.text));
-              },
-              child: Text('Buy'),
-            ),
+                onPressed: () {
+                  userStore.addTickets(int.parse(numTicketsController.text));
+                },
+                child: Text('Kaufen')),
           ),
         ],
       ),
