@@ -59,6 +59,7 @@ class _CreateNewProductPageState extends State<CreateNewProductPage> {
     setState(() {
       _productImage = image;
     });
+
   }
 
   Future _getImageGallery() async {
@@ -67,6 +68,7 @@ class _CreateNewProductPageState extends State<CreateNewProductPage> {
     setState(() {
       _productImage = image;
     });
+
   }
 
 
@@ -102,7 +104,7 @@ class _CreateNewProductPageState extends State<CreateNewProductPage> {
           UserDialog(),
         ],
       ),
-      body: userStore.status != Status.Authenticated
+      body: /*userStore.status != Status.Authenticated
       ? Center(
           child: Text(
             "Diese Funktion ist nur für angemeldete Nutzer verfügbar",
@@ -110,7 +112,7 @@ class _CreateNewProductPageState extends State<CreateNewProductPage> {
             textAlign: TextAlign.center,
           )
       )
-      : SingleChildScrollView(
+      : */SingleChildScrollView(
 
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -127,7 +129,20 @@ class _CreateNewProductPageState extends State<CreateNewProductPage> {
                     children: <Widget>[
                       Container(
                         //TODO fitting picture in Container, Opening camera
-                        child: _productImage.path == 'assets/placeholder_for_product_image.png' ? Icon(Icons.image) : Image.file(File(_productImage.path)),
+                        decoration: BoxDecoration(
+                          border: Border.all(
+                            width: 1,
+                            color: Colors.blue,
+                          )
+
+
+                        ),
+                        child: FittedBox(
+                          fit: BoxFit.fill,
+                          child: _productImage.path == 'assets/placeholder_for_product_image.png'
+                              ? Image(image: AssetImage(_productImage.path), width: 200, height: 120,)
+                              : Image.file(File(_productImage.path), width: 200, height: 120,),
+                        ),
                       ),
                       IconButton(
                         onPressed: _getImageCamera,
