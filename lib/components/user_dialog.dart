@@ -20,7 +20,9 @@ class UserDialog extends StatelessWidget {
                   ),
                   children: [
                     ListTile(
-                        title: userStore.status == Status.Authenticated
+                        title: (userStore.status == Status.Authenticated
+                        && userStore.gUser != null
+                        && userStore.gUser!.displayName != null)
                             ? Text(userStore.gUser!.displayName!)
                             : Text("Nicht bei Google angemeldet")),
                     if (userStore.status == Status.Authenticated)
@@ -46,6 +48,15 @@ class UserDialog extends StatelessWidget {
                                     }),
                                     child: Text("Abmelden"),
                                   )),
+                    Container(
+                        padding: EdgeInsets.all(8),
+                        child: ElevatedButton(
+                          onPressed: () {
+                            userStore.status = Status.Authenticated;
+                            Navigator.pop(context);
+                          },
+                          child: Text("Fakeanmeldung"),
+                        )),
                   ]);
             },
           );

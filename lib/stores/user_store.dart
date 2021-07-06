@@ -52,6 +52,11 @@ class UserStore extends ChangeNotifier {
 
   Status get status => _status;
 
+  set status(Status status) {
+    _status = status;
+    notifyListeners();
+  }
+
   User? get gUser => _gUser;
 
   Future<bool> signIn() async {
