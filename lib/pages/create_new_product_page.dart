@@ -1,7 +1,8 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:lottery_app/components/checkbox_list_element.dart';
+import 'package:lottery_app/components/new_product_description_selection.dart';
+import 'package:lottery_app/components/new_product_image_selection.dart';
+import 'package:lottery_app/components/new_product_name_selection.dart';
 import 'package:lottery_app/components/user_dialog.dart';
 import 'package:lottery_app/enums/collect_type.dart';
 import 'package:lottery_app/enums/condition.dart';
@@ -31,11 +32,9 @@ class _CreateNewProductPageState extends State<CreateNewProductPage> {
 
   Condition productCondition = Condition.OK; //default Condition
 
-  final _picker = ImagePicker(); //Accesing Camera/Folder
-  PickedFile _productImage = new PickedFile('assets/placeholder_for_product_image.png'); //Store Image Path
+  PickedFile? _productImage; //Store Image Path
 
   var currentSelectedValue; //For dropdown Menu
-
 
   //Generate Checkboxes for the Categories
   final categorieList = [
@@ -50,26 +49,6 @@ class _CreateNewProductPageState extends State<CreateNewProductPage> {
     'Sonstiges',
   ];
 
-  Future _getImageCamera() async {
-    PickedFile image = (await _picker.getImage(source: ImageSource.camera))!;
-
-    setState(() {
-      _productImage = image;
-    });
-
-  }
-
-  Future _getImageGallery() async {
-    PickedFile image = (await _picker.getImage(source: ImageSource.gallery))!;
-
-    setState(() {
-      _productImage = image;
-    });
-
-  }
-
-
-
   @override
   void dispose() {
     // cleans up the controller after use
@@ -78,7 +57,6 @@ class _CreateNewProductPageState extends State<CreateNewProductPage> {
     textFieldControllerProductDetails.dispose();
     super.dispose();
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -107,84 +85,16 @@ class _CreateNewProductPageState extends State<CreateNewProductPage> {
           mainAxisAlignment: MainAxisAlignment.spaceAround,
 
           children: <Widget>[
-            Container(
-              margin: EdgeInsets.fromLTRB(0, 0, 5, 10),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Text('Fügen Sie ihrem Produkt ein Bild hinzu'),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: <Widget>[
-                      Container(
-                        //TODO fitting picture in Container, Opening camera
-                        decoration: BoxDecoration(
-
-
-
-                        ),
-                        child: FittedBox(
-                          fit: BoxFit.fill,
-                          child: _productImage.path == 'assets/placeholder_for_product_image.png'
-                              ? Image(image: AssetImage(_productImage.path), width: 200, height: 180,fit: BoxFit.scaleDown,)
-                              : Image.file(File(_productImage.path), width: 200, height: 180, /*fit: BoxFit.scaleDown,*/),
-                        ),
-                      ),
-                      IconButton(
-                        onPressed: _getImageCamera,
-                        iconSize: 50.0,
-                        icon: Icon(Icons.camera_alt),
-                      ),
-                      IconButton(
-                        onPressed: _getImageGallery,
-                        iconSize: 50.0,
-                        icon: Icon(Icons.folder),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ), //For Picture and Picture Select Buttons
-            Container(
-              margin: EdgeInsets.fromLTRB(0, 0, 5, 10),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Text('Geben Sie ihrem Produkt einen Name'),
-                  Container(
-                    //width: 300.0,
-                    child: TextField(
-
-                      decoration: InputDecoration(
-                        border: OutlineInputBorder(),
-                        //labelText: 'Produktame',
-                      ),
-                      controller: textFieldControllerProductName,
-
-                    ),
-                  ),
-                ],
-              ),
-            ), //For the Product Name Text Field
-
-            Container(
-                margin: EdgeInsets.fromLTRB(0, 0, 5, 10),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Text('Geben Sie ihrem Produkt eine Beschreibung'),
-                    Container(
-                      child: TextField(
-                          decoration: InputDecoration(
-                            border: OutlineInputBorder(),
-                          ),
-                          keyboardType: TextInputType.multiline,
-                          maxLines: 7,
-                          controller: textFieldControllerProductDescription,
-                    ),
-                    ),
-                  ],
-                )), //Product Description
+            NewProductImageSelection(
+                productImage: _productImage,
+                handleImageUpdate: (PickedFile? file) => setState(() => _productImage = file),
+            ),
+            NewProductNameSelection(
+                controller: textFieldControllerProductName
+            ),
+            NewProductDescriptionSelection(
+                controller: textFieldControllerProductDescription
+            ),
             Container(
                 margin: EdgeInsets.fromLTRB(0, 0, 5, 10),
                 child: Column(
