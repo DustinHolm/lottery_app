@@ -104,7 +104,7 @@ class _CreateNewProductPageState extends State<CreateNewProductPage> {
           UserDialog(),
         ],
       ),
-      body: /*userStore.status != Status.Authenticated
+      body: userStore.status != Status.Authenticated
       ? Center(
           child: Text(
             "Diese Funktion ist nur für angemeldete Nutzer verfügbar",
@@ -112,7 +112,7 @@ class _CreateNewProductPageState extends State<CreateNewProductPage> {
             textAlign: TextAlign.center,
           )
       )
-      : */SingleChildScrollView(
+      : SingleChildScrollView(
 
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
