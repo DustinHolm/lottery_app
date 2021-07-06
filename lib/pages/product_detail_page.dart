@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:lottery_app/components/favorite_button.dart';
-import 'package:lottery_app/components/product_detail_bidding_data.dart';
-import 'package:lottery_app/components/product_detail_description.dart';
-import 'package:lottery_app/components/product_detail_seller_data.dart';
+import 'package:lottery_app/components/product_detail_page/bidding_data.dart';
+import 'package:lottery_app/components/product_detail_page/description_data.dart';
+import 'package:lottery_app/components/product_detail_page/seller_data.dart';
 import 'package:lottery_app/components/user_dialog.dart';
 import 'package:lottery_app/stores/lotteries_store.dart';
 import 'package:provider/provider.dart';
@@ -49,15 +49,15 @@ class ProductDetailPage extends StatelessWidget {
                               .headline3!
                               .apply(color: Colors.black)),
                     )),
-                ProductDetailBiddingData(
+                BiddingData(
                   endingDate: lottery.endingDate,
                   ticketsUsed: lottery.getTicketsUsed(),
                 ),
-                ProductDetailSellerData(
+                SellerData(
                     seller: lottery.seller,
                     collectType: lottery.collectType,
                     shippingCost: lottery.product.shippingCost),
-                ProductDetailDescription(
+                DescriptionData(
                     description: lottery.product.description,
                     condition: lottery.product.condition),
               ],

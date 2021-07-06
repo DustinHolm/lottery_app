@@ -3,8 +3,8 @@ import 'package:flutter/widgets.dart';
 import 'package:lottery_app/components/condition_icon.dart';
 import 'package:lottery_app/enums/condition.dart';
 
-class ProductDetailDescription extends StatelessWidget {
-  ProductDetailDescription({required this.description, required this.condition});
+class DescriptionData extends StatelessWidget {
+  DescriptionData({required this.description, required this.condition});
 
   final String description;
   final Condition condition;

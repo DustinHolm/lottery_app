@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class NewProductDescriptionSelection extends StatelessWidget {
-  NewProductDescriptionSelection({required this.controller});
+class DescriptionSelection extends StatelessWidget {
+  DescriptionSelection({required this.controller});
   final TextEditingController controller;
 
   @override

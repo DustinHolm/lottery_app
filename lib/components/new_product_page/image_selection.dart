@@ -3,8 +3,8 @@ import 'dart:io';
 import 'package:image_picker/image_picker.dart';
 import 'package:flutter/material.dart';
 
-class NewProductImageSelection extends StatelessWidget {
-  NewProductImageSelection({required this.productImage, required this.handleImageUpdate});
+class ImageSelection extends StatelessWidget {
+  ImageSelection({required this.productImage, required this.handleImageUpdate});
   final PickedFile? productImage;
   final Function(PickedFile?) handleImageUpdate;
   final _picker = ImagePicker(); //Accessing Camera/Folder
