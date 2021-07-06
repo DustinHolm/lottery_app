@@ -37,18 +37,12 @@ class ConditionIcon extends StatelessWidget {
         break;
     }
 
-    return Row(
-      children: [
-        Text("Zustand: ",
-        style: Theme.of(context).textTheme.overline,),
-        Tooltip(
-            message: tooltip,
-            child: Icon(
-              icon,
-              size: 20,
-              color: color,
-            )),
-      ],
-    );
+    return Tooltip(
+        message: tooltip,
+        child: Icon(
+          icon,
+          size: 20,
+          color: color,
+        ));
   }
 }

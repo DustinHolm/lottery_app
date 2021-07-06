@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:lottery_app/enums/condition.dart';
 
+import '../condition_icon.dart';
+
 class ConditionSelector extends StatelessWidget {
   ConditionSelector(
       {required this.productCondition, required this.handleConditionUpdate});
@@ -22,7 +24,15 @@ class ConditionSelector extends StatelessWidget {
             items: Condition.values.map((Condition value) {
               return DropdownMenuItem<Condition>(
                 value: value,
-                child: new Text(value.toFormattedString()),
+                child: Row(
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.fromLTRB(8, 0, 16, 0),
+                      child: ConditionIcon(condition: value),
+                    ),
+                    Text(value.toFormattedString()),
+                  ]
+                ),
               );
             }).toList(),
             onChanged: (newValue) {

@@ -18,15 +18,23 @@ class DescriptionData extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Row(children: [
-              Text(
-                "Beschreibung:",
-                style: Theme.of(context).textTheme.headline6,
-              ),
-              Spacer(),
-              ConditionIcon(condition: condition)
-            ],),
-
+            Row(
+              children: [
+                Text(
+                  "Beschreibung:",
+                  style: Theme.of(context).textTheme.headline6,
+                ),
+                Spacer(),
+                Text(
+                  "Zustand: ",
+                  style: Theme.of(context).textTheme.overline,
+                ),
+                Padding(
+                  padding: EdgeInsets.fromLTRB(8, 0, 0, 0),
+                  child: ConditionIcon(condition: condition),
+                ),
+              ],
+            ),
             Text(description),
           ],
         ),

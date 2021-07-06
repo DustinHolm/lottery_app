@@ -64,58 +64,56 @@ class _CreateNewProductPageState extends State<CreateNewProductPage> {
               textAlign: TextAlign.center,
             ))
           : SingleChildScrollView(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: <Widget>[
-                  ImageSelection(
-                    productImage: _productImage,
-                    handleImageUpdate: (PickedFile? file) =>
-                        setState(() => _productImage = file),
-                  ),
-                  NameSelection(
-                      controller: textFieldControllerProductName),
-                  DescriptionSelection(
-                      controller: textFieldControllerProductDescription),
-                  CategorySelector(),
-                  Container(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        ConditionSelector(
-                          productCondition: productCondition,
-                          handleConditionUpdate: (Condition condition) =>
-                              setState(() => productCondition = condition),
-                        ),
-                        Container(
-                          // Button to send Information further to Backend/ Server
-                          child: TextButton(
-                            child: Text('Inserieren'),
-                            onPressed: () {
-                              Lottery lottery = new Lottery(
-                                product: new Product(
-                                    name: textFieldControllerProductName.text,
-                                    description:
-                                        textFieldControllerProductDescription
-                                            .text,
-                                    images: new List.empty(),
-                                    condition: productCondition,
-                                    shippingCost: 0),
-                                startingDate: DateTime.now(),
-                                endingDate: DateTime.now(),
-                                ticketsMap: new Map<AppUser, int>(),
-                                seller: userStore.appUser!,
-                                winner: null,
-                                collectType: CollectType.PACKET,
-                              );
-                              lotteriesStore.addLottery(lottery);
-                              Navigator.pushNamed(context, "/seller");
-                            },
-                          ),
-                        ),
-                      ],
+              child: Padding(
+                padding: EdgeInsets.all(16),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    ImageSelection(
+                      productImage: _productImage,
+                      handleImageUpdate: (PickedFile? file) =>
+                          setState(() => _productImage = file),
                     ),
-                  ), //
-                ],
+                    NameSelection(controller: textFieldControllerProductName),
+                    DescriptionSelection(
+                        controller: textFieldControllerProductDescription),
+                    CategorySelector(),
+                    ConditionSelector(
+                      productCondition: productCondition,
+                      handleConditionUpdate: (Condition condition) =>
+                          setState(() => productCondition = condition),
+                    ),
+                    Center(
+                      child: Container(
+                        // Button to send Information further to Backend/ Server
+                        child: TextButton(
+                          child: Text('Inserieren'),
+                          onPressed: () {
+                            Lottery lottery = new Lottery(
+                              product: new Product(
+                                  name: textFieldControllerProductName.text,
+                                  description:
+                                      textFieldControllerProductDescription
+                                          .text,
+                                  images: new List.empty(),
+                                  condition: productCondition,
+                                  shippingCost: 0),
+                              startingDate: DateTime.now(),
+                              endingDate: DateTime.now(),
+                              ticketsMap: new Map<AppUser, int>(),
+                              seller: userStore.appUser!,
+                              winner: null,
+                              collectType: CollectType.PACKET,
+                            );
+                            lotteriesStore.addLottery(lottery);
+                            Navigator.pushNamed(context, "/seller");
+                          },
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
     );
