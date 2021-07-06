@@ -34,10 +34,12 @@ class _CreateNewProductPageState extends State<CreateNewProductPage> {
   final textFieldControllerProductDescription = TextEditingController();
   final textFieldControllerProductDetails = TextEditingController();
 
-  Condition productCondition = Condition.OK; //default
+  Condition productCondition = Condition.OK; //default Condition
 
-  final _picker = ImagePicker();
-  PickedFile _productImage = new PickedFile('assets/placeholder_for_product_image.png');
+  final _picker = ImagePicker(); //Accesing Camera/Folder
+  PickedFile _productImage = new PickedFile('assets/placeholder_for_product_image.png'); //Store Image Path
+
+  var currentSelectedValue; //For dropdown Menu
 
 
   //Generate Checkboxes for the Categories
@@ -104,7 +106,7 @@ class _CreateNewProductPageState extends State<CreateNewProductPage> {
           UserDialog(),
         ],
       ),
-      body: userStore.status != Status.Authenticated
+      body: /*userStore.status != Status.Authenticated
       ? Center(
           child: Text(
             "Diese Funktion ist nur für angemeldete Nutzer verfügbar",
@@ -112,7 +114,7 @@ class _CreateNewProductPageState extends State<CreateNewProductPage> {
             textAlign: TextAlign.center,
           )
       )
-      : SingleChildScrollView(
+      : */SingleChildScrollView(
 
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -130,18 +132,15 @@ class _CreateNewProductPageState extends State<CreateNewProductPage> {
                       Container(
                         //TODO fitting picture in Container, Opening camera
                         decoration: BoxDecoration(
-                          border: Border.all(
-                            width: 1,
-                            color: Colors.blue,
-                          )
+
 
 
                         ),
                         child: FittedBox(
                           fit: BoxFit.fill,
                           child: _productImage.path == 'assets/placeholder_for_product_image.png'
-                              ? Image(image: AssetImage(_productImage.path), width: 200, height: 180,fit: BoxFit.fill,)
-                              : Image.file(File(_productImage.path), width: 200, height: 180, fit: BoxFit.fill, ),
+                              ? Image(image: AssetImage(_productImage.path), width: 200, height: 180,fit: BoxFit.scaleDown,)
+                              : Image.file(File(_productImage.path), width: 200, height: 180, /*fit: BoxFit.scaleDown,*/),
                         ),
                       ),
                       IconButton(
@@ -224,14 +223,16 @@ class _CreateNewProductPageState extends State<CreateNewProductPage> {
                         children: <Widget>[
                           Text('Geben Sie den Zustand ihres Produktes an'),
                           DropdownButton<String>(
+                            value: currentSelectedValue,
+                            hint: Text('Zustand'),
                             items: <String>['Neu', 'Fast wie neu', 'Gut', 'Gebraucht', 'Schlecht'].map((String value) {
                               return DropdownMenuItem<String>(
                                 value: value,
                                 child: new Text(value),
                               );
                             }).toList(),
-                            onChanged: (_) {
-                              switch(_){
+                            onChanged: (newValue) {
+                              switch(newValue){
                                 case 'Neu': productCondition = Condition.NEW;
                                 break;
                                 case 'Fast wie neu': productCondition = Condition.LIKE_NEW;
@@ -244,7 +245,10 @@ class _CreateNewProductPageState extends State<CreateNewProductPage> {
                                 break;
                                 default: productCondition = Condition.OK;
                               }
-                              print(productCondition);
+                              setState(() {
+                                currentSelectedValue = newValue;
+                              });
+
                             },
 
                           )
