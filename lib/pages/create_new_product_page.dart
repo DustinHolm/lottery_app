@@ -96,7 +96,7 @@ class _CreateNewProductPageState extends State<CreateNewProductPage> {
                     child: ElevatedButton(
                       child: Text('Inserieren'),
                       onPressed: () {
-                        Lottery lottery = new Lottery(
+                        Lottery lottery = new Lottery.withRandomId(
                           name: textFieldControllerProductName.text,
                           description:
                                   textFieldControllerProductDescription.text,

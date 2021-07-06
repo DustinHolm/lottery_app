@@ -26,6 +26,7 @@ dependencies:
   flutter:
     sdk: flutter
   google_sign_in: ^5.0.4
+  nanoid: ^1.0.0
   provider: ^5.0.0
   shared_preferences: ^2.0.6
   timer_count_down: ^2.2.0

@@ -18,7 +18,7 @@ class LotteryGenerator {
 
     return new List.generate(
         n,
-        (int i) => new Lottery(
+        (int i) => new Lottery.withRandomId(
             name: "Product_${i + index}",
             description: "Description_${i + index}",
             image: null,
