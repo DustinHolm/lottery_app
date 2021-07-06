@@ -1,12 +1,12 @@
 import 'dart:math';
 
+import 'package:lottery_app/enums/category.dart';
 import 'package:lottery_app/enums/collect_type.dart';
 import 'package:lottery_app/enums/condition.dart';
 import 'package:lottery_app/models/app_user.dart';
 
 import 'models/address.dart';
 import 'models/lottery.dart';
-import 'models/product.dart';
 
 class LotteryGenerator {
   static generateLotteries(int n, int? oldIndex) {
@@ -19,13 +19,12 @@ class LotteryGenerator {
     return new List.generate(
         n,
         (int i) => new Lottery(
-            product: new Product(
-                name: "Product_${i + index}",
-                description: "Description_${i + index}",
-                images: new List.empty(),
-                condition: Condition.GOOD,
-                shippingCost: 0),
-            startingDate: DateTime.now(),
+            name: "Product_${i + index}",
+            description: "Description_${i + index}",
+            image: null,
+            condition: Condition.GOOD,
+            category: Category.OTHER,
+            shippingCost: 0,
             endingDate: getRandomEndingDate(),
             ticketsMap: defaultUserMap(i + index),
             seller: new AppUser(

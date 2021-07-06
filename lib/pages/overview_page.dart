@@ -51,7 +51,7 @@ class _OverviewPageState extends State<OverviewPage> {
                         ? Colors.yellow
                         : Colors.red;
                 return ListTile(
-                  title: Text("${lottery.product.name}"),
+                  title: Text("${lottery.name}"),
                   trailing: Text(
                     "$ticketsUsed Tickets",
                     style: TextStyle(

@@ -67,7 +67,7 @@ class _SellerPageState extends State<SellerPage> {
                 }
 
                 return ListTile(
-                  title: Text("${lottery.product.name}"),
+                  title: Text("${lottery.name}"),
                   trailing: trailing,
                   onTap: () => Navigator.push(
                       context,

@@ -67,7 +67,7 @@ class _BidderPageState extends State<BidderPage> {
                 }
 
                 return ListTile(
-                  title: Text("${lottery.product.name}"),
+                  title: Text("${lottery.name}"),
                   trailing: trailing,
                   onTap: () => Navigator.push(
                       context,

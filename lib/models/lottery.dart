@@ -1,10 +1,16 @@
+import 'package:lottery_app/enums/category.dart';
 import 'package:lottery_app/enums/collect_type.dart';
+import 'package:lottery_app/enums/condition.dart';
 import 'package:lottery_app/models/app_user.dart';
-import 'package:lottery_app/models/product.dart';
+import 'package:flutter/material.dart';
 
 class Lottery {
-  Product product;
-  DateTime startingDate;
+  String name;
+  String description;
+  Image? image;
+  Condition condition;
+  Category category;
+  int shippingCost;
   DateTime endingDate;
   Map<AppUser, int> ticketsMap;
   AppUser seller;
@@ -12,8 +18,12 @@ class Lottery {
   CollectType collectType;
 
   Lottery({
-    required this.product,
-    required this.startingDate,
+    required this.name,
+    required this.description,
+    required this.image,
+    required this.condition,
+    required this.category,
+    required this.shippingCost,
     required this.endingDate,
     required this.ticketsMap,
     required this.seller,

@@ -10,6 +10,6 @@ class ConditionFilter implements ITransform {
   @override
   Iterable<Lottery> transformLotteries(Iterable<Lottery> lotteries) {
     return lotteries
-        .where((lottery) => lottery.product.condition == _condition);
+        .where((lottery) => lottery.condition == _condition);
   }
 }

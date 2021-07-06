@@ -43,7 +43,7 @@ class ProductDetailPage extends StatelessWidget {
                     margin: EdgeInsets.all(8),
                     child: Container(
                       padding: EdgeInsets.all(8),
-                      child: Text(lottery.product.name,
+                      child: Text(lottery.name,
                           style: Theme.of(context)
                               .textTheme
                               .headline3!
@@ -56,10 +56,10 @@ class ProductDetailPage extends StatelessWidget {
                 SellerData(
                     seller: lottery.seller,
                     collectType: lottery.collectType,
-                    shippingCost: lottery.product.shippingCost),
+                    shippingCost: lottery.shippingCost),
                 DescriptionData(
-                    description: lottery.product.description,
-                    condition: lottery.product.condition),
+                    description: lottery.description,
+                    condition: lottery.condition),
               ],
             ),
           )

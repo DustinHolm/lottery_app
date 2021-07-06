@@ -1,21 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:lottery_app/enums/category.dart';
 
 import '../checkbox_list_element.dart';
 
 class CategorySelector extends StatelessWidget {
-  //Generate Checkboxes for the Categories
-  final categorieList = [
-    //dummy data for testing
-    'Elektroartikel',
-    'Küchenzubehör',
-    'Haushaltsgeräte',
-    'Möbel',
-    'Dekoration',
-    'Garten',
-    'Bücher',
-    'Sonstiges',
-  ];
-
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -26,8 +14,8 @@ class CategorySelector extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             Text('Wählen Sie passende Kategorien aus'),
-            ...categorieList
-                .map((title) => CheckboxListElement(title: title))
+            ...Category.values
+                .map((category) => CheckboxListElement(title: category.toFormattedString()))
                 .toList(), // '...' is here the 'spread' operator
           ],
         ),

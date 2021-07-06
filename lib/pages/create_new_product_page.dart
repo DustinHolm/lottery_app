@@ -5,10 +5,10 @@ import 'package:lottery_app/components/new_product_page/description_selection.da
 import 'package:lottery_app/components/new_product_page/image_selection.dart';
 import 'package:lottery_app/components/new_product_page/name_selection.dart';
 import 'package:lottery_app/components/user_dialog.dart';
+import 'package:lottery_app/enums/category.dart';
 import 'package:lottery_app/enums/collect_type.dart';
 import 'package:lottery_app/enums/condition.dart';
 import 'package:lottery_app/models/lottery.dart';
-import 'package:lottery_app/models/product.dart';
 import 'package:lottery_app/models/app_user.dart';
 import 'package:lottery_app/sidebar.dart';
 import 'package:lottery_app/stores/lotteries_store.dart';
@@ -97,19 +97,18 @@ class _CreateNewProductPageState extends State<CreateNewProductPage> {
                       child: Text('Inserieren'),
                       onPressed: () {
                         Lottery lottery = new Lottery(
-                          product: new Product(
-                              name: textFieldControllerProductName.text,
-                              description:
+                          name: textFieldControllerProductName.text,
+                          description:
                                   textFieldControllerProductDescription.text,
-                              images: new List.empty(),
-                              condition: productCondition,
-                              shippingCost: 0),
-                          startingDate: DateTime.now(),
-                          endingDate: DateTime.now(),
+                          image: null,
+                          condition: productCondition,
+                          category: Category.OTHER,
+                          shippingCost: 0,
+                          endingDate: DateTime.now().add(Duration(minutes: 30)),
                           ticketsMap: new Map<AppUser, int>(),
                           seller: userStore.appUser!,
                           winner: null,
-                          collectType: CollectType.PACKET,
+                          collectType: CollectType.SELF_COLLECT,
                         );
                         lotteriesStore.addLottery(lottery);
                         Navigator.pushNamed(context, "/seller");
