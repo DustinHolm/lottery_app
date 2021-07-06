@@ -1,8 +1,7 @@
-
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:lottery_app/components/check_box_state.dart';
+import 'package:lottery_app/components/checkbox_list_element.dart';
 import 'package:lottery_app/components/user_dialog.dart';
 import 'package:lottery_app/enums/collect_type.dart';
 import 'package:lottery_app/enums/condition.dart';
@@ -18,10 +17,6 @@ import 'package:image_picker/image_picker.dart';
 class CreateNewProductPage extends StatefulWidget {
   CreateNewProductPage({Key? key}) : super(key: key);
   final String title = 'Angebot erstellen';
-
-  //String enteredProductName = '';
-  //String enteredProductDescription = '';
-  //String enteredProductDetails = '';
 
   @override
   _CreateNewProductPageState createState() => _CreateNewProductPageState();
@@ -45,14 +40,14 @@ class _CreateNewProductPageState extends State<CreateNewProductPage> {
   //Generate Checkboxes for the Categories
   final categorieList = [
     //dummy data for testing
-    CheckBoxState(title: 'Elektroartikel'),
-    CheckBoxState(title: 'Küchenzubehör'),
-    CheckBoxState(title: 'Haushaltsgeräte'),
-    CheckBoxState(title: 'Möbel'),
-    CheckBoxState(title: 'Dekoration'),
-    CheckBoxState(title: 'Garten'),
-    CheckBoxState(title: 'Bücher'),
-    CheckBoxState(title: 'Sonstiges'),
+    'Elektroartikel',
+    'Küchenzubehör',
+    'Haushaltsgeräte',
+    'Möbel',
+    'Dekoration',
+    'Garten',
+    'Bücher',
+    'Sonstiges',
   ];
 
   Future _getImageCamera() async {
@@ -84,14 +79,6 @@ class _CreateNewProductPageState extends State<CreateNewProductPage> {
     super.dispose();
   }
 
-  Widget buildSingleCheckbox(CheckBoxState checkbox) => CheckboxListTile(
-    controlAffinity: ListTileControlAffinity.leading,
-    value: checkbox.value,
-    title: Text(
-      checkbox.title,
-    ),
-    onChanged: (value) => setState(() => checkbox.value = value!),
-  );
 
   @override
   Widget build(BuildContext context) {
@@ -106,7 +93,7 @@ class _CreateNewProductPageState extends State<CreateNewProductPage> {
           UserDialog(),
         ],
       ),
-      body: /*userStore.status != Status.Authenticated
+      body: userStore.status != Status.Authenticated
       ? Center(
           child: Text(
             "Diese Funktion ist nur für angemeldete Nutzer verfügbar",
@@ -114,7 +101,7 @@ class _CreateNewProductPageState extends State<CreateNewProductPage> {
             textAlign: TextAlign.center,
           )
       )
-      : */SingleChildScrollView(
+      : SingleChildScrollView(
 
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -205,7 +192,7 @@ class _CreateNewProductPageState extends State<CreateNewProductPage> {
                   children: <Widget>[
                     Text('Wählen Sie passende Kategorien aus'),
 
-                    ...categorieList.map(buildSingleCheckbox).toList(),  // '...' is here the 'spread' operator
+                    ...categorieList.map((title) => CheckboxListElement(title: title)).toList(),  // '...' is here the 'spread' operator
                   ],
                 ),
             ), //Select a Product Category
