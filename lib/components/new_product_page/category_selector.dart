@@ -18,16 +18,19 @@ class CategorySelector extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: EdgeInsets.fromLTRB(0, 0, 5, 10),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Text('Wählen Sie passende Kategorien aus'),
-          ...categorieList
-              .map((title) => CheckboxListElement(title: title))
-              .toList(), // '...' is here the 'spread' operator
-        ],
+    return Card(
+      margin: EdgeInsets.all(8),
+      child: Container(
+        padding: EdgeInsets.all(8),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Text('Wählen Sie passende Kategorien aus'),
+            ...categorieList
+                .map((title) => CheckboxListElement(title: title))
+                .toList(), // '...' is here the 'spread' operator
+          ],
+        ),
       ),
     );
   }

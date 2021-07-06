@@ -27,39 +27,42 @@ class ImageSelection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: EdgeInsets.fromLTRB(0, 0, 5, 10),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Text('Fügen Sie ihrem Produkt ein Bild hinzu'),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: <Widget>[
-              Container(
-                //TODO fitting picture in Container, Opening camera
-                decoration: BoxDecoration(
+    return Card(
+      margin: EdgeInsets.all(8),
+      child: Container(
+        padding: EdgeInsets.all(8),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Text('Fügen Sie ihrem Produkt ein Bild hinzu'),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: <Widget>[
+                Container(
+                  //TODO fitting picture in Container, Opening camera
+                  decoration: BoxDecoration(
+                  ),
+                  child: FittedBox(
+                    fit: BoxFit.fill,
+                    child: productImage == null
+                        ? Image(image: AssetImage('assets/placeholder_for_product_image.png'), width: 200, height: 180,fit: BoxFit.scaleDown,)
+                        : Image.file(File(productImage!.path), width: 200, height: 180, /*fit: BoxFit.scaleDown,*/),
+                  ),
                 ),
-                child: FittedBox(
-                  fit: BoxFit.fill,
-                  child: productImage == null
-                      ? Image(image: AssetImage('assets/placeholder_for_product_image.png'), width: 200, height: 180,fit: BoxFit.scaleDown,)
-                      : Image.file(File(productImage!.path), width: 200, height: 180, /*fit: BoxFit.scaleDown,*/),
+                IconButton(
+                  onPressed: _getImageCamera,
+                  iconSize: 50.0,
+                  icon: Icon(Icons.camera_alt),
                 ),
-              ),
-              IconButton(
-                onPressed: _getImageCamera,
-                iconSize: 50.0,
-                icon: Icon(Icons.camera_alt),
-              ),
-              IconButton(
-                onPressed: _getImageGallery,
-                iconSize: 50.0,
-                icon: Icon(Icons.folder),
-              ),
-            ],
-          ),
-        ],
+                IconButton(
+                  onPressed: _getImageGallery,
+                  iconSize: 50.0,
+                  icon: Icon(Icons.folder),
+                ),
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }
