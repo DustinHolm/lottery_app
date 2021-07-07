@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "399394041982",
+    "firebase_url": "https://lottery-app-9fdbd-default-rtdb.europe-west1.firebasedatabase.app",
+    "project_id": "lottery-app-9fdbd",
+    "storage_bucket": "lottery-app-9fdbd.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:399394041982:android:7d252cfb8472bdf0c8682f",
+        "android_client_info": {
+          "package_name": "de.group7.lottery_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "399394041982-2d9r9k30ckn47727urvrgqkblub4fql6.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "de.group7.lottery_app",
+            "certificate_hash": "3bc34e4cbe5ed4d4f6728a22f8409ae0a87fa088"
+          }
+        },
+        {
+          "client_id": "399394041982-1lcgq4iuqjg30mof2gmu6p4feo83vvla.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBChUMd9WsIMFfZaaK21gVqHL9WHYflnRE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "399394041982-1lcgq4iuqjg30mof2gmu6p4feo83vvla.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
