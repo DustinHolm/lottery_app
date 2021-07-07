@@ -33,7 +33,7 @@ class ProductDetailPage extends StatelessWidget {
             ),
             actions: [
               UserDialog(),
-              if (lottery.seller != userStore.appUser) FavoriteButton()
+              if (lottery.seller != userStore.appUser) FavoriteButton(id: lottery.id)
             ],
           ),
           SliverList(

@@ -1,18 +1,45 @@
 import 'package:flutter/material.dart';
+import 'package:lottery_app/models/lottery.dart';
+import 'package:lottery_app/services/local_storage_service.dart';
 
-class FavoriteButton extends StatelessWidget {
+class FavoriteButton extends StatefulWidget {
+  const FavoriteButton({Key? key, required this.id}) : super(key: key);
+
+  final String id;
+
+  @override
+  State<StatefulWidget> createState() => _FavoriteButtonState();
+}
+
+class _FavoriteButtonState extends State<FavoriteButton> {
+  late bool isFavorited;
+
   @override
   Widget build(BuildContext context) {
-    Icon icon = (true) // TODO: Favorites not yet implemented
-        ? Icon(Icons.favorite_border)
-        : Icon(Icons.favorite);
+    return FutureBuilder<List<String>>(
+        future: LocalStorageService.getFavoriteIds(),
+        initialData: [],
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            isFavorited = snapshot.data!.contains(widget.id);
+          }
 
-    return IconButton(
-      icon: icon,
-      onPressed: () => {
-        // TODO: Favorites in Users or local Storage?
-      },
-    );
+          Icon icon = isFavorited
+              ? const Icon(Icons.favorite)
+              : const Icon(Icons.favorite_border);
+
+          return IconButton(
+            icon: icon,
+            onPressed: () async {
+              if (isFavorited) {
+                LocalStorageService.removeFavoriteId(widget.id);
+                setState(() => isFavorited = false);
+              } else {
+                LocalStorageService.addFavoriteId(widget.id);
+                setState(() => isFavorited = true);
+              }
+            },
+          );
+        });
   }
-
 }

@@ -3,6 +3,7 @@ import 'dart:collection';
 import 'package:flutter/foundation.dart';
 import 'package:lottery_app/models/lottery.dart';
 import 'package:lottery_app/models/app_user.dart';
+import 'package:lottery_app/services/local_storage_service.dart';
 
 class LotteriesStore extends ChangeNotifier {
   List<Lottery> _lotteries = List.empty();
@@ -45,6 +46,18 @@ class LotteriesStore extends ChangeNotifier {
     }
   }
 
+  Future<UnmodifiableListView<Lottery>> getBidOnAndFavoritedLotteries(
+      AppUser? user) async {
+    if (user != null) {
+      List<String> favorites = await LocalStorageService.getFavoriteIds();
+      return UnmodifiableListView(_lotteries.where((lottery) =>
+          lottery.ticketsMap.keys.contains(user) ||
+          favorites.contains(lottery.id)));
+    } else {
+      return UnmodifiableListView(List.empty());
+    }
+  }
+
   UnmodifiableListView<Lottery> getOwnedLotteries(AppUser? user) {
     if (user != null) {
       return UnmodifiableListView(
@@ -56,8 +69,9 @@ class LotteriesStore extends ChangeNotifier {
 
   UnmodifiableListView<Lottery> getAvailableLotteries(AppUser? user) {
     if (user != null) {
-      return UnmodifiableListView(
-          _lotteries.where((lottery) => lottery.seller != user && lottery.endingDate.isAfter(DateTime.now())));
+      return UnmodifiableListView(_lotteries.where((lottery) =>
+          lottery.seller != user &&
+          lottery.endingDate.isAfter(DateTime.now())));
     } else {
       return UnmodifiableListView(_lotteries);
     }
