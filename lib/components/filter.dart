@@ -164,7 +164,7 @@ class FilterDropdownState extends State<FilterDropdown> {
               });
               print("Set transforms: ${transformStore.transforms}");
             },
-            child: Text('Apply'),
+            child: Text('Anwenden'),
           ),
         ],
       ),
