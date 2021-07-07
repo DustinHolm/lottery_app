@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:lottery_app/components/filter.dart';
+import 'package:lottery_app/components/overview_page/overview_data.dart';
 import 'package:lottery_app/components/user_dialog.dart';
 import 'package:lottery_app/lottery_generator.dart';
 import 'package:lottery_app/models/lottery.dart';
@@ -45,21 +46,12 @@ class _OverviewPageState extends State<OverviewPage> {
               itemCount: lotteries.length,
               itemBuilder: (context, index) {
                 Lottery lottery = lotteries[index];
-                int ticketsUsed = lottery.getTicketsUsed();
-                Color color = ticketsUsed <= 0
-                    ? Colors.grey
-                    : ticketsUsed <= 23
-                        ? Colors.yellow
-                        : Colors.red;
                 return Card(
                   child: ListTile(
                     title: Text("${lottery.name}"),
-                    trailing: Text(
-                      "$ticketsUsed Tickets",
-                      style: TextStyle(
-                        color: color,
-                      ),
-                    ),
+                    trailing: OverviewData(
+                        endingDate: lottery.endingDate,
+                        ticketsUsed: lottery.getTicketsUsed()),
                     onTap: () => Navigator.push(
                         context,
                         MaterialPageRoute(
