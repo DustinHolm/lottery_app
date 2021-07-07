@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:lottery_app/enums/category.dart';
 import 'package:lottery_app/enums/collect_type.dart';
 import 'package:lottery_app/enums/condition.dart';
 import 'package:lottery_app/enums/filter.dart';
+import 'package:lottery_app/filter/category_filter.dart';
 import 'package:lottery_app/filter/collect_type_filter.dart';
 import 'package:lottery_app/filter/condition_filter.dart';
 import 'package:lottery_app/filter/ending_soonest_sort.dart';
@@ -27,6 +29,7 @@ class FilterDropdownState extends State<FilterDropdown> {
   CollectType? collectTypeValue = CollectType.PACKET_INLAND;
   var sellerNameController = new TextEditingController();
   Condition? conditionValue = Condition.NEW;
+  Category? categoryValue = Category.OTHER;
 
   @override
   Widget build(BuildContext context) {
@@ -60,49 +63,68 @@ class FilterDropdownState extends State<FilterDropdown> {
           Flexible(
               child: value == Filter.TICKETS_LESS_THAN_FILTER
                   ? numberFormField(valueController, Icon(null), "", height: 32)
-                  : value == Filter.COLLECT_TYPE_FILTER
-                      ? (DropdownButton<CollectType>(
-                          value: collectTypeValue,
+                  : value == Filter.CATEGORY_FILTER
+                      ? (DropdownButton<Category>(
+                          value: categoryValue,
                           isExpanded: true,
-                          onChanged: (CollectType? newValue) {
+                          onChanged: (Category? newValue) {
                             setState(() {
-                              collectTypeValue = newValue;
+                              categoryValue = newValue;
                             });
                           },
-                          items: CollectType.values
-                              .map<DropdownMenuItem<CollectType>>(
-                                  (CollectType collectTypeValue) {
-                            return DropdownMenuItem<CollectType>(
-                              value: collectTypeValue,
-                              child: Text(collectTypeValue.toFormattedString()),
+                          items: Category.values
+                              .map<DropdownMenuItem<Category>>(
+                                  (Category categoryValue) {
+                            return DropdownMenuItem<Category>(
+                              value: categoryValue,
+                              child: Text(categoryValue.toFormattedString()),
                             );
                           }).toList(),
                         ))
-                      : value == Filter.SELLER_NAME_FILTER
-                          ? SizedBox(
-                              width: 120,
-                              height: 64,
-                              child: TextFormField(
-                                  controller: sellerNameController))
-                          : value == Filter.CONDITION_FILTER
-                              ? (DropdownButton<Condition>(
-                                  value: conditionValue,
-                                  onChanged: (Condition? newValue) {
-                                    setState(() {
-                                      conditionValue = newValue;
-                                    });
-                                  },
-                                  items: Condition.values
-                                      .map<DropdownMenuItem<Condition>>(
-                                          (Condition conditionValue) {
-                                    return DropdownMenuItem<Condition>(
+                      : value == Filter.COLLECT_TYPE_FILTER
+                          ? (DropdownButton<CollectType>(
+                              value: collectTypeValue,
+                              isExpanded: true,
+                              onChanged: (CollectType? newValue) {
+                                setState(() {
+                                  collectTypeValue = newValue;
+                                });
+                              },
+                              items: CollectType.values
+                                  .map<DropdownMenuItem<CollectType>>(
+                                      (CollectType collectTypeValue) {
+                                return DropdownMenuItem<CollectType>(
+                                  value: collectTypeValue,
+                                  child: Text(
+                                      collectTypeValue.toFormattedString()),
+                                );
+                              }).toList(),
+                            ))
+                          : value == Filter.SELLER_NAME_FILTER
+                              ? SizedBox(
+                                  width: 120,
+                                  height: 64,
+                                  child: TextFormField(
+                                      controller: sellerNameController))
+                              : value == Filter.CONDITION_FILTER
+                                  ? (DropdownButton<Condition>(
                                       value: conditionValue,
-                                      child: Text(
-                                          conditionValue.toFormattedString()),
-                                    );
-                                  }).toList(),
-                                ))
-                              : Container()),
+                                      onChanged: (Condition? newValue) {
+                                        setState(() {
+                                          conditionValue = newValue;
+                                        });
+                                      },
+                                      items: Condition.values
+                                          .map<DropdownMenuItem<Condition>>(
+                                              (Condition conditionValue) {
+                                        return DropdownMenuItem<Condition>(
+                                          value: conditionValue,
+                                          child: Text(conditionValue
+                                              .toFormattedString()),
+                                        );
+                                      }).toList(),
+                                    ))
+                                  : Container()),
           ElevatedButton(
             onPressed: () {
               setState(() {
@@ -113,6 +135,11 @@ class FilterDropdownState extends State<FilterDropdown> {
                   var v = int.tryParse(valueController.text);
                   if (v != null) {
                     transformStore.add(TicketsLessThanFilter(v));
+                  }
+                }
+                if (value == Filter.CATEGORY_FILTER) {
+                  if (categoryValue != null) {
+                    transformStore.add(CategoryFilter(categoryValue!));
                   }
                 }
                 if (value == Filter.COLLECT_TYPE_FILTER) {
