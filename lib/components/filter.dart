@@ -32,121 +32,117 @@ class FilterDropdownState extends State<FilterDropdown> {
   Widget build(BuildContext context) {
     TransformStore transformStore = context.watch<TransformStore>();
 
-    return Row(
-      children: [
-        (DropdownButton<Filter>(
-          value: value,
-          icon: const Icon(Icons.filter_alt),
-          iconSize: 24,
-          elevation: 16,
-          style: const TextStyle(color: Colors.deepPurple),
-          underline: Container(
-            height: 2,
-            color: Colors.deepPurpleAccent,
-          ),
-          onChanged: (Filter? newValue) {
-            setState(() {
-              value = newValue;
-            });
-          },
-          items: Filter.values.map<DropdownMenuItem<Filter>>((Filter value) {
-            return DropdownMenuItem<Filter>(
-              value: value,
-              child: Text(value.toFormattedString()),
-            );
-          }).toList(),
-        )),
-        value == Filter.TICKETS_LESS_THAN_FILTER
-            ? numberFormField(valueController, Icon(null), "")
-            : value == Filter.COLLECT_TYPE_FILTER
-                ? (DropdownButton<CollectType>(
-                    value: collectTypeValue,
-                    style: const TextStyle(color: Colors.deepPurple),
-                    underline: Container(
-                      height: 2,
-                      color: Colors.deepPurpleAccent,
-                    ),
-                    onChanged: (CollectType? newValue) {
-                      setState(() {
-                        collectTypeValue = newValue;
-                      });
-                    },
-                    items: CollectType.values
-                        .map<DropdownMenuItem<CollectType>>(
-                            (CollectType collectTypeValue) {
-                      return DropdownMenuItem<CollectType>(
-                        value: collectTypeValue,
-                        child: Text(collectTypeValue.toFormattedString()),
-                      );
-                    }).toList(),
-                  ))
-                : value == Filter.SELLER_NAME_FILTER
-                    ? SizedBox(
-                        width: 120,
-                        child: TextFormField(controller: sellerNameController))
-                    : value == Filter.CONDITION_FILTER
-                        ? (DropdownButton<Condition>(
-                            value: conditionValue,
-                            style: const TextStyle(color: Colors.deepPurple),
-                            underline: Container(
-                              height: 2,
-                              color: Colors.deepPurpleAccent,
-                            ),
-                            onChanged: (Condition? newValue) {
-                              setState(() {
-                                conditionValue = newValue;
-                              });
-                            },
-                            items: Condition.values
-                                .map<DropdownMenuItem<Condition>>(
-                                    (Condition conditionValue) {
-                              return DropdownMenuItem<Condition>(
-                                value: conditionValue,
-                                child: Text(conditionValue.toFormattedString()),
-                              );
-                            }).toList(),
-                          ))
-                        : Container(),
-        Padding(
-          padding: const EdgeInsets.fromLTRB(40.0, 16.0, 0.0, 0.0),
-          child: ElevatedButton(
-            onPressed: () {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Row(
+        children: [
+          Flexible(
+              child: DropdownButton<Filter>(
+            value: value,
+            isExpanded: true,
+            icon: const Icon(Icons.filter_alt),
+            iconSize: 24,
+            onChanged: (Filter? newValue) {
               setState(() {
-                if (value == Filter.NO_FILTER) {
-                  transformStore.clear();
-                }
-                if (value == Filter.TICKETS_LESS_THAN_FILTER) {
-                  var v = int.tryParse(valueController.text);
-                  if (v != null) {
-                    transformStore.add(TicketsLessThanFilter(v));
-                  }
-                }
-                if (value == Filter.COLLECT_TYPE_FILTER) {
-                  if (collectTypeValue != null) {
-                    transformStore.add(CollectTypeFilter(collectTypeValue!));
-                  }
-                }
-                if (value == Filter.CONDITION_FILTER) {
-                  if (conditionValue != null) {
-                    transformStore.add(ConditionFilter(conditionValue!));
-                  }
-                }
-                if (value == Filter.SELLER_NAME_FILTER) {
-                  transformStore.add(SellerFilter(valueController.text));
-                }
-                if (value == Filter.LEAST_BIDS_SORT) {
-                  transformStore.add(LeastBidsSort());
-                }
-                if (value == Filter.ENDING_SOONEST_SORT) {
-                  transformStore.add(EndingSoonestSort());
-                }
+                value = newValue;
               });
-              print("Set transforms: ${transformStore.transforms}");
             },
-            child: Text('Apply'),
+            items: Filter.values.map<DropdownMenuItem<Filter>>((Filter value) {
+              return DropdownMenuItem<Filter>(
+                value: value,
+                child: Text(
+                  value.toFormattedString(),
+                ),
+              );
+            }).toList(),
+          )),
+          Flexible(
+              child: value == Filter.TICKETS_LESS_THAN_FILTER
+                  ? numberFormField(valueController, Icon(null), "", height: 32)
+                  : value == Filter.COLLECT_TYPE_FILTER
+                      ? (DropdownButton<CollectType>(
+                          value: collectTypeValue,
+                          isExpanded: true,
+                          onChanged: (CollectType? newValue) {
+                            setState(() {
+                              collectTypeValue = newValue;
+                            });
+                          },
+                          items: CollectType.values
+                              .map<DropdownMenuItem<CollectType>>(
+                                  (CollectType collectTypeValue) {
+                            return DropdownMenuItem<CollectType>(
+                              value: collectTypeValue,
+                              child: Text(collectTypeValue.toFormattedString()),
+                            );
+                          }).toList(),
+                        ))
+                      : value == Filter.SELLER_NAME_FILTER
+                          ? SizedBox(
+                              width: 120,
+                              height: 64,
+                              child: TextFormField(
+                                  controller: sellerNameController))
+                          : value == Filter.CONDITION_FILTER
+                              ? (DropdownButton<Condition>(
+                                  value: conditionValue,
+                                  onChanged: (Condition? newValue) {
+                                    setState(() {
+                                      conditionValue = newValue;
+                                    });
+                                  },
+                                  items: Condition.values
+                                      .map<DropdownMenuItem<Condition>>(
+                                          (Condition conditionValue) {
+                                    return DropdownMenuItem<Condition>(
+                                      value: conditionValue,
+                                      child: Text(
+                                          conditionValue.toFormattedString()),
+                                    );
+                                  }).toList(),
+                                ))
+                              : Container()),
+          Padding(
+            padding: const EdgeInsets.fromLTRB(40.0, 16.0, 0.0, 0.0),
+            child: ElevatedButton(
+              onPressed: () {
+                setState(() {
+                  if (value == Filter.NO_FILTER) {
+                    transformStore.clear();
+                  }
+                  if (value == Filter.TICKETS_LESS_THAN_FILTER) {
+                    var v = int.tryParse(valueController.text);
+                    if (v != null) {
+                      transformStore.add(TicketsLessThanFilter(v));
+                    }
+                  }
+                  if (value == Filter.COLLECT_TYPE_FILTER) {
+                    if (collectTypeValue != null) {
+                      transformStore.add(CollectTypeFilter(collectTypeValue!));
+                    }
+                  }
+                  if (value == Filter.CONDITION_FILTER) {
+                    if (conditionValue != null) {
+                      transformStore.add(ConditionFilter(conditionValue!));
+                    }
+                  }
+                  if (value == Filter.SELLER_NAME_FILTER) {
+                    transformStore.add(SellerFilter(valueController.text));
+                  }
+                  if (value == Filter.LEAST_BIDS_SORT) {
+                    transformStore.add(LeastBidsSort());
+                  }
+                  if (value == Filter.ENDING_SOONEST_SORT) {
+                    transformStore.add(EndingSoonestSort());
+                  }
+                });
+                print("Set transforms: ${transformStore.transforms}");
+              },
+              child: Text('Apply'),
+            ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 

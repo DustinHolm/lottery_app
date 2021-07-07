@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 Widget numberFormField(
-        TextEditingController controller, Icon icon, String labelText) =>
+        TextEditingController controller, Icon icon, String labelText,
+        {double width = 120, double? height}) =>
     SizedBox(
-        width: 120,
+        width: width,
+        height: height,
         child: TextFormField(
             controller: controller,
             keyboardType: TextInputType.number,
