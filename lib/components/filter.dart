@@ -35,6 +35,7 @@ class FilterDropdownState extends State<FilterDropdown> {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Flexible(
               child: DropdownButton<Filter>(
@@ -102,44 +103,41 @@ class FilterDropdownState extends State<FilterDropdown> {
                                   }).toList(),
                                 ))
                               : Container()),
-          Padding(
-            padding: const EdgeInsets.fromLTRB(40.0, 16.0, 0.0, 0.0),
-            child: ElevatedButton(
-              onPressed: () {
-                setState(() {
-                  if (value == Filter.NO_FILTER) {
-                    transformStore.clear();
+          ElevatedButton(
+            onPressed: () {
+              setState(() {
+                if (value == Filter.NO_FILTER) {
+                  transformStore.clear();
+                }
+                if (value == Filter.TICKETS_LESS_THAN_FILTER) {
+                  var v = int.tryParse(valueController.text);
+                  if (v != null) {
+                    transformStore.add(TicketsLessThanFilter(v));
                   }
-                  if (value == Filter.TICKETS_LESS_THAN_FILTER) {
-                    var v = int.tryParse(valueController.text);
-                    if (v != null) {
-                      transformStore.add(TicketsLessThanFilter(v));
-                    }
+                }
+                if (value == Filter.COLLECT_TYPE_FILTER) {
+                  if (collectTypeValue != null) {
+                    transformStore.add(CollectTypeFilter(collectTypeValue!));
                   }
-                  if (value == Filter.COLLECT_TYPE_FILTER) {
-                    if (collectTypeValue != null) {
-                      transformStore.add(CollectTypeFilter(collectTypeValue!));
-                    }
+                }
+                if (value == Filter.CONDITION_FILTER) {
+                  if (conditionValue != null) {
+                    transformStore.add(ConditionFilter(conditionValue!));
                   }
-                  if (value == Filter.CONDITION_FILTER) {
-                    if (conditionValue != null) {
-                      transformStore.add(ConditionFilter(conditionValue!));
-                    }
-                  }
-                  if (value == Filter.SELLER_NAME_FILTER) {
-                    transformStore.add(SellerFilter(valueController.text));
-                  }
-                  if (value == Filter.LEAST_BIDS_SORT) {
-                    transformStore.add(LeastBidsSort());
-                  }
-                  if (value == Filter.ENDING_SOONEST_SORT) {
-                    transformStore.add(EndingSoonestSort());
-                  }
-                });
-                print("Set transforms: ${transformStore.transforms}");
-              },
-              child: Text('Apply'),
-            ),
+                }
+                if (value == Filter.SELLER_NAME_FILTER) {
+                  transformStore.add(SellerFilter(valueController.text));
+                }
+                if (value == Filter.LEAST_BIDS_SORT) {
+                  transformStore.add(LeastBidsSort());
+                }
+                if (value == Filter.ENDING_SOONEST_SORT) {
+                  transformStore.add(EndingSoonestSort());
+                }
+              });
+              print("Set transforms: ${transformStore.transforms}");
+            },
+            child: Text('Apply'),
           ),
         ],
       ),
