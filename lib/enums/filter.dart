@@ -1,5 +1,6 @@
 enum Filter {
   NO_FILTER,
+  TITLE_FILTER,
   CATEGORY_FILTER,
   CONDITION_FILTER,
   COLLECT_TYPE_FILTER,
@@ -14,14 +15,16 @@ extension ParseToString on Filter {
     switch (this) {
       case Filter.NO_FILTER:
         return "Zurücksetzen";
+      case Filter.TITLE_FILTER:
+        return "Suche";
       case Filter.CATEGORY_FILTER:
-        return "bestimmte Kategorie";
+        return "Kategorie auswählen";
       case Filter.CONDITION_FILTER:
-        return "bestimmer Zustand";
+        return "Zustand auswählen";
       case Filter.COLLECT_TYPE_FILTER:
-        return "bestimmte Versandart";
+        return "Versandart auswählen";
       case Filter.SELLER_NAME_FILTER:
-        return "bestimmer Verkäufer";
+        return "Verkäufer auswählen";
       case Filter.TICKETS_LESS_THAN_FILTER:
         return "Maximale Anzahl Tickets";
       case Filter.LEAST_BIDS_SORT:

@@ -56,7 +56,7 @@ class _OverviewPageState extends State<OverviewPage> {
                         context,
                         MaterialPageRoute(
                             builder: (context) =>
-                                ProductDetailPage(lottery: lotteries[index]))),
+                                ProductDetailPage(lottery: lottery))),
                   ),
                   margin: EdgeInsets.all(3.0),
                 );
