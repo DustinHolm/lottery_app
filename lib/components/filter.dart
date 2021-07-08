@@ -34,7 +34,7 @@ class FilterDropdownState extends State<FilterDropdown> {
   var titleNameValue;
 
   FilterDropdownState() {
-    value = Filter.NO_FILTER;
+    value = Filter.TITLE_FILTER;
     collectTypeValue = CollectType.PACKET_INLAND;
     categoryValue = Category.OTHER;
     valueController = new TextEditingController();
@@ -176,11 +176,14 @@ class FilterDropdownState extends State<FilterDropdown> {
                     transformStore.add(ConditionFilter(conditionValue!));
                   }
                 }
-                if (value == Filter.LEAST_BIDS_SORT) {
-                  transformStore.add(LeastBidsSort());
-                }
                 if (value == Filter.ENDING_SOONEST_SORT) {
                   transformStore.add(EndingSoonestSort());
+                }
+                if (value == Filter.LEAST_BIDS_SORT) {
+                  transformStore.add(LeastBidsSort(asc: true));
+                }
+                if (value == Filter.MOST_BIDS_SORT) {
+                  transformStore.add(LeastBidsSort(asc: false));
                 }
               });
               print("Set transforms: ${transformStore.transforms}");
