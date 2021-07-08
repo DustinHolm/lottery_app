@@ -24,7 +24,7 @@ extension ParseToString on Filter {
       case Filter.COLLECT_TYPE_FILTER:
         return "Versandart auswählen";
       case Filter.SELLER_NAME_FILTER:
-        return "Verkäufer auswählen";
+        return "Verkäufer angeben";
       case Filter.TICKETS_LESS_THAN_FILTER:
         return "Maximale Anzahl Tickets";
       case Filter.LEAST_BIDS_SORT:

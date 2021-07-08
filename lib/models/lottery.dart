@@ -1,8 +1,8 @@
+import 'package:flutter/material.dart';
 import 'package:lottery_app/enums/category.dart';
 import 'package:lottery_app/enums/collect_type.dart';
 import 'package:lottery_app/enums/condition.dart';
 import 'package:lottery_app/models/app_user.dart';
-import 'package:flutter/material.dart';
 import 'package:nanoid/nanoid.dart';
 
 class Lottery {

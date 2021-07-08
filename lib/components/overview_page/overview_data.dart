@@ -33,7 +33,7 @@ class OverviewData extends StatelessWidget {
       return Countdown(
         seconds: getTimeLeft(),
         build: (context, time) {
-          Duration duration = Duration(seconds: time.toInt());
+          Duration duration = Duration(seconds: getTimeLeft());
           int days = duration.inDays;
           int hours = duration.inHours;
           int minutes = duration.inMinutes;

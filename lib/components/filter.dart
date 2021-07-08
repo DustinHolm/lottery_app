@@ -25,13 +25,22 @@ class FilterDropdown extends StatefulWidget {
 }
 
 class FilterDropdownState extends State<FilterDropdown> {
-  Filter? value = Filter.NO_FILTER;
-  var valueController = new TextEditingController();
-  CollectType? collectTypeValue = CollectType.PACKET_INLAND;
-  var sellerNameController = new TextEditingController();
-  Condition? conditionValue = Condition.NEW;
-  Category? categoryValue = Category.OTHER;
-  var titleNameValue = new TextEditingController();
+  Filter? value;
+  CollectType? collectTypeValue;
+  Condition? conditionValue;
+  Category? categoryValue;
+  var valueController;
+  var sellerNameController;
+  var titleNameValue;
+
+  FilterDropdownState() {
+    value = Filter.NO_FILTER;
+    collectTypeValue = CollectType.PACKET_INLAND;
+    categoryValue = Category.OTHER;
+    valueController = new TextEditingController();
+    sellerNameController = new TextEditingController();
+    titleNameValue = new TextEditingController();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -183,9 +192,15 @@ class FilterDropdownState extends State<FilterDropdown> {
     );
   }
 
+  void disposeControllers() {
+    valueController.dispose();
+    sellerNameController.dispose();
+    titleNameValue.dispose();
+  }
+
   @override
   void dispose() {
-    valueController.dispose();
+    disposeControllers();
     super.dispose();
   }
 }

@@ -35,7 +35,12 @@ class TicketsBuyFormState extends State<TicketsBuyForm> {
             padding: const EdgeInsets.fromLTRB(40.0, 16.0, 0.0, 0.0),
             child: ElevatedButton(
                 onPressed: () {
-                  userStore.addTickets(int.parse(numTicketsController.text));
+                  var v = int.tryParse(numTicketsController.text);
+                  if (v != null) {
+                    userStore.addTickets(v);
+                  } else {
+                    print("error dialog"); //TODO
+                  }
                 },
                 child: Text('Kaufen')),
           ),
