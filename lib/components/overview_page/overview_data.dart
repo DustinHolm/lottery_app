@@ -4,10 +4,12 @@ import 'package:timer_count_down/timer_controller.dart';
 import 'package:timer_count_down/timer_count_down.dart';
 
 class OverviewData extends StatelessWidget {
-  OverviewData({required this.endingDate, required this.ticketsUsed});
+  OverviewData({required this.endingDate, required this.ticketsUsed, this.showWon, this.showSold, Key? key}) : super(key: key);
 
   final DateTime endingDate;
   final int ticketsUsed;
+  final bool? showWon; // TODO: removes other fields, only show "Gewonnen!" or "Leider nicht gewonnen"
+  final bool? showSold; // TODO: removes other fields, only show "Verkauft!" or "Leider nicht verkauft"
   final CountdownController countdownController =
       CountdownController(autoStart: true);
 

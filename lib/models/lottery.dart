@@ -79,9 +79,9 @@ class Lottery {
         condition = Condition.values[json["condition"]],
         category = Category.values[json["category"]],
         shippingCost = json["shippingCost"],
-        endingDate = json["endingDate"],
+        endingDate = json["endingDate"].toDate(),
         ticketsMap = {for (AppUser user in json["ticketsMap"]) user: 1},
         seller = AppUser.fromJson(json["seller"]),
         winner = json["winner"] == null ? null : AppUser.fromJson(json["winner"]),
-        collectType = json["collectType"];
+        collectType = CollectType.values[json["collectType"]];
 }

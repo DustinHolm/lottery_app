@@ -12,7 +12,6 @@ import 'package:lottery_app/models/lottery.dart';
 import 'package:lottery_app/models/app_user.dart';
 import 'package:lottery_app/controllers/firestore_controller.dart';
 import 'package:lottery_app/sidebar.dart';
-import 'package:lottery_app/stores/lotteries_store.dart';
 import 'package:lottery_app/stores/user_store.dart';
 import 'package:provider/provider.dart';
 import 'package:image_picker/image_picker.dart';
@@ -46,7 +45,6 @@ class _CreateNewProductPageState extends State<CreateNewProductPage> {
 
   @override
   Widget build(BuildContext context) {
-    LotteriesStore lotteriesStore = context.read<LotteriesStore>();
     UserStore userStore = context.read<UserStore>();
 
     return Scaffold(
@@ -110,7 +108,6 @@ class _CreateNewProductPageState extends State<CreateNewProductPage> {
                         winner: null,
                         collectType: CollectType.SELF_COLLECT,
                       );
-                      lotteriesStore.addLottery(lottery);
                       FirestoreController.addLottery(lottery);
                       Navigator.pushNamed(context, "/seller");
                     },

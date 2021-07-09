@@ -4,7 +4,6 @@ import 'package:lottery_app/components/product_detail_page/bidding_data.dart';
 import 'package:lottery_app/components/product_detail_page/description_data.dart';
 import 'package:lottery_app/components/product_detail_page/seller_data.dart';
 import 'package:lottery_app/components/user_dialog.dart';
-import 'package:lottery_app/stores/lotteries_store.dart';
 import 'package:provider/provider.dart';
 import 'package:lottery_app/models/lottery.dart';
 import 'package:lottery_app/stores/user_store.dart';
@@ -17,7 +16,6 @@ class ProductDetailPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     UserStore userStore = context.watch<UserStore>();
-    LotteriesStore lotteriesStore = context.read<LotteriesStore>();
 
     return Scaffold(
       body: CustomScrollView(
@@ -85,8 +83,7 @@ class ProductDetailPage extends StatelessWidget {
                       onPressed: (userStore.status != Status.AUTHENTICATED || userStore.tickets <= 0)
                           ? null
                           : () {
-                              lotteriesStore.bidOnLottery(
-                                  lottery, userStore.appUser!);
+                              // TODO: Bidding
                               userStore.removeTickets(1);
                             },
                       child: Row(

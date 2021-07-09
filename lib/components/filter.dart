@@ -12,12 +12,18 @@ import 'package:lottery_app/filter/least_bids_sort.dart';
 import 'package:lottery_app/filter/seller_filter.dart';
 import 'package:lottery_app/filter/tickets_less_than_filter.dart';
 import 'package:lottery_app/filter/title_filter.dart';
+import 'package:lottery_app/filter/transform.dart';
 import 'package:lottery_app/stores/transform_store.dart';
 import 'package:provider/provider.dart';
 
 import 'number_form.dart';
 
 class FilterDropdown extends StatefulWidget {
+  const FilterDropdown({required this.transformations, required this.handleTransformationsUpdate, Key? key}): super(key: key);
+
+  final List<ITransform> transformations;
+  final Function(List<ITransform>) handleTransformationsUpdate;
+
   @override
   FilterDropdownState createState() {
     return FilterDropdownState();
@@ -44,8 +50,6 @@ class FilterDropdownState extends State<FilterDropdown> {
 
   @override
   Widget build(BuildContext context) {
-    TransformStore transformStore = context.watch<TransformStore>();
-
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Row(
@@ -147,46 +151,46 @@ class FilterDropdownState extends State<FilterDropdown> {
             onPressed: () {
               setState(() {
                 if (value == Filter.NO_FILTER) {
-                  transformStore.clear();
+                  widget.handleTransformationsUpdate([]);
                 }
                 if (value == Filter.SELLER_NAME_FILTER) {
-                  transformStore.add(SellerFilter(valueController.text));
+                  widget.handleTransformationsUpdate([...widget.transformations, SellerFilter(valueController.text)]);
                 }
                 if (value == Filter.TITLE_FILTER) {
-                  transformStore.add(TitleFilter(titleNameValue.text));
+                  widget.handleTransformationsUpdate([...widget.transformations, TitleFilter(titleNameValue.text)]);
                 }
                 if (value == Filter.TICKETS_LESS_THAN_FILTER) {
                   var v = int.tryParse(valueController.text);
                   if (v != null) {
-                    transformStore.add(TicketsLessThanFilter(v));
+                    widget.handleTransformationsUpdate([...widget.transformations, TicketsLessThanFilter(v)]);
                   }
                 }
                 if (value == Filter.CATEGORY_FILTER) {
                   if (categoryValue != null) {
-                    transformStore.add(CategoryFilter(categoryValue!));
+                    widget.handleTransformationsUpdate([...widget.transformations, CategoryFilter(categoryValue!)]);
                   }
                 }
                 if (value == Filter.COLLECT_TYPE_FILTER) {
                   if (collectTypeValue != null) {
-                    transformStore.add(CollectTypeFilter(collectTypeValue!));
+                    widget.handleTransformationsUpdate([...widget.transformations, CollectTypeFilter(collectTypeValue!)]);
                   }
                 }
                 if (value == Filter.CONDITION_FILTER) {
                   if (conditionValue != null) {
-                    transformStore.add(ConditionFilter(conditionValue!));
+                    widget.handleTransformationsUpdate([...widget.transformations, ConditionFilter(conditionValue!)]);
                   }
                 }
                 if (value == Filter.ENDING_SOONEST_SORT) {
-                  transformStore.add(EndingSoonestSort());
+                  widget.handleTransformationsUpdate([...widget.transformations, EndingSoonestSort()]);
                 }
                 if (value == Filter.LEAST_BIDS_SORT) {
-                  transformStore.add(LeastBidsSort(asc: true));
+                  widget.handleTransformationsUpdate([...widget.transformations, LeastBidsSort(asc: true)]);
                 }
                 if (value == Filter.MOST_BIDS_SORT) {
-                  transformStore.add(LeastBidsSort(asc: false));
+                  widget.handleTransformationsUpdate([...widget.transformations, LeastBidsSort(asc: false)]);
                 }
               });
-              print("Set transforms: ${transformStore.transforms}");
+              print(widget.transformations);
             },
             child: Text('Anwenden'),
           ),
