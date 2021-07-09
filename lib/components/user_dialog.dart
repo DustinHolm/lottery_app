@@ -3,12 +3,14 @@ import 'package:provider/provider.dart';
 import 'package:lottery_app/stores/user_store.dart';
 
 class UserDialog extends StatelessWidget {
+  const UserDialog({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     UserStore userStore = context.read<UserStore>();
 
     return IconButton(
-        icon: Icon(Icons.account_circle),
+        icon: const Icon(Icons.account_circle),
         onPressed: () {
           showDialog(
             context: context,
@@ -20,10 +22,8 @@ class UserDialog extends StatelessWidget {
                   ),
                   children: [
                     ListTile(
-                        title: (userStore.status == Status.AUTHENTICATED
-                        && userStore.gUser != null
-                        && userStore.gUser!.displayName != null)
-                            ? Text(userStore.gUser!.displayName!)
+                        title: (userStore.status == Status.AUTHENTICATED)
+                            ? Text(userStore.name)
                             : Text("Nicht bei Google angemeldet")),
                     if (userStore.status == Status.AUTHENTICATED)
                       ListTile(

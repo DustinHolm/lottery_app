@@ -14,7 +14,7 @@ class Lottery {
   Category category;
   int shippingCost;
   DateTime endingDate;
-  Map<AppUser, int> ticketsMap;
+  Map<String, int> ticketsMap;
   AppUser seller;
   AppUser? winner;
   CollectType collectType;
@@ -80,7 +80,7 @@ class Lottery {
         category = Category.values[json["category"]],
         shippingCost = json["shippingCost"],
         endingDate = json["endingDate"].toDate(),
-        ticketsMap = {for (AppUser user in json["ticketsMap"]) user: 1},
+        ticketsMap = {for (String id in json["ticketsMap"]) id: 1},
         seller = AppUser.fromJson(json["seller"]),
         winner = json["winner"] == null ? null : AppUser.fromJson(json["winner"]),
         collectType = CollectType.values[json["collectType"]];

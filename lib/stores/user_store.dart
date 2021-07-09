@@ -1,23 +1,20 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:lottery_app/controllers/auth_controller.dart';
-import 'package:lottery_app/models/address.dart';
 import 'package:lottery_app/models/app_user.dart';
+import 'package:nanoid/nanoid.dart';
 
 enum Status { AUTHENTICATED, WAITING, UNAUTHENTICATED }
 
 class UserStore extends ChangeNotifier {
-  AppUser? _appUser = AppUser(name: "AdminUser", address: Address());
-  int _tickets = 0;
-  User? _gUser;
-  Status _status = Status.UNAUTHENTICATED;
-
-  AppUser? get appUser => _appUser;
-
-  set appUser(AppUser? user) {
-    _appUser = user;
-    notifyListeners();
+  UserStore() {
+    _init();
   }
+
+
+  int _tickets = 0;
+  User? _user;
+  Status _status = Status.UNAUTHENTICATED;
 
   int get tickets {
     if (_status == Status.AUTHENTICATED) {
@@ -49,15 +46,22 @@ class UserStore extends ChangeNotifier {
     notifyListeners();
   }
 
-  User? get gUser => _gUser;
+  String get id => (_user == null) ? "GUEST-" + nanoid(3) : _user!.uid;
+  String get name => (_user == null || _user!.displayName == null) ? "" : _user!.displayName!;
+  AppUser get user => AppUser(id: id, name: name);
+
+  _init() async {
+    _user = await AuthController.getSignedInUser();
+    if (_user != null) _status = Status.AUTHENTICATED;
+  }
 
   Future<bool> signIn() async {
     _status = Status.WAITING;
     notifyListeners();
 
-    _gUser = await AuthController.signInWithGoogle();
+    _user = await AuthController.signInWithGoogle();
 
-    if (_gUser != null) {
+    if (_user != null) {
       _status = Status.AUTHENTICATED;
       notifyListeners();
       return true;
@@ -70,7 +74,7 @@ class UserStore extends ChangeNotifier {
 
   Future<void> signOut() async {
     await AuthController.signOut();
-    _gUser = null;
+    _user = null;
     _status = Status.UNAUTHENTICATED;
     notifyListeners();
   }

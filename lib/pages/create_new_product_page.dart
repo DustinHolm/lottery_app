@@ -103,8 +103,8 @@ class _CreateNewProductPageState extends State<CreateNewProductPage> {
                         category: Category.OTHER,
                         shippingCost: 0,
                         endingDate: DateTime.now().add(const Duration(minutes: 30)),
-                        ticketsMap: <AppUser, int>{},
-                        seller: userStore.appUser!,
+                        ticketsMap: <String, int>{},
+                        seller: userStore.user,
                         winner: null,
                         collectType: CollectType.SELF_COLLECT,
                       );

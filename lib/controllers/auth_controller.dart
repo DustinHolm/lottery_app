@@ -24,4 +24,20 @@ class AuthController {
     _auth.signOut();
     _signIn.disconnect();
   }
+
+  static Future<User?> getSignedInUser() async {
+    if (_auth.currentUser != null) return _auth.currentUser;
+
+    final GoogleSignInAccount? gUser = await _signIn.signInSilently();
+    try {
+      final GoogleSignInAuthentication gAuth = await gUser!.authentication;
+      final AuthCredential credential = GoogleAuthProvider.credential(
+          accessToken: gAuth.accessToken, idToken: gAuth.idToken);
+      return await _auth.signInWithCredential(credential).then(
+            (credential) => credential.user,
+      );
+    } catch (error) {
+      return null;
+    }
+  }
 }

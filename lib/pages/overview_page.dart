@@ -28,7 +28,7 @@ class _OverviewPageState extends State<OverviewPage> {
   Widget build(BuildContext context) {
     UserStore userStore = context.read<UserStore>();
     List<Lottery> lotteries = context.watch<List<Lottery>>();
-    transformations = [...transformations, NotEndedFilter(), NotOwnedFilter(user: userStore.appUser)];
+    transformations = [...transformations, NotEndedFilter(), NotOwnedFilter(user: userStore.user)];
     lotteries = TransformService.withAll(lotteries, transformations);
 
     return Scaffold(

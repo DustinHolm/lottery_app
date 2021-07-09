@@ -24,7 +24,7 @@ class _SellerPageState extends State<SellerPage> {
     UserStore userStore = context.watch<UserStore>();
     List<Lottery> lotteries = context.watch<List<Lottery>>();
     List<ITransform> transformations = [
-      OwnedFilter(user: userStore.appUser)
+      OwnedFilter(user: userStore.user)
     ];
     lotteries = TransformService.withAll(lotteries, transformations);
 

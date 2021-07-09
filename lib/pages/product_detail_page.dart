@@ -9,7 +9,7 @@ import 'package:lottery_app/models/lottery.dart';
 import 'package:lottery_app/stores/user_store.dart';
 
 class ProductDetailPage extends StatelessWidget {
-  ProductDetailPage({required this.lottery});
+  const ProductDetailPage({required this.lottery, Key? key}) : super(key: key);
 
   final Lottery lottery;
 
@@ -23,7 +23,7 @@ class ProductDetailPage extends StatelessWidget {
           SliverAppBar(
             pinned: true,
             expandedHeight: 160,
-            flexibleSpace: FlexibleSpaceBar(
+            flexibleSpace: const FlexibleSpaceBar(
               background: Image(
                   image: AssetImage("assets/placeholder_for_product_image.png"),
                   height: 160,
@@ -31,16 +31,16 @@ class ProductDetailPage extends StatelessWidget {
             ),
             actions: [
               UserDialog(),
-              if (lottery.seller != userStore.appUser) FavoriteButton(id: lottery.id)
+              if (lottery.seller != userStore.user) FavoriteButton(id: lottery.id)
             ],
           ),
           SliverList(
             delegate: SliverChildListDelegate(
               [
                 Card(
-                    margin: EdgeInsets.all(8),
+                    margin: const EdgeInsets.all(8),
                     child: Container(
-                      padding: EdgeInsets.all(8),
+                      padding: const EdgeInsets.all(8),
                       child: Text(lottery.name,
                           style: Theme.of(context)
                               .textTheme
@@ -63,14 +63,14 @@ class ProductDetailPage extends StatelessWidget {
           )
         ],
       ),
-      bottomNavigationBar: lottery.seller == userStore.appUser
+      bottomNavigationBar: lottery.seller == userStore.user
           ? null
           : BottomAppBar(
               child: Container(
-                padding: EdgeInsets.all(8),
+                padding: const EdgeInsets.all(8),
                 child: Row(
                   children: [
-                    Text("Tickets verbleibend: "),
+                    const Text("Tickets verbleibend: "),
                     Text(
                       "${userStore.tickets}",
                       style: Theme.of(context)
@@ -78,7 +78,7 @@ class ProductDetailPage extends StatelessWidget {
                           .bodyText1!
                           .apply(color: Colors.red),
                     ),
-                    Spacer(),
+                    const Spacer(),
                     ElevatedButton(
                       onPressed: (userStore.status != Status.AUTHENTICATED || userStore.tickets <= 0)
                           ? null
@@ -87,7 +87,7 @@ class ProductDetailPage extends StatelessWidget {
                               userStore.removeTickets(1);
                             },
                       child: Row(
-                        children: [
+                        children: const [
                           Icon(Icons.attach_money),
                           Text("Jetzt bieten!"),
                         ],

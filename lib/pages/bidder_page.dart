@@ -13,7 +13,7 @@ import 'package:lottery_app/stores/user_store.dart';
 import 'package:provider/provider.dart';
 
 class BidderPage extends StatefulWidget {
-  BidderPage({Key? key}) : super(key: key);
+  const BidderPage({Key? key}) : super(key: key);
   final String title = "Offene Gebote";
 
   @override
@@ -24,12 +24,11 @@ class _BidderPageState extends State<BidderPage> {
   @override
   Widget build(BuildContext context) {
     UserStore userStore = context.watch<UserStore>();
-    List<String> favoriteIds =
-        context.select((FavoritesStore store) => store.favorites);
+    FavoritesStore favoriteStore = context.watch<FavoritesStore>();
     List<Lottery> lotteries = context.watch<List<Lottery>>();
     List<ITransform> transformations = [
-      BidOnFilter(user: userStore.appUser),
-      IdFilter(ids: favoriteIds)
+      BidOnFilter(userId: userStore.id),
+      IdFilter(ids: favoriteStore.favorites)
     ];
     lotteries = TransformService.withAny(lotteries, transformations);
 
