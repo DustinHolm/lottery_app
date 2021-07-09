@@ -10,6 +10,7 @@ import 'package:lottery_app/enums/collect_type.dart';
 import 'package:lottery_app/enums/condition.dart';
 import 'package:lottery_app/models/lottery.dart';
 import 'package:lottery_app/models/app_user.dart';
+import 'package:lottery_app/controllers/firestore_controller.dart';
 import 'package:lottery_app/sidebar.dart';
 import 'package:lottery_app/stores/lotteries_store.dart';
 import 'package:lottery_app/stores/user_store.dart';
@@ -56,7 +57,7 @@ class _CreateNewProductPageState extends State<CreateNewProductPage> {
           UserDialog(),
         ],
       ),
-      body: userStore.status != Status.Authenticated
+      body: userStore.status != Status.AUTHENTICATED
           ? Center(
               child: Text(
               "Diese Funktion ist nur für angemeldete Nutzer verfügbar",
@@ -91,29 +92,28 @@ class _CreateNewProductPageState extends State<CreateNewProductPage> {
                       setState(() => productCondition = condition),
                 ),
                 Center(
-                  child: Container(
-                    // Button to send Information further to Backend/ Server
-                    child: ElevatedButton(
-                      child: Text('Inserieren'),
-                      onPressed: () {
-                        Lottery lottery = new Lottery.withRandomId(
-                          name: textFieldControllerProductName.text,
-                          description:
-                                  textFieldControllerProductDescription.text,
-                          image: null,
-                          condition: productCondition,
-                          category: Category.OTHER,
-                          shippingCost: 0,
-                          endingDate: DateTime.now().add(Duration(minutes: 30)),
-                          ticketsMap: new Map<AppUser, int>(),
-                          seller: userStore.appUser!,
-                          winner: null,
-                          collectType: CollectType.SELF_COLLECT,
-                        );
-                        lotteriesStore.addLottery(lottery);
-                        Navigator.pushNamed(context, "/seller");
-                      },
-                    ),
+                  // Button to send Information further to Backend/ Server
+                  child: ElevatedButton(
+                    child: const Text('Inserieren'),
+                    onPressed: () async {
+                      Lottery lottery = Lottery.withRandomId(
+                        name: textFieldControllerProductName.text,
+                        description:
+                                textFieldControllerProductDescription.text,
+                        image: null,
+                        condition: productCondition,
+                        category: Category.OTHER,
+                        shippingCost: 0,
+                        endingDate: DateTime.now().add(const Duration(minutes: 30)),
+                        ticketsMap: <AppUser, int>{},
+                        seller: userStore.appUser!,
+                        winner: null,
+                        collectType: CollectType.SELF_COLLECT,
+                      );
+                      lotteriesStore.addLottery(lottery);
+                      FirestoreController.addLottery(lottery);
+                      Navigator.pushNamed(context, "/seller");
+                    },
                   ),
                 ),
               ],

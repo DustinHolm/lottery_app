@@ -20,20 +20,20 @@ class UserDialog extends StatelessWidget {
                   ),
                   children: [
                     ListTile(
-                        title: (userStore.status == Status.Authenticated
+                        title: (userStore.status == Status.AUTHENTICATED
                         && userStore.gUser != null
                         && userStore.gUser!.displayName != null)
                             ? Text(userStore.gUser!.displayName!)
                             : Text("Nicht bei Google angemeldet")),
-                    if (userStore.status == Status.Authenticated)
+                    if (userStore.status == Status.AUTHENTICATED)
                       ListTile(
                         title: Text("${userStore.tickets} Tickets"),
                       ),
                     Container(
                         padding: EdgeInsets.all(8),
-                        child: userStore.status == Status.Authenticating
+                        child: userStore.status == Status.WAITING
                             ? CircularProgressIndicator()
-                            : userStore.status == Status.Unauthenticated
+                            : userStore.status == Status.UNAUTHENTICATED
                                 ? ElevatedButton(
                                     onPressed: () async =>
                                         await userStore.signIn().then((_) {
@@ -52,7 +52,7 @@ class UserDialog extends StatelessWidget {
                         padding: EdgeInsets.all(8),
                         child: ElevatedButton(
                           onPressed: () {
-                            userStore.status = Status.Authenticated;
+                            userStore.status = Status.AUTHENTICATED;
                             Navigator.pop(context);
                           },
                           child: Text("Fakeanmeldung"),

@@ -77,7 +77,7 @@ class _TicketsBuyPageState extends State<TicketsBuyPage> {
           UserDialog(),
         ],
       ),
-      body: userStore.status != Status.Authenticated
+      body: userStore.status != Status.AUTHENTICATED
           ? Center(
               child: Text(
               "Diese Funktion ist nur für angemeldete Nutzer verfügbar",

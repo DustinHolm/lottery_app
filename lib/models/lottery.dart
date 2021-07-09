@@ -54,4 +54,6 @@ class Lottery {
     else
       return 0;
   }
+
+
 }
