@@ -15,4 +15,11 @@ class FirestoreController {
         .doc(lottery.id)
         .set(lottery.toJson());
   }
+
+  static Future updateLottery(Lottery lottery) {
+    return firestore
+        .collection("lotteries")
+        .doc(lottery.id)
+        .update(lottery.toJson());
+  }
 }

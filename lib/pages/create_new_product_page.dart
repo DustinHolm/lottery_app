@@ -8,6 +8,7 @@ import 'package:lottery_app/components/user_dialog.dart';
 import 'package:lottery_app/enums/category.dart';
 import 'package:lottery_app/enums/collect_type.dart';
 import 'package:lottery_app/enums/condition.dart';
+import 'package:lottery_app/models/bid_tickets.dart';
 import 'package:lottery_app/models/lottery.dart';
 import 'package:lottery_app/models/app_user.dart';
 import 'package:lottery_app/controllers/firestore_controller.dart';
@@ -103,7 +104,7 @@ class _CreateNewProductPageState extends State<CreateNewProductPage> {
                         category: Category.OTHER,
                         shippingCost: 0,
                         endingDate: DateTime.now().add(const Duration(minutes: 30)),
-                        ticketsMap: <String, int>{},
+                        bidTickets: BidTickets(ticketMap: {}),
                         seller: userStore.user,
                         winner: null,
                         collectType: CollectType.SELF_COLLECT,

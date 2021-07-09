@@ -4,6 +4,7 @@ import 'package:lottery_app/components/product_detail_page/bidding_data.dart';
 import 'package:lottery_app/components/product_detail_page/description_data.dart';
 import 'package:lottery_app/components/product_detail_page/seller_data.dart';
 import 'package:lottery_app/components/user_dialog.dart';
+import 'package:lottery_app/controllers/firestore_controller.dart';
 import 'package:provider/provider.dart';
 import 'package:lottery_app/models/lottery.dart';
 import 'package:lottery_app/stores/user_store.dart';
@@ -83,8 +84,9 @@ class ProductDetailPage extends StatelessWidget {
                       onPressed: (userStore.status != Status.AUTHENTICATED || userStore.tickets <= 0)
                           ? null
                           : () {
-                              // TODO: Bidding
+                              lottery.addTicket(userStore.id);
                               userStore.removeTickets(1);
+                              FirestoreController.updateLottery(lottery);
                             },
                       child: Row(
                         children: const [
