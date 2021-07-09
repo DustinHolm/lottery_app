@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:lottery_app/components/app_bar.dart';
 import 'package:lottery_app/services/local_storage_service.dart';
 
 class WelcomePage extends StatelessWidget {
+  final String title = "Lotteriespiel-App";
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text("Willkommen!"),
-      ),
+      appBar: lotteryAppBar(title),
       body: Center(
         child: Padding(
-          padding: EdgeInsets.all(16),
+          padding: const EdgeInsets.all(16),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [

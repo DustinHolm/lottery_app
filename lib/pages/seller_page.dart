@@ -3,6 +3,7 @@ import 'package:lottery_app/components/overview_page/overview_data.dart';
 import 'package:lottery_app/components/user_dialog.dart';
 import 'package:lottery_app/filter/owned_filter.dart';
 import 'package:lottery_app/filter/transform.dart';
+import 'package:lottery_app/components/app_bar.dart';
 import 'package:lottery_app/models/lottery.dart';
 import 'package:lottery_app/pages/product_detail_page.dart';
 import 'package:lottery_app/services/transform_service.dart';
@@ -30,12 +31,7 @@ class _SellerPageState extends State<SellerPage> {
 
     return Scaffold(
       drawer: Sidebar(),
-      appBar: AppBar(
-        title: Text(widget.title),
-        actions: [
-          UserDialog(),
-        ],
-      ),
+      appBar: lotteryAppBar(widget.title),
       body: userStore.status != Status.AUTHENTICATED
           ? Center(
               child: Text(

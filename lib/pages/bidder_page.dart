@@ -4,6 +4,7 @@ import 'package:lottery_app/components/user_dialog.dart';
 import 'package:lottery_app/filter/bid_on_filter.dart';
 import 'package:lottery_app/filter/favorited_filter.dart';
 import 'package:lottery_app/filter/transform.dart';
+import 'package:lottery_app/components/app_bar.dart';
 import 'package:lottery_app/models/lottery.dart';
 import 'package:lottery_app/pages/product_detail_page.dart';
 import 'package:lottery_app/services/transform_service.dart';
@@ -34,12 +35,7 @@ class _BidderPageState extends State<BidderPage> {
 
     return Scaffold(
       drawer: Sidebar(),
-      appBar: AppBar(
-        title: Text(widget.title),
-        actions: [
-          UserDialog(),
-        ],
-      ),
+      appBar: lotteryAppBar(widget.title),
       body: userStore.status != Status.AUTHENTICATED
           ? Center(
               child: Text(

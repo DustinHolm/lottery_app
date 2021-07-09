@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:lottery_app/components/app_bar.dart';
 import 'package:lottery_app/components/filter.dart';
 import 'package:lottery_app/components/overview_page/overview_data.dart';
 import 'package:lottery_app/components/user_dialog.dart';
@@ -33,12 +34,7 @@ class _OverviewPageState extends State<OverviewPage> {
 
     return Scaffold(
       drawer: Sidebar(),
-      appBar: AppBar(
-        title: Text(widget.title),
-        actions: [
-          UserDialog(),
-        ],
-      ),
+      appBar: lotteryAppBar(widget.title),
       body: Column(children: [
         FilterDropdown(transformations: transformations, handleTransformationsUpdate: (List<ITransform> update) => setState(() => transformations = update)),
         Expanded(
