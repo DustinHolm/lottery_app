@@ -15,7 +15,7 @@ class TicketsBuyForm extends StatefulWidget {
 }
 
 class TicketsBuyFormState extends State<TicketsBuyForm> {
-  var numTicketsController = new TextEditingController();
+  var numTicketsController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -25,12 +25,12 @@ class TicketsBuyFormState extends State<TicketsBuyForm> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          Padding(
-            padding: const EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 8.0),
+          const Padding(
+            padding: EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 8.0),
             child: Text("Wie viele Tickets möchtest du kaufen?"),
           ),
-          numberFormField(
-              numTicketsController, Icon(Icons.add_shopping_cart), "Anzahl"),
+          numberFormField(numTicketsController,
+              const Icon(Icons.add_shopping_cart), "Anzahl"),
           Padding(
             padding: const EdgeInsets.fromLTRB(40.0, 16.0, 0.0, 0.0),
             child: ElevatedButton(
@@ -39,7 +39,18 @@ class TicketsBuyFormState extends State<TicketsBuyForm> {
                   if (v != null) {
                     userStore.addTickets(v);
                   } else {
-                    print("error dialog"); //TODO
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return const AlertDialog(
+                            title: Text("Fehlende Eingabe"),
+                            content: SingleChildScrollView(
+                              child: ListTile(
+                                title: Text("Du musst einen Wert eingeben."),
+                              ),
+                            ));
+                      },
+                    );
                   }
                 },
                 child: Text('Kaufen')),
@@ -57,7 +68,7 @@ class TicketsBuyFormState extends State<TicketsBuyForm> {
 }
 
 class TicketsBuyPage extends StatefulWidget {
-  TicketsBuyPage({Key? key}) : super(key: key);
+  const TicketsBuyPage({Key? key}) : super(key: key);
   final String titel = 'Tickets kaufen';
 
   @override
