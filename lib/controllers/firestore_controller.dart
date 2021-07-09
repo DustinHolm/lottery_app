@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:lottery_app/models/lottery.dart';
 
@@ -9,6 +11,6 @@ class FirestoreController {
   }
 
   static Future addLottery(Lottery lottery) {
-    return firestore.collection("lotteries").doc(lottery.id).set({"name": lottery.name});
+    return firestore.collection("lotteries").doc(lottery.id).set(lottery.toJson());
   }
 }

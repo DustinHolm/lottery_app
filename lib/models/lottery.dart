@@ -49,11 +49,39 @@ class Lottery {
   }) : id = nanoid();
 
   int getTicketsUsed() {
-    if (ticketsMap.isNotEmpty)
+    if (ticketsMap.isNotEmpty) {
       return ticketsMap.values.reduce((value, element) => value + element);
-    else
+    } else {
       return 0;
+    }
   }
 
+  Map<String, dynamic> toJson() => {
+        "id": id,
+        "name": name,
+        "description": description,
+        "image": (image == null) ? "no" : "yes",
+        "condition": condition.index,
+        "category": category.index,
+        "shippingCost": shippingCost,
+        "endingDate": endingDate,
+        "ticketsMap": ticketsMap.keys.toList(),
+        "seller": seller.toJson(),
+        "winner": winner?.toJson(),
+        "collectType": collectType.index,
+      };
 
+  Lottery.fromJson(Map<String, dynamic> json)
+      : id = json["id"],
+        name = json["name"],
+        description = json["description"],
+        image = null,
+        condition = Condition.values[json["condition"]],
+        category = Category.values[json["category"]],
+        shippingCost = json["shippingCost"],
+        endingDate = json["endingDate"],
+        ticketsMap = {for (AppUser user in json["ticketsMap"]) user: 1},
+        seller = AppUser.fromJson(json["seller"]),
+        winner = json["winner"] == null ? null : AppUser.fromJson(json["winner"]),
+        collectType = json["collectType"];
 }
