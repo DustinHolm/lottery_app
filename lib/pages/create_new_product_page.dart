@@ -1,21 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:lottery_app/components/app_bar.dart';
 import 'package:lottery_app/components/new_product_page/category_selector.dart';
 import 'package:lottery_app/components/new_product_page/condition_selector.dart';
 import 'package:lottery_app/components/new_product_page/description_selection.dart';
 import 'package:lottery_app/components/new_product_page/image_selection.dart';
 import 'package:lottery_app/components/new_product_page/name_selection.dart';
-import 'package:lottery_app/components/user_dialog.dart';
+import 'package:lottery_app/controllers/firestore_controller.dart';
 import 'package:lottery_app/enums/category.dart';
 import 'package:lottery_app/enums/collect_type.dart';
 import 'package:lottery_app/enums/condition.dart';
-import 'package:lottery_app/models/lottery.dart';
 import 'package:lottery_app/models/app_user.dart';
-import 'package:lottery_app/controllers/firestore_controller.dart';
+import 'package:lottery_app/models/lottery.dart';
 import 'package:lottery_app/sidebar.dart';
 import 'package:lottery_app/stores/lotteries_store.dart';
 import 'package:lottery_app/stores/user_store.dart';
 import 'package:provider/provider.dart';
-import 'package:image_picker/image_picker.dart';
 
 class CreateNewProductPage extends StatefulWidget {
   CreateNewProductPage({Key? key}) : super(key: key);
@@ -51,12 +51,7 @@ class _CreateNewProductPageState extends State<CreateNewProductPage> {
 
     return Scaffold(
       drawer: Sidebar(),
-      appBar: AppBar(
-        title: Text(widget.title),
-        actions: [
-          UserDialog(),
-        ],
-      ),
+      appBar: lotteryAppBar(widget.title),
       body: userStore.status != Status.AUTHENTICATED
           ? Center(
               child: Text(
@@ -98,13 +93,13 @@ class _CreateNewProductPageState extends State<CreateNewProductPage> {
                     onPressed: () async {
                       Lottery lottery = Lottery.withRandomId(
                         name: textFieldControllerProductName.text,
-                        description:
-                                textFieldControllerProductDescription.text,
+                        description: textFieldControllerProductDescription.text,
                         image: null,
                         condition: productCondition,
                         category: Category.OTHER,
                         shippingCost: 0,
-                        endingDate: DateTime.now().add(const Duration(minutes: 30)),
+                        endingDate:
+                            DateTime.now().add(const Duration(minutes: 30)),
                         ticketsMap: <AppUser, int>{},
                         seller: userStore.appUser!,
                         winner: null,

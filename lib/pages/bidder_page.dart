@@ -1,7 +1,7 @@
 import 'dart:collection';
 
 import 'package:flutter/material.dart';
-import 'package:lottery_app/components/user_dialog.dart';
+import 'package:lottery_app/components/app_bar.dart';
 import 'package:lottery_app/models/lottery.dart';
 import 'package:lottery_app/pages/product_detail_page.dart';
 import 'package:lottery_app/sidebar.dart';
@@ -22,17 +22,12 @@ class _BidderPageState extends State<BidderPage> {
   Widget build(BuildContext context) {
     UserStore userStore = context.watch<UserStore>();
     LotteriesStore lotteriesStore = context.watch<LotteriesStore>();
-    Future<UnmodifiableListView<Lottery>> lotteries = lotteriesStore
-        .getBidOnAndFavoritedLotteries(userStore.appUser);
+    Future<UnmodifiableListView<Lottery>> lotteries =
+        lotteriesStore.getBidOnAndFavoritedLotteries(userStore.appUser);
 
     return Scaffold(
         drawer: Sidebar(),
-        appBar: AppBar(
-          title: Text(widget.title),
-          actions: [
-            UserDialog(),
-          ],
-        ),
+        appBar: lotteryAppBar(widget.title),
         body: userStore.status != Status.AUTHENTICATED
             ? Center(
                 child: Text(
