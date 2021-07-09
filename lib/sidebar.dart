@@ -1,25 +1,27 @@
 import 'package:flutter/material.dart';
 
 class Sidebar extends StatelessWidget {
+  const Sidebar({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Drawer(
       child: ListView(
         children: [
           ListTile(
-              title: Text('Übersicht'),
+              title: const Text('Übersicht'),
               onTap: () => Navigator.pushNamed(context, '/overview')),
           ListTile(
-              title: Text('Offene Gebote'),
+              title: const Text('Offene Gebote'),
               onTap: () => Navigator.pushNamed(context, '/bidder')),
           ListTile(
-              title: Text('Eigene Angebote'),
+              title: const Text('Eigene Angebote'),
               onTap: () => Navigator.pushNamed(context, '/seller')),
           ListTile(
-              title: Text('Angebot erstellen'),
+              title: const Text('Angebot erstellen'),
               onTap: () => Navigator.pushNamed(context, '/create')),
           ListTile(
-              title: Text('Tickets kaufen'),
+              title: const Text('Tickets kaufen'),
               onTap: () => Navigator.pushNamed(context, '/tickets')),
         ],
       ),

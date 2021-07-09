@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 
-
 class CheckboxListElement extends StatefulWidget {
-  CheckboxListElement({required this.title, this.initial = false});
+  const CheckboxListElement(
+      {required this.title, this.initial = false, Key? key})
+      : super(key: key);
   final String title;
   final bool initial;
 
@@ -12,6 +13,7 @@ class CheckboxListElement extends StatefulWidget {
 
 class _CheckboxListElementState extends State<CheckboxListElement> {
   _CheckboxListElementState(this.isChecked);
+
   bool isChecked;
 
   @override
@@ -26,4 +28,3 @@ class _CheckboxListElementState extends State<CheckboxListElement> {
     );
   }
 }
-

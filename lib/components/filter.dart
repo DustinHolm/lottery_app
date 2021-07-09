@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:lottery_app/enums/category.dart';
 import 'package:lottery_app/enums/collect_type.dart';
 import 'package:lottery_app/enums/condition.dart';
@@ -13,10 +12,8 @@ import 'package:lottery_app/filter/seller_filter.dart';
 import 'package:lottery_app/filter/tickets_less_than_filter.dart';
 import 'package:lottery_app/filter/title_filter.dart';
 import 'package:lottery_app/filter/transform.dart';
-import 'package:lottery_app/stores/transform_store.dart';
-import 'package:provider/provider.dart';
 
-import 'number_form.dart';
+import 'number_form_field.dart';
 
 class FilterDropdown extends StatefulWidget {
   const FilterDropdown({required this.transformations, required this.handleTransformationsUpdate, Key? key}): super(key: key);
@@ -25,28 +22,17 @@ class FilterDropdown extends StatefulWidget {
   final Function(List<ITransform>) handleTransformationsUpdate;
 
   @override
-  FilterDropdownState createState() {
-    return FilterDropdownState();
-  }
+  _FilterDropdownState createState() => _FilterDropdownState();
 }
 
-class FilterDropdownState extends State<FilterDropdown> {
-  Filter? value;
-  CollectType? collectTypeValue;
-  Condition? conditionValue;
-  Category? categoryValue;
-  var valueController;
-  var sellerNameController;
-  var titleNameValue;
-
-  FilterDropdownState() {
-    value = Filter.TITLE_FILTER;
-    collectTypeValue = CollectType.PACKET_INLAND;
-    categoryValue = Category.OTHER;
-    valueController = new TextEditingController();
-    sellerNameController = new TextEditingController();
-    titleNameValue = new TextEditingController();
-  }
+class _FilterDropdownState extends State<FilterDropdown> {
+  Filter? value  = Filter.TITLE_FILTER;
+  CollectType? collectTypeValue = CollectType.PACKET_INLAND;
+  Condition? conditionValue = Condition.LIKE_NEW;
+  Category? categoryValue = Category.OTHER;
+  TextEditingController valueController = TextEditingController();
+  TextEditingController sellerNameController = TextEditingController();
+  TextEditingController titleNameValue = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -88,8 +74,7 @@ class FilterDropdownState extends State<FilterDropdown> {
                           child:
                               TextFormField(controller: sellerNameController))
                       : value == Filter.TICKETS_LESS_THAN_FILTER
-                          ? numberFormField(valueController, Icon(null), "",
-                              height: 32)
+                          ? NumberFormField(controller: valueController, height: 32)
                           : value == Filter.CATEGORY_FILTER
                               ? (DropdownButton<Category>(
                                   value: categoryValue,
@@ -190,9 +175,8 @@ class FilterDropdownState extends State<FilterDropdown> {
                   widget.handleTransformationsUpdate([...widget.transformations, LeastBidsSort(asc: false)]);
                 }
               });
-              print(widget.transformations);
             },
-            child: Text('Anwenden'),
+            child: const Text('Anwenden'),
           ),
         ],
       ),

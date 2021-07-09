@@ -2,7 +2,7 @@ import 'package:lottery_app/filter/transform.dart';
 import 'package:lottery_app/models/lottery.dart';
 
 class TitleFilter implements ITransform {
-  String _title;
+  final String _title;
 
   TitleFilter(String title) : _title = title;
 

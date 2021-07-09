@@ -6,20 +6,18 @@ import 'package:lottery_app/components/new_product_page/condition_selector.dart'
 import 'package:lottery_app/components/new_product_page/description_selection.dart';
 import 'package:lottery_app/components/new_product_page/image_selection.dart';
 import 'package:lottery_app/components/new_product_page/name_selection.dart';
-import 'package:lottery_app/components/user_dialog.dart';
 import 'package:lottery_app/enums/category.dart';
 import 'package:lottery_app/enums/collect_type.dart';
 import 'package:lottery_app/enums/condition.dart';
 import 'package:lottery_app/models/bid_tickets.dart';
 import 'package:lottery_app/models/lottery.dart';
-import 'package:lottery_app/models/app_user.dart';
 import 'package:lottery_app/controllers/firestore_controller.dart';
 import 'package:lottery_app/sidebar.dart';
 import 'package:lottery_app/stores/user_store.dart';
 import 'package:provider/provider.dart';
 
 class CreateNewProductPage extends StatefulWidget {
-  CreateNewProductPage({Key? key}) : super(key: key);
+  const CreateNewProductPage({Key? key}) : super(key: key);
   final String title = 'Angebot erstellen';
 
   @override
@@ -50,7 +48,7 @@ class _CreateNewProductPageState extends State<CreateNewProductPage> {
     UserStore userStore = context.read<UserStore>();
 
     return Scaffold(
-      drawer: Sidebar(),
+      drawer: const Sidebar(),
       appBar: lotteryAppBar(widget.title),
       body: userStore.status != Status.AUTHENTICATED
           ? Center(
@@ -67,9 +65,9 @@ class _CreateNewProductPageState extends State<CreateNewProductPage> {
                       setState(() => _productImage = file),
                 ),
                 Card(
-                  margin: EdgeInsets.all(8),
+                  margin: const EdgeInsets.all(8),
                   child: Container(
-                    padding: EdgeInsets.all(8),
+                    padding: const EdgeInsets.all(8),
                     child: Column(
                       children: [
                         NameSelection(
@@ -80,7 +78,7 @@ class _CreateNewProductPageState extends State<CreateNewProductPage> {
                     ),
                   ),
                 ),
-                CategorySelector(),
+                const CategorySelector(),
                 ConditionSelector(
                   productCondition: productCondition,
                   handleConditionUpdate: (Condition condition) =>

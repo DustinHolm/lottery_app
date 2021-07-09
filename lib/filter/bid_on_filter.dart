@@ -1,5 +1,4 @@
 import 'package:lottery_app/filter/transform.dart';
-import 'package:lottery_app/models/app_user.dart';
 import 'package:lottery_app/models/lottery.dart';
 
 class BidOnFilter implements ITransform {

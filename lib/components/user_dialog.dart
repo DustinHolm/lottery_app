@@ -3,12 +3,12 @@ import 'package:lottery_app/stores/user_store.dart';
 import 'package:provider/provider.dart';
 
 class UserDialog extends StatelessWidget {
-  final String buttonText;
-  final Function notifyParent;
-
   UserDialog({this.buttonText = 'icon', Function? notifyParent, Key? key})
       : notifyParent = notifyParent ?? (() => {}),
         super(key: key);
+
+  final String buttonText;
+  final Function notifyParent;
 
   @override
   Widget build(BuildContext context) {
@@ -23,15 +23,15 @@ class UserDialog extends StatelessWidget {
               ListTile(
                   title: (userStore.status == Status.AUTHENTICATED)
                       ? Text(userStore.name)
-                      : Text("Nicht bei Google angemeldet")),
+                      : const Text("Nicht bei Google angemeldet")),
               if (userStore.status == Status.AUTHENTICATED)
                 ListTile(
                   title: Text("${userStore.tickets} Tickets"),
                 ),
               Container(
-                  padding: EdgeInsets.all(8),
+                  padding: const EdgeInsets.all(8),
                   child: userStore.status == Status.WAITING
-                      ? CircularProgressIndicator()
+                      ? const CircularProgressIndicator()
                       : userStore.status == Status.UNAUTHENTICATED
                           ? ElevatedButton(
                               onPressed: () async =>
@@ -39,7 +39,7 @@ class UserDialog extends StatelessWidget {
                                 notifyParent();
                                 Navigator.pop(context);
                               }),
-                              child: Text("Mit Google anmelden"),
+                              child: const Text("Mit Google anmelden"),
                             )
                           : ElevatedButton(
                               onPressed: () async {
@@ -48,23 +48,13 @@ class UserDialog extends StatelessWidget {
                                   Navigator.pop(context);
                                 });
                               },
-                              child: Text("Abmelden"),
+                              child: const Text("Abmelden"),
                             )),
-              Container(
-                  padding: EdgeInsets.all(8),
-                  child: ElevatedButton(
-                    onPressed: () {
-                      userStore.status = Status.AUTHENTICATED;
-                      notifyParent();
-                      Navigator.pop(context);
-                    },
-                    child: Text("Fakeanmeldung"),
-                  )),
             ]);
 
     return buttonText == 'icon'
         ? IconButton(
-            icon: Icon(Icons.account_circle),
+            icon: const Icon(Icons.account_circle),
             onPressed: () {
               showDialog(
                 context: context,

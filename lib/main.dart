@@ -22,15 +22,17 @@ void main() async {
       ChangeNotifierProvider(create: (context) => UserStore()),
       ChangeNotifierProvider(create: (context) => FavoritesStore()),
       StreamProvider<List<Lottery>>(
-        initialData: [],
+        initialData: const [],
         create: (BuildContext context) => FirestoreController.getLotteries(),
       ),
     ],
-    child: MyApp(),
+    child: const MyApp(),
   ));
 }
 
 class MyApp extends StatelessWidget {
+  const MyApp({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -39,13 +41,13 @@ class MyApp extends StatelessWidget {
           primarySwatch: Colors.blue,
         ),
         routes: {
-          '/': (context) => LoadingPage(),
-          '/overview': (context) => OverviewPage(),
-          '/bidder': (context) => BidderPage(),
-          '/seller': (context) => SellerPage(),
-          '/create': (context) => CreateNewProductPage(),
-          '/welcome': (context) => WelcomePage(),
-          '/tickets': (context) => TicketsBuyPage(),
+          '/': (context) => const LoadingPage(),
+          '/overview': (context) => const OverviewPage(),
+          '/bidder': (context) => const BidderPage(),
+          '/seller': (context) => const SellerPage(),
+          '/create': (context) => const CreateNewProductPage(),
+          '/welcome': (context) => const WelcomePage(),
+          '/tickets': (context) => const TicketsBuyPage(),
         });
   }
 }

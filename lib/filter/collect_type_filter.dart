@@ -3,7 +3,7 @@ import 'package:lottery_app/filter/transform.dart';
 import 'package:lottery_app/models/lottery.dart';
 
 class CollectTypeFilter implements ITransform {
-  CollectType _collectType;
+  final CollectType _collectType;
 
   CollectTypeFilter(CollectType collectType) : _collectType = collectType;
 

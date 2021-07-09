@@ -5,7 +5,7 @@ import 'package:lottery_app/stores/user_store.dart';
 import 'package:provider/provider.dart';
 
 class WelcomePage extends StatefulWidget {
-  WelcomePage({Key? key}) : super(key: key);
+  const WelcomePage({Key? key}) : super(key: key);
   final String title = "Lotteriespiel-App";
 
   @override
