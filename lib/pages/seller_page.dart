@@ -29,7 +29,7 @@ class _SellerPageState extends State<SellerPage> {
 
     return Scaffold(
       drawer: const Sidebar(),
-      appBar: lotteryAppBar(widget.title),
+      appBar: LotteryAppBar(title: widget.title),
       body: userStore.status != Status.AUTHENTICATED
           ? Center(
               child: Text(

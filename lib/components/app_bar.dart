@@ -1,7 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:lottery_app/components/user_dialog.dart';
 
-AppBar lotteryAppBar(String title) => AppBar(
+class LotteryAppBar extends StatelessWidget implements PreferredSizeWidget {
+  const LotteryAppBar({required this.title, Key? key}) : super(key: key);
+  
+  final String title;
+
+  @override
+  Widget build(BuildContext context) {
+    return AppBar(
       title: Row(
         children: [
           SizedBox(
@@ -16,3 +23,8 @@ AppBar lotteryAppBar(String title) => AppBar(
         UserDialog(),
       ],
     );
+  }
+
+  @override
+  Size get preferredSize => const Size.fromHeight(60);
+}
