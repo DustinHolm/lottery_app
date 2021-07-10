@@ -1,12 +1,14 @@
 enum Filter {
   NO_FILTER,
+  TITLE_FILTER,
   CATEGORY_FILTER,
   CONDITION_FILTER,
   COLLECT_TYPE_FILTER,
   SELLER_NAME_FILTER,
   TICKETS_LESS_THAN_FILTER,
+  ENDING_SOONEST_SORT,
   LEAST_BIDS_SORT,
-  ENDING_SOONEST_SORT
+  MOST_BIDS_SORT
 }
 
 extension ParseToString on Filter {
@@ -14,20 +16,24 @@ extension ParseToString on Filter {
     switch (this) {
       case Filter.NO_FILTER:
         return "Zurücksetzen";
+      case Filter.TITLE_FILTER:
+        return "Suche";
       case Filter.CATEGORY_FILTER:
-        return "bestimmte Kategorie";
+        return "Kategorie";
       case Filter.CONDITION_FILTER:
-        return "bestimmer Zustand";
+        return "Zustand";
       case Filter.COLLECT_TYPE_FILTER:
-        return "bestimmte Versandart";
+        return "Versandart";
       case Filter.SELLER_NAME_FILTER:
-        return "bestimmer Verkäufer";
+        return "Verkäufer";
       case Filter.TICKETS_LESS_THAN_FILTER:
-        return "Maximale Anzahl Tickets";
+        return "Max Tickets";
       case Filter.LEAST_BIDS_SORT:
-        return "Wenigste Gebote";
+        return "Niedrigste Gebote";
+      case Filter.MOST_BIDS_SORT:
+        return "Höchste Gebote";
       case Filter.ENDING_SOONEST_SORT:
-        return "Bald endende Angebote";
+        return "Bald endend";
     }
   }
 }

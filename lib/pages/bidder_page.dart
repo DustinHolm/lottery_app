@@ -1,14 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:lottery_app/components/user_dialog.dart';
+import 'package:lottery_app/components/lottery_list_element.dart';
+import 'package:lottery_app/filter/bid_on_filter.dart';
+import 'package:lottery_app/filter/favorited_filter.dart';
+import 'package:lottery_app/filter/transform.dart';
+import 'package:lottery_app/components/app_bar.dart';
 import 'package:lottery_app/models/lottery.dart';
-import 'package:lottery_app/pages/product_detail_page.dart';
+import 'package:lottery_app/services/transform_service.dart';
 import 'package:lottery_app/sidebar.dart';
-import 'package:lottery_app/stores/lotteries_store.dart';
+import 'package:lottery_app/stores/favorites_store.dart';
 import 'package:lottery_app/stores/user_store.dart';
 import 'package:provider/provider.dart';
 
 class BidderPage extends StatefulWidget {
-  BidderPage({Key? key}) : super(key: key);
+  const BidderPage({Key? key}) : super(key: key);
   final String title = "Offene Gebote";
 
   @override
@@ -19,18 +23,18 @@ class _BidderPageState extends State<BidderPage> {
   @override
   Widget build(BuildContext context) {
     UserStore userStore = context.watch<UserStore>();
-    List<Lottery> lotteries = context.select(
-        (LotteriesStore store) => store.getBidOnLotteries(userStore.appUser));
+    FavoritesStore favoriteStore = context.watch<FavoritesStore>();
+    List<Lottery> lotteries = context.watch<List<Lottery>>();
+    List<ITransform> transformations = [
+      BidOnFilter(userId: userStore.id),
+      IdFilter(ids: favoriteStore.favorites)
+    ];
+    lotteries = TransformService.withAny(lotteries, transformations);
 
     return Scaffold(
-      drawer: Sidebar(),
-      appBar: AppBar(
-        title: Text(widget.title),
-        actions: [
-          UserDialog(),
-        ],
-      ),
-      body: userStore.status != Status.Authenticated
+      drawer: const Sidebar(),
+      appBar: lotteryAppBar(widget.title),
+      body: userStore.status != Status.AUTHENTICATED
           ? Center(
               child: Text(
               "Diese Funktion ist nur für angemeldete Nutzer verfügbar",
@@ -41,40 +45,7 @@ class _BidderPageState extends State<BidderPage> {
               itemCount: lotteries.length,
               itemBuilder: (context, index) {
                 Lottery lottery = lotteries[index];
-                Text trailing;
-
-                if (lottery.endingDate.isAfter(DateTime.now())) {
-                  int ticketsUsed = lottery.getTicketsUsed();
-                  Color color = ticketsUsed <= 0
-                      ? Colors.grey
-                      : ticketsUsed <= 23
-                          ? Colors.yellow
-                          : Colors.red;
-                  trailing = Text("$ticketsUsed Tickets",
-                      style: TextStyle(
-                        color: color,
-                      ));
-                } else if (lottery.winner == userStore.appUser) {
-                  trailing = Text(
-                    "Gewonnen!",
-                    style: TextStyle(color: Colors.green),
-                  );
-                } else {
-                  trailing = Text(
-                    "Nicht gewonnen",
-                    style: TextStyle(color: Colors.red),
-                  );
-                }
-
-                return ListTile(
-                  title: Text("${lottery.name}"),
-                  trailing: trailing,
-                  onTap: () => Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) =>
-                              ProductDetailPage(lottery: lotteries[index]))),
-                );
+                return LotteryListElement(lottery: lottery);
               },
             ),
     );

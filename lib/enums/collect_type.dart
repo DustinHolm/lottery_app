@@ -4,11 +4,11 @@ extension ParseToString on CollectType {
   String toFormattedString() {
     switch (this) {
       case CollectType.SELF_COLLECT:
-        return 'Selbstabholung';
+        return 'Nur Selbstabholung';
       case CollectType.PACKET:
-        return 'Paket Inland';
+        return 'Lieferung möglich';
       default:
-        return 'Paket';
+        return 'Lieferung möglich (Inland)';
     }
   }
 }

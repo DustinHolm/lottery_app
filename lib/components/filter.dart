@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:lottery_app/enums/category.dart';
 import 'package:lottery_app/enums/collect_type.dart';
 import 'package:lottery_app/enums/condition.dart';
@@ -11,30 +10,32 @@ import 'package:lottery_app/filter/ending_soonest_sort.dart';
 import 'package:lottery_app/filter/least_bids_sort.dart';
 import 'package:lottery_app/filter/seller_filter.dart';
 import 'package:lottery_app/filter/tickets_less_than_filter.dart';
-import 'package:lottery_app/stores/transform_store.dart';
-import 'package:provider/provider.dart';
+import 'package:lottery_app/filter/title_filter.dart';
+import 'package:lottery_app/filter/transform.dart';
 
-import 'number_form.dart';
+import 'number_form_field.dart';
 
 class FilterDropdown extends StatefulWidget {
+  const FilterDropdown({required this.transformations, required this.handleTransformationsUpdate, Key? key}): super(key: key);
+
+  final List<ITransform> transformations;
+  final Function(List<ITransform>) handleTransformationsUpdate;
+
   @override
-  FilterDropdownState createState() {
-    return FilterDropdownState();
-  }
+  _FilterDropdownState createState() => _FilterDropdownState();
 }
 
-class FilterDropdownState extends State<FilterDropdown> {
-  Filter? value = Filter.NO_FILTER;
-  var valueController = new TextEditingController();
+class _FilterDropdownState extends State<FilterDropdown> {
+  Filter? value  = Filter.TITLE_FILTER;
   CollectType? collectTypeValue = CollectType.PACKET_INLAND;
-  var sellerNameController = new TextEditingController();
-  Condition? conditionValue = Condition.NEW;
+  Condition? conditionValue = Condition.LIKE_NEW;
   Category? categoryValue = Category.OTHER;
+  TextEditingController valueController = TextEditingController();
+  TextEditingController sellerNameController = TextEditingController();
+  TextEditingController titleNameValue = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
-    TransformStore transformStore = context.watch<TransformStore>();
-
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Row(
@@ -61,119 +62,136 @@ class FilterDropdownState extends State<FilterDropdown> {
             }).toList(),
           )),
           Flexible(
-              child: value == Filter.TICKETS_LESS_THAN_FILTER
-                  ? numberFormField(valueController, Icon(null), "", height: 32)
-                  : value == Filter.CATEGORY_FILTER
-                      ? (DropdownButton<Category>(
-                          value: categoryValue,
-                          isExpanded: true,
-                          onChanged: (Category? newValue) {
-                            setState(() {
-                              categoryValue = newValue;
-                            });
-                          },
-                          items: Category.values
-                              .map<DropdownMenuItem<Category>>(
-                                  (Category categoryValue) {
-                            return DropdownMenuItem<Category>(
-                              value: categoryValue,
-                              child: Text(categoryValue.toFormattedString()),
-                            );
-                          }).toList(),
-                        ))
-                      : value == Filter.COLLECT_TYPE_FILTER
-                          ? (DropdownButton<CollectType>(
-                              value: collectTypeValue,
-                              isExpanded: true,
-                              onChanged: (CollectType? newValue) {
-                                setState(() {
-                                  collectTypeValue = newValue;
-                                });
-                              },
-                              items: CollectType.values
-                                  .map<DropdownMenuItem<CollectType>>(
-                                      (CollectType collectTypeValue) {
-                                return DropdownMenuItem<CollectType>(
-                                  value: collectTypeValue,
-                                  child: Text(
-                                      collectTypeValue.toFormattedString()),
-                                );
-                              }).toList(),
-                            ))
-                          : value == Filter.SELLER_NAME_FILTER
-                              ? SizedBox(
-                                  width: 120,
-                                  height: 64,
-                                  child: TextFormField(
-                                      controller: sellerNameController))
-                              : value == Filter.CONDITION_FILTER
-                                  ? (DropdownButton<Condition>(
-                                      value: conditionValue,
-                                      onChanged: (Condition? newValue) {
+              child: value == Filter.TITLE_FILTER
+                  ? SizedBox(
+                      width: 120,
+                      height: 64,
+                      child: TextFormField(controller: titleNameValue))
+                  : value == Filter.SELLER_NAME_FILTER
+                      ? SizedBox(
+                          width: 120,
+                          height: 64,
+                          child:
+                              TextFormField(controller: sellerNameController))
+                      : value == Filter.TICKETS_LESS_THAN_FILTER
+                          ? NumberFormField(controller: valueController, height: 32)
+                          : value == Filter.CATEGORY_FILTER
+                              ? (DropdownButton<Category>(
+                                  value: categoryValue,
+                                  isExpanded: true,
+                                  onChanged: (Category? newValue) {
+                                    setState(() {
+                                      categoryValue = newValue;
+                                    });
+                                  },
+                                  items: Category.values
+                                      .map<DropdownMenuItem<Category>>(
+                                          (Category categoryValue) {
+                                    return DropdownMenuItem<Category>(
+                                      value: categoryValue,
+                                      child: Text(
+                                          categoryValue.toFormattedString()),
+                                    );
+                                  }).toList(),
+                                ))
+                              : value == Filter.COLLECT_TYPE_FILTER
+                                  ? (DropdownButton<CollectType>(
+                                      value: collectTypeValue,
+                                      isExpanded: true,
+                                      onChanged: (CollectType? newValue) {
                                         setState(() {
-                                          conditionValue = newValue;
+                                          collectTypeValue = newValue;
                                         });
                                       },
-                                      items: Condition.values
-                                          .map<DropdownMenuItem<Condition>>(
-                                              (Condition conditionValue) {
-                                        return DropdownMenuItem<Condition>(
-                                          value: conditionValue,
-                                          child: Text(conditionValue
+                                      items: CollectType.values
+                                          .map<DropdownMenuItem<CollectType>>(
+                                              (CollectType collectTypeValue) {
+                                        return DropdownMenuItem<CollectType>(
+                                          value: collectTypeValue,
+                                          child: Text(collectTypeValue
                                               .toFormattedString()),
                                         );
                                       }).toList(),
                                     ))
-                                  : Container()),
+                                  : value == Filter.CONDITION_FILTER
+                                      ? (DropdownButton<Condition>(
+                                          value: conditionValue,
+                                          onChanged: (Condition? newValue) {
+                                            setState(() {
+                                              conditionValue = newValue;
+                                            });
+                                          },
+                                          items: Condition.values
+                                              .map<DropdownMenuItem<Condition>>(
+                                                  (Condition conditionValue) {
+                                            return DropdownMenuItem<Condition>(
+                                              value: conditionValue,
+                                              child: Text(conditionValue
+                                                  .toFormattedString()),
+                                            );
+                                          }).toList(),
+                                        ))
+                                      : Container()),
           ElevatedButton(
             onPressed: () {
               setState(() {
                 if (value == Filter.NO_FILTER) {
-                  transformStore.clear();
+                  widget.handleTransformationsUpdate([]);
+                }
+                if (value == Filter.SELLER_NAME_FILTER) {
+                  widget.handleTransformationsUpdate([...widget.transformations, SellerFilter(valueController.text)]);
+                }
+                if (value == Filter.TITLE_FILTER) {
+                  widget.handleTransformationsUpdate([...widget.transformations, TitleFilter(titleNameValue.text)]);
                 }
                 if (value == Filter.TICKETS_LESS_THAN_FILTER) {
                   var v = int.tryParse(valueController.text);
                   if (v != null) {
-                    transformStore.add(TicketsLessThanFilter(v));
+                    widget.handleTransformationsUpdate([...widget.transformations, TicketsLessThanFilter(v)]);
                   }
                 }
                 if (value == Filter.CATEGORY_FILTER) {
                   if (categoryValue != null) {
-                    transformStore.add(CategoryFilter(categoryValue!));
+                    widget.handleTransformationsUpdate([...widget.transformations, CategoryFilter(categoryValue!)]);
                   }
                 }
                 if (value == Filter.COLLECT_TYPE_FILTER) {
                   if (collectTypeValue != null) {
-                    transformStore.add(CollectTypeFilter(collectTypeValue!));
+                    widget.handleTransformationsUpdate([...widget.transformations, CollectTypeFilter(collectTypeValue!)]);
                   }
                 }
                 if (value == Filter.CONDITION_FILTER) {
                   if (conditionValue != null) {
-                    transformStore.add(ConditionFilter(conditionValue!));
+                    widget.handleTransformationsUpdate([...widget.transformations, ConditionFilter(conditionValue!)]);
                   }
                 }
-                if (value == Filter.SELLER_NAME_FILTER) {
-                  transformStore.add(SellerFilter(valueController.text));
+                if (value == Filter.ENDING_SOONEST_SORT) {
+                  widget.handleTransformationsUpdate([...widget.transformations, EndingSoonestSort()]);
                 }
                 if (value == Filter.LEAST_BIDS_SORT) {
-                  transformStore.add(LeastBidsSort());
+                  widget.handleTransformationsUpdate([...widget.transformations, LeastBidsSort(asc: true)]);
                 }
-                if (value == Filter.ENDING_SOONEST_SORT) {
-                  transformStore.add(EndingSoonestSort());
+                if (value == Filter.MOST_BIDS_SORT) {
+                  widget.handleTransformationsUpdate([...widget.transformations, LeastBidsSort(asc: false)]);
                 }
               });
-              print("Set transforms: ${transformStore.transforms}");
             },
-            child: Text('Anwenden'),
+            child: const Text('Anwenden'),
           ),
         ],
       ),
     );
   }
 
+  void disposeControllers() {
+    valueController.dispose();
+    sellerNameController.dispose();
+    titleNameValue.dispose();
+  }
+
   @override
   void dispose() {
-    valueController.dispose();
+    disposeControllers();
     super.dispose();
   }
 }

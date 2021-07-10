@@ -1,26 +1,25 @@
 import 'package:flutter/material.dart';
 
 class DescriptionSelection extends StatelessWidget {
-  DescriptionSelection({required this.controller});
+  const DescriptionSelection({required this.controller, Key? key})
+      : super(key: key);
   final TextEditingController controller;
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.fromLTRB(0, 0, 5, 10),
+      margin: const EdgeInsets.fromLTRB(0, 0, 5, 10),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          Text('Geben Sie ihrem Produkt eine Beschreibung'),
-          Container(
-            child: TextField(
-              decoration: InputDecoration(
-                border: OutlineInputBorder(),
-              ),
-              keyboardType: TextInputType.multiline,
-              maxLines: 7,
-              controller: controller,
+          const Text('Geben Sie ihrem Produkt eine Beschreibung'),
+          TextField(
+            decoration: const InputDecoration(
+              border: OutlineInputBorder(),
             ),
+            keyboardType: TextInputType.multiline,
+            maxLines: 7,
+            controller: controller,
           ),
         ],
       ),

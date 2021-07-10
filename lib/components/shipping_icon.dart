@@ -3,9 +3,11 @@ import 'package:flutter/widgets.dart';
 import 'package:lottery_app/enums/collect_type.dart';
 
 class ShippingIcon extends StatelessWidget {
-  ShippingIcon({required this.collectType,});
+  const ShippingIcon({required this.collectType, this.size = 20, Key? key})
+      : super(key: key);
 
   final CollectType collectType;
+  final double size;
 
   @override
   Widget build(BuildContext context) {
@@ -22,6 +24,9 @@ class ShippingIcon extends StatelessWidget {
         break;
     }
 
-    return Icon(icon, size: 20,);
+    return Icon(
+      icon,
+      size: size,
+    );
   }
 }

@@ -1,13 +1,13 @@
 import 'package:lottery_app/filter/transform.dart';
 import 'package:lottery_app/models/lottery.dart';
 
-class EndingDateFilter implements ITransform {
-  DateTime _date;
+class TitleFilter implements ITransform {
+  final String _title;
 
-  EndingDateFilter(DateTime date) : _date = date;
+  TitleFilter(String title) : _title = title;
 
   @override
   Iterable<Lottery> transformLotteries(Iterable<Lottery> lotteries) {
-    return lotteries.where((lottery) => lottery.endingDate.isBefore(_date));
+    return lotteries.where((lottery) => lottery.name.contains(_title));
   }
 }

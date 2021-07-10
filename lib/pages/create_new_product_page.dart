@@ -1,23 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:lottery_app/components/app_bar.dart';
 import 'package:lottery_app/components/new_product_page/category_selector.dart';
 import 'package:lottery_app/components/new_product_page/condition_selector.dart';
 import 'package:lottery_app/components/new_product_page/description_selection.dart';
 import 'package:lottery_app/components/new_product_page/image_selection.dart';
 import 'package:lottery_app/components/new_product_page/name_selection.dart';
-import 'package:lottery_app/components/user_dialog.dart';
 import 'package:lottery_app/enums/category.dart';
 import 'package:lottery_app/enums/collect_type.dart';
 import 'package:lottery_app/enums/condition.dart';
+import 'package:lottery_app/models/bid_tickets.dart';
 import 'package:lottery_app/models/lottery.dart';
-import 'package:lottery_app/models/app_user.dart';
+import 'package:lottery_app/controllers/firestore_controller.dart';
 import 'package:lottery_app/sidebar.dart';
-import 'package:lottery_app/stores/lotteries_store.dart';
 import 'package:lottery_app/stores/user_store.dart';
 import 'package:provider/provider.dart';
-import 'package:image_picker/image_picker.dart';
 
 class CreateNewProductPage extends StatefulWidget {
-  CreateNewProductPage({Key? key}) : super(key: key);
+  const CreateNewProductPage({Key? key}) : super(key: key);
   final String title = 'Angebot erstellen';
 
   @override
@@ -45,18 +45,12 @@ class _CreateNewProductPageState extends State<CreateNewProductPage> {
 
   @override
   Widget build(BuildContext context) {
-    LotteriesStore lotteriesStore = context.read<LotteriesStore>();
     UserStore userStore = context.read<UserStore>();
 
     return Scaffold(
-      drawer: Sidebar(),
-      appBar: AppBar(
-        title: Text(widget.title),
-        actions: [
-          UserDialog(),
-        ],
-      ),
-      body: userStore.status != Status.Authenticated
+      drawer: const Sidebar(),
+      appBar: lotteryAppBar(widget.title),
+      body: userStore.status != Status.AUTHENTICATED
           ? Center(
               child: Text(
               "Diese Funktion ist nur für angemeldete Nutzer verfügbar",
@@ -71,9 +65,9 @@ class _CreateNewProductPageState extends State<CreateNewProductPage> {
                       setState(() => _productImage = file),
                 ),
                 Card(
-                  margin: EdgeInsets.all(8),
+                  margin: const EdgeInsets.all(8),
                   child: Container(
-                    padding: EdgeInsets.all(8),
+                    padding: const EdgeInsets.all(8),
                     child: Column(
                       children: [
                         NameSelection(
@@ -84,36 +78,33 @@ class _CreateNewProductPageState extends State<CreateNewProductPage> {
                     ),
                   ),
                 ),
-                CategorySelector(),
+                const CategorySelector(),
                 ConditionSelector(
                   productCondition: productCondition,
                   handleConditionUpdate: (Condition condition) =>
                       setState(() => productCondition = condition),
                 ),
                 Center(
-                  child: Container(
-                    // Button to send Information further to Backend/ Server
-                    child: ElevatedButton(
-                      child: Text('Inserieren'),
-                      onPressed: () {
-                        Lottery lottery = new Lottery.withRandomId(
-                          name: textFieldControllerProductName.text,
-                          description:
-                                  textFieldControllerProductDescription.text,
-                          image: null,
-                          condition: productCondition,
-                          category: Category.OTHER,
-                          shippingCost: 0,
-                          endingDate: DateTime.now().add(Duration(minutes: 30)),
-                          ticketsMap: new Map<AppUser, int>(),
-                          seller: userStore.appUser!,
-                          winner: null,
-                          collectType: CollectType.SELF_COLLECT,
-                        );
-                        lotteriesStore.addLottery(lottery);
-                        Navigator.pushNamed(context, "/seller");
-                      },
-                    ),
+                  // Button to send Information further to Backend/ Server
+                  child: ElevatedButton(
+                    child: const Text('Inserieren'),
+                    onPressed: () async {
+                      Lottery lottery = Lottery.withRandomId(
+                        name: textFieldControllerProductName.text,
+                        description: textFieldControllerProductDescription.text,
+                        image: null,
+                        condition: productCondition,
+                        category: Category.OTHER,
+                        shippingCost: 0,
+                        endingDate: DateTime.now().add(const Duration(minutes: 30)),
+                        bidTickets: BidTickets(ticketMap: {}),
+                        seller: userStore.user,
+                        winner: null,
+                        collectType: CollectType.SELF_COLLECT,
+                      );
+                      FirestoreController.addLottery(lottery);
+                      Navigator.pushNamed(context, "/seller");
+                    },
                   ),
                 ),
               ],

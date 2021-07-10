@@ -5,7 +5,7 @@ import 'package:lottery_app/filter/transform.dart';
 import 'package:lottery_app/models/lottery.dart';
 
 class TransformStore extends ChangeNotifier {
-  List<ITransform> _transforms = List.empty(growable: true);
+  final List<ITransform> _transforms = List.empty(growable: true);
 
   List<ITransform> get transforms => _transforms;
 

@@ -3,7 +3,7 @@ import 'package:lottery_app/filter/transform.dart';
 import 'package:lottery_app/models/lottery.dart';
 
 class CategoryFilter implements ITransform {
-  Category _category;
+  final Category _category;
 
   CategoryFilter(Category category) : _category = category;
 

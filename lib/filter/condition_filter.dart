@@ -3,7 +3,7 @@ import 'package:lottery_app/filter/transform.dart';
 import 'package:lottery_app/models/lottery.dart';
 
 class ConditionFilter implements ITransform {
-  Condition _condition;
+  final Condition _condition;
 
   ConditionFilter(Condition condition) : _condition = condition;
 

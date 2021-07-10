@@ -4,20 +4,19 @@ import 'package:lottery_app/components/product_detail_page/bidding_data.dart';
 import 'package:lottery_app/components/product_detail_page/description_data.dart';
 import 'package:lottery_app/components/product_detail_page/seller_data.dart';
 import 'package:lottery_app/components/user_dialog.dart';
-import 'package:lottery_app/stores/lotteries_store.dart';
+import 'package:lottery_app/controllers/firestore_controller.dart';
 import 'package:provider/provider.dart';
 import 'package:lottery_app/models/lottery.dart';
 import 'package:lottery_app/stores/user_store.dart';
 
 class ProductDetailPage extends StatelessWidget {
-  ProductDetailPage({required this.lottery});
+  const ProductDetailPage({required this.lottery, Key? key}) : super(key: key);
 
   final Lottery lottery;
 
   @override
   Widget build(BuildContext context) {
     UserStore userStore = context.watch<UserStore>();
-    LotteriesStore lotteriesStore = context.read<LotteriesStore>();
 
     return Scaffold(
       body: CustomScrollView(
@@ -25,7 +24,7 @@ class ProductDetailPage extends StatelessWidget {
           SliverAppBar(
             pinned: true,
             expandedHeight: 160,
-            flexibleSpace: FlexibleSpaceBar(
+            flexibleSpace: const FlexibleSpaceBar(
               background: Image(
                   image: AssetImage("assets/placeholder_for_product_image.png"),
                   height: 160,
@@ -33,16 +32,16 @@ class ProductDetailPage extends StatelessWidget {
             ),
             actions: [
               UserDialog(),
-              if (lottery.seller != userStore.appUser) FavoriteButton()
+              if (lottery.seller != userStore.user) FavoriteButton(id: lottery.id)
             ],
           ),
           SliverList(
             delegate: SliverChildListDelegate(
               [
                 Card(
-                    margin: EdgeInsets.all(8),
+                    margin: const EdgeInsets.all(8),
                     child: Container(
-                      padding: EdgeInsets.all(8),
+                      padding: const EdgeInsets.all(8),
                       child: Text(lottery.name,
                           style: Theme.of(context)
                               .textTheme
@@ -65,14 +64,14 @@ class ProductDetailPage extends StatelessWidget {
           )
         ],
       ),
-      bottomNavigationBar: lottery.seller == userStore.appUser
+      bottomNavigationBar: lottery.seller == userStore.user
           ? null
           : BottomAppBar(
               child: Container(
-                padding: EdgeInsets.all(8),
+                padding: const EdgeInsets.all(8),
                 child: Row(
                   children: [
-                    Text("Tickets verbleibend: "),
+                    const Text("Tickets verbleibend: "),
                     Text(
                       "${userStore.tickets}",
                       style: Theme.of(context)
@@ -80,17 +79,17 @@ class ProductDetailPage extends StatelessWidget {
                           .bodyText1!
                           .apply(color: Colors.red),
                     ),
-                    Spacer(),
+                    const Spacer(),
                     ElevatedButton(
-                      onPressed: (userStore.status != Status.Authenticated || userStore.tickets <= 0)
+                      onPressed: (userStore.status != Status.AUTHENTICATED || userStore.tickets <= 0)
                           ? null
                           : () {
-                              lotteriesStore.bidOnLottery(
-                                  lottery, userStore.appUser!);
+                              lottery.addTicket(userStore.id);
                               userStore.removeTickets(1);
+                              FirestoreController.updateLottery(lottery);
                             },
                       child: Row(
-                        children: [
+                        children: const [
                           Icon(Icons.attach_money),
                           Text("Jetzt bieten!"),
                         ],

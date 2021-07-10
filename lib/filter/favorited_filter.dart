@@ -1,13 +1,13 @@
 import 'package:lottery_app/filter/transform.dart';
 import 'package:lottery_app/models/lottery.dart';
 
-class TicketsLessThanFilter implements ITransform {
-  final int _n;
+class IdFilter implements ITransform {
+  IdFilter({required this.ids});
 
-  TicketsLessThanFilter(int n) : _n = n;
+  final List<String> ids;
 
   @override
   Iterable<Lottery> transformLotteries(Iterable<Lottery> lotteries) {
-    return lotteries.where((lottery) => lottery.getTicketsUsed() < _n);
+    return lotteries.where((lottery) => ids.contains(lottery.id));
   }
 }

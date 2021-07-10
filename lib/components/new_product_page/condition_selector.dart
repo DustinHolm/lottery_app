@@ -4,8 +4,11 @@ import 'package:lottery_app/enums/condition.dart';
 import '../condition_icon.dart';
 
 class ConditionSelector extends StatelessWidget {
-  ConditionSelector(
-      {required this.productCondition, required this.handleConditionUpdate});
+  const ConditionSelector(
+      {required this.productCondition,
+      required this.handleConditionUpdate,
+      Key? key})
+      : super(key: key);
 
   final Condition productCondition;
   final Function(Condition) handleConditionUpdate;
@@ -13,22 +16,22 @@ class ConditionSelector extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      margin: EdgeInsets.all(8),
+      margin: const EdgeInsets.all(8),
       child: Container(
-        padding: EdgeInsets.all(8),
+        padding: const EdgeInsets.all(8),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            Text('Geben Sie den Zustand ihres Produktes an'),
+            const Text('Geben Sie den Zustand ihres Produktes an'),
             DropdownButton<Condition>(
               value: productCondition,
-              hint: Text('Zustand'),
+              hint: const Text('Zustand'),
               items: Condition.values.map((Condition value) {
                 return DropdownMenuItem<Condition>(
                   value: value,
                   child: Row(children: [
                     Padding(
-                      padding: EdgeInsets.fromLTRB(8, 0, 16, 0),
+                      padding: const EdgeInsets.fromLTRB(8, 0, 16, 0),
                       child: ConditionIcon(condition: value),
                     ),
                     Text(value.toFormattedString()),

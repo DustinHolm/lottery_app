@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="de.group7.lottery_app">
    <application
-        android:label="lottery_app"
+        android:label="Lotteriespiel-App"
         android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"

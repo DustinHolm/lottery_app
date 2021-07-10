@@ -2,7 +2,7 @@ import 'package:lottery_app/filter/transform.dart';
 import 'package:lottery_app/models/lottery.dart';
 
 class SellerFilter implements ITransform {
-  String _name;
+  final String _name;
 
   SellerFilter(String name) : _name = name;
 
