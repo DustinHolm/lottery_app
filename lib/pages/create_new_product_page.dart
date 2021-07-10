@@ -32,6 +32,7 @@ class _CreateNewProductPageState extends State<CreateNewProductPage> {
   final textFieldControllerProductDetails = TextEditingController();
 
   Condition productCondition = Condition.OK; //default Condition
+  Category productCategory = Category.OTHER; //default Category
   PickedFile? _productImage; //Store Image Path
 
   @override
@@ -78,7 +79,11 @@ class _CreateNewProductPageState extends State<CreateNewProductPage> {
                     ),
                   ),
                 ),
-                const CategorySelector(),
+                CategorySelector(
+                  productCategory: productCategory,
+                  handleCategoryUpdate: (Category category) =>
+                    setState(() => productCategory = category),
+                ),
                 ConditionSelector(
                   productCondition: productCondition,
                   handleConditionUpdate: (Condition condition) =>
@@ -94,7 +99,7 @@ class _CreateNewProductPageState extends State<CreateNewProductPage> {
                         description: textFieldControllerProductDescription.text,
                         image: null,
                         condition: productCondition,
-                        category: Category.OTHER,
+                        category: productCategory,
                         shippingCost: 0,
                         endingDate: DateTime.now().add(const Duration(minutes: 30)),
                         bidTickets: BidTickets(ticketMap: {}),
