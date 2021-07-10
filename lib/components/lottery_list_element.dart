@@ -14,6 +14,7 @@ class LotteryListElement extends StatelessWidget {
     return Card(
       margin: const EdgeInsets.all(3.0),
       child: ListTile(
+        // TODO: Add small Image as leading
         title: Text(lottery.name),
         trailing: LotteryListTrailing(
             endingDate: lottery.endingDate,

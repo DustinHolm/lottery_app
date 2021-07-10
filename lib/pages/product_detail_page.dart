@@ -48,6 +48,11 @@ class ProductDetailPage extends StatelessWidget {
                               .headline3!
                               .apply(color: Colors.black)),
                     )),
+                 /*
+                  * TODO: Some kind of "Du hast gewonnen!" or
+                  *  "Erfolgreich verkauft" on success. Maybe with a note
+                  *  "Tretet jetzt in Kontakt: ${otherUser.email}"
+                  */
                 BiddingData(
                   endingDate: lottery.endingDate,
                   ticketsUsed: lottery.getTicketsUsed(),
