@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:lottery_app/enums/category.dart';
 import 'package:lottery_app/enums/collect_type.dart';
@@ -82,7 +83,7 @@ class Lottery {
         "condition": condition.index,
         "category": category.index,
         "shippingCost": shippingCost,
-        "endingDate": endingDate,
+        "endingDate": Timestamp.fromDate(endingDate),
         "bidTickets": bidTickets.toJson(),
         "seller": seller.toJson(),
         "winner": winner?.toJson(),
