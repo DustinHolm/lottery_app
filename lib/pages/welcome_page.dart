@@ -13,12 +13,11 @@ class WelcomePage extends StatefulWidget {
 }
 
 class _WelcomePageState extends State<WelcomePage> {
-  String text0 =
-      "Bevor du auf Produkte bieten kannst musst du dir einen Account anlegen.";
-  String text1 = "Wenn du dies jetzt tun willst, klicke auf";
-  String text2 = "Möchtest du die App erstmal testen, klicke auf";
-  String text3 = "als Gast fortfahren";
-  bool signIn = true;
+  String text0 = "";
+  String text1 = "";
+  String text2 = "";
+  String text3 = "";
+  String buttonText = "";
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +28,14 @@ class _WelcomePageState extends State<WelcomePage> {
       text1 = "Account wechseln";
       text2 = "Klicken zum Fortfahren";
       text3 = "fortfahren";
-      signIn = false;
+      buttonText = "wechseln";
+    } else {
+      text0 =
+          "Bevor du auf Produkte bieten kannst musst du dir einen Account anlegen.";
+      text1 = "Wenn du dies jetzt tun willst, klicke auf";
+      text2 = "Möchtest du die App erstmal testen, klicke auf";
+      text3 = "als Gast fortfahren";
+      buttonText = "anmelden";
     }
 
     return Scaffold(
@@ -71,8 +77,8 @@ class _WelcomePageState extends State<WelcomePage> {
                           ),
                         ),
                         UserDialog(
-                            buttonText: signIn ? 'anmelden' : 'wechseln',
-                            notifyParent: () => setState(() {})),
+                            buttonText: buttonText,
+                            notifyParent: () => setState(() {}))
                       ],
                     ),
                     Row(

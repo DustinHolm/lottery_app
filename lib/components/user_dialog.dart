@@ -44,7 +44,7 @@ class UserDialog extends StatelessWidget {
                           : ElevatedButton(
                               onPressed: () async {
                                 return await userStore.signOut().then((_) {
-                                  notifyParent(); //TODO funktioniert nicht
+                                  notifyParent();
                                   Navigator.pop(context);
                                 });
                               },
