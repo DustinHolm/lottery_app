@@ -17,6 +17,7 @@ class _WelcomePageState extends State<WelcomePage> {
   String text1 = "";
   String text2 = "";
   String text3 = "";
+  String text4 = "";
   String buttonText = "";
 
   @override
@@ -24,17 +25,19 @@ class _WelcomePageState extends State<WelcomePage> {
     UserStore userStore = context.read<UserStore>();
 
     if (userStore.status == Status.AUTHENTICATED) {
-      text0 = "Erfolgreich angemeldet.";
-      text1 = "Account wechseln";
-      text2 = "Klicken zum Fortfahren";
-      text3 = "fortfahren";
+      text0 = "";
+      text1 = "Erfolgreich angemeldet.";
+      text2 = "Account";
+      text3 = "Klicken zum";
+      text4 = "Fortfahren";
       buttonText = "wechseln";
     } else {
-      text0 =
+      text0 = "Du hast soeben zum ersten Mal die Lotteriespiel-App geöffnet.";
+      text1 =
           "Bevor du auf Produkte bieten kannst musst du dir einen Account anlegen.";
-      text1 = "Wenn du dies jetzt tun willst, klicke auf";
-      text2 = "Möchtest du die App erstmal testen, klicke auf";
-      text3 = "als Gast fortfahren";
+      text2 = "Wenn du dies jetzt tun willst, klicke auf";
+      text3 = "Möchtest du die App erstmal testen, klicke auf";
+      text4 = "als Gast fortfahren";
       buttonText = "anmelden";
     }
 
@@ -59,21 +62,22 @@ class _WelcomePageState extends State<WelcomePage> {
               Padding(
                 padding: const EdgeInsets.only(top: 10),
                 child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      "Du hast soeben zum ersten Mal die Lotteriespiel-App geöffnet.",
-                      style: Theme.of(context).textTheme.bodyText1,
+                      text0,
+                      style: Theme.of(context).textTheme.bodyText2,
                     ),
                     Text(
-                      text0,
-                      style: Theme.of(context).textTheme.bodyText1,
+                      text1,
+                      style: Theme.of(context).textTheme.bodyText2,
                     ),
                     Row(
                       children: [
                         Flexible(
                           child: Text(
-                            text1,
-                            style: Theme.of(context).textTheme.bodyText1,
+                            text2,
+                            style: Theme.of(context).textTheme.bodyText2,
                           ),
                         ),
                         UserDialog(
@@ -85,8 +89,8 @@ class _WelcomePageState extends State<WelcomePage> {
                       children: [
                         Flexible(
                           child: Text(
-                            text2,
-                            style: Theme.of(context).textTheme.bodyText1,
+                            text3,
+                            style: Theme.of(context).textTheme.bodyText2,
                           ),
                         ),
                         TextButton(
@@ -94,7 +98,7 @@ class _WelcomePageState extends State<WelcomePage> {
                               await LocalStorageService.setIsFirstUse(false);
                               Navigator.popAndPushNamed(context, "/overview");
                             },
-                            child: Text(text3))
+                            child: Text(text4))
                       ],
                     )
                   ],
