@@ -44,6 +44,17 @@ class _SellerPageState extends State<SellerPage> {
           return LotteryListElement(lottery: lottery);
         },
       ),
+      bottomNavigationBar: BottomAppBar(
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(64, 8, 64, 8),
+          child: ElevatedButton(
+            child: const Text("Neues Angebot erstellen"),
+            onPressed: () {
+              Navigator.pushNamed(context, "/create");
+            },
+          ),
+        )
+      ),
     );
   }
 }
