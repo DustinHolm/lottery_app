@@ -29,7 +29,7 @@ class _SellerPageState extends State<SellerPage> {
 
     return Scaffold(
       drawer: const Sidebar(),
-      appBar: lotteryAppBar(widget.title),
+      appBar: LotteryAppBar(title: widget.title),
       body: userStore.status != Status.AUTHENTICATED
           ? Center(
               child: Text(
@@ -43,6 +43,17 @@ class _SellerPageState extends State<SellerPage> {
           Lottery lottery = lotteries[index];
           return LotteryListElement(lottery: lottery);
         },
+      ),
+      bottomNavigationBar: BottomAppBar(
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(64, 8, 64, 8),
+          child: ElevatedButton(
+            child: const Text("Neues Angebot erstellen"),
+            onPressed: () {
+              Navigator.pushNamed(context, "/create");
+            },
+          ),
+        )
       ),
     );
   }

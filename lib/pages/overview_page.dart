@@ -32,7 +32,7 @@ class _OverviewPageState extends State<OverviewPage> {
 
     return Scaffold(
       drawer: const Sidebar(),
-      appBar: lotteryAppBar(widget.title),
+      appBar: LotteryAppBar(title: widget.title),
       body: Column(children: [
         FilterDropdown(transformations: transformations, handleTransformationsUpdate: (List<ITransform> update) => setState(() => transformations = update)),
         Expanded(

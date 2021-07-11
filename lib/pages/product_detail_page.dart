@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:lottery_app/components/favorite_button.dart';
 import 'package:lottery_app/components/product_detail_page/bidding_data.dart';
 import 'package:lottery_app/components/product_detail_page/description_data.dart';
+import 'package:lottery_app/components/product_detail_page/image_app_bar.dart';
 import 'package:lottery_app/components/product_detail_page/seller_data.dart';
-import 'package:lottery_app/components/user_dialog.dart';
 import 'package:lottery_app/controllers/firestore_controller.dart';
 import 'package:provider/provider.dart';
 import 'package:lottery_app/models/lottery.dart';
@@ -21,20 +20,7 @@ class ProductDetailPage extends StatelessWidget {
     return Scaffold(
       body: CustomScrollView(
         slivers: [
-          SliverAppBar(
-            pinned: true,
-            expandedHeight: 160,
-            flexibleSpace: const FlexibleSpaceBar(
-              background: Image(
-                  image: AssetImage("assets/placeholder_for_product_image.png"),
-                  height: 160,
-                  fit: BoxFit.fitWidth),
-            ),
-            actions: [
-              UserDialog(),
-              if (lottery.seller != userStore.user) FavoriteButton(id: lottery.id)
-            ],
-          ),
+          ImageAppBar(lottery: lottery),
           SliverList(
             delegate: SliverChildListDelegate(
               [
@@ -46,8 +32,16 @@ class ProductDetailPage extends StatelessWidget {
                           style: Theme.of(context)
                               .textTheme
                               .headline3!
-                              .apply(color: Colors.black)),
+                              .apply(color: Colors.black),
+                      maxLines: 3,
+                      overflow: TextOverflow.ellipsis,
+                      ),
                     )),
+                 /*
+                  * TODO: Some kind of "Du hast gewonnen!" or
+                  *  "Erfolgreich verkauft" on success. Maybe with a note
+                  *  "Tretet jetzt in Kontakt: ${otherUser.email}"
+                  */
                 BiddingData(
                   endingDate: lottery.endingDate,
                   ticketsUsed: lottery.getTicketsUsed(),

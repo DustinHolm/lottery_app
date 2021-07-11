@@ -1,6 +1,7 @@
 import 'dart:math';
+import 'dart:ui';
 
-import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:lottery_app/enums/category.dart';
 import 'package:lottery_app/enums/collect_type.dart';
 import 'package:lottery_app/enums/condition.dart';
@@ -13,7 +14,7 @@ class Lottery {
   String id;
   String name;
   String description;
-  Image? image;
+  String? image;
   Condition condition;
   Category category;
   int shippingCost;
@@ -78,11 +79,11 @@ class Lottery {
         "id": id,
         "name": name,
         "description": description,
-        "image": (image == null) ? "no" : "yes",
+        "image": image,
         "condition": condition.index,
         "category": category.index,
         "shippingCost": shippingCost,
-        "endingDate": endingDate,
+        "endingDate": Timestamp.fromDate(endingDate),
         "bidTickets": bidTickets.toJson(),
         "seller": seller.toJson(),
         "winner": winner?.toJson(),
@@ -93,13 +94,47 @@ class Lottery {
       : id = json["id"],
         name = json["name"],
         description = json["description"],
-        image = null,
+        image = json["image"],
         condition = Condition.values[json["condition"]],
         category = Category.values[json["category"]],
         shippingCost = json["shippingCost"],
         endingDate = json["endingDate"].toDate(),
         bidTickets = BidTickets.fromJson(json["bidTickets"]),
         seller = AppUser.fromJson(json["seller"]),
-        winner = json["winner"] == null ? null : AppUser.fromJson(json["winner"]),
+        winner =
+            json["winner"] == null ? null : AppUser.fromJson(json["winner"]),
         collectType = CollectType.values[json["collectType"]];
+
+  @override
+  bool operator ==(Object other) {
+    return (other is Lottery) &&
+        other.id == id &&
+        other.name == name &&
+        other.description == description &&
+        other.image == image &&
+        other.condition == condition &&
+        other.category == category &&
+        other.shippingCost == shippingCost &&
+        other.endingDate == endingDate &&
+        other.bidTickets == bidTickets &&
+        other.seller == seller &&
+        other.winner == winner &&
+        other.collectType == collectType;
+  }
+
+  @override
+  int get hashCode => hashValues(
+        id.hashCode,
+        name.hashCode,
+        description.hashCode,
+        image.hashCode,
+        condition.hashCode,
+        category.hashCode,
+        shippingCost.hashCode,
+        endingDate.hashCode,
+        bidTickets.hashCode,
+        seller.hashCode,
+        winner.hashCode,
+        collectType.hashCode,
+      );
 }

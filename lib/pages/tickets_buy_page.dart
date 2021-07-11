@@ -21,7 +21,7 @@ class _TicketsBuyPageState extends State<TicketsBuyPage> {
 
     return Scaffold(
       drawer: const Sidebar(),
-      appBar: lotteryAppBar(widget.title),
+      appBar: LotteryAppBar(title: widget.title),
       body: userStore.status != Status.AUTHENTICATED
           ? Center(
               child: Text(

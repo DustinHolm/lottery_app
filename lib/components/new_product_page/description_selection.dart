@@ -7,22 +7,19 @@ class DescriptionSelection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.fromLTRB(0, 0, 5, 10),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          const Text('Geben Sie ihrem Produkt eine Beschreibung'),
-          TextField(
-            decoration: const InputDecoration(
-              border: OutlineInputBorder(),
-            ),
-            keyboardType: TextInputType.multiline,
-            maxLines: 7,
-            controller: controller,
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        const Text('Geben Sie ihrem Produkt eine Beschreibung'),
+        TextField(
+          decoration: const InputDecoration(
+            border: OutlineInputBorder(),
           ),
-        ],
-      ),
+          keyboardType: TextInputType.multiline,
+          maxLines: 7,
+          controller: controller,
+        ),
+      ],
     );
   }
 }

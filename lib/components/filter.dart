@@ -16,7 +16,11 @@ import 'package:lottery_app/filter/transform.dart';
 import 'number_form_field.dart';
 
 class FilterDropdown extends StatefulWidget {
-  const FilterDropdown({required this.transformations, required this.handleTransformationsUpdate, Key? key}): super(key: key);
+  const FilterDropdown(
+      {required this.transformations,
+      required this.handleTransformationsUpdate,
+      Key? key})
+      : super(key: key);
 
   final List<ITransform> transformations;
   final Function(List<ITransform>) handleTransformationsUpdate;
@@ -26,7 +30,7 @@ class FilterDropdown extends StatefulWidget {
 }
 
 class _FilterDropdownState extends State<FilterDropdown> {
-  Filter? value  = Filter.TITLE_FILTER;
+  Filter? value = Filter.TITLE_FILTER;
   CollectType? collectTypeValue = CollectType.PACKET_INLAND;
   Condition? conditionValue = Condition.LIKE_NEW;
   Category? categoryValue = Category.OTHER;
@@ -74,7 +78,8 @@ class _FilterDropdownState extends State<FilterDropdown> {
                           child:
                               TextFormField(controller: sellerNameController))
                       : value == Filter.TICKETS_LESS_THAN_FILTER
-                          ? NumberFormField(controller: valueController, height: 32)
+                          ? NumberFormField(
+                              controller: valueController, height: 32)
                           : value == Filter.CATEGORY_FILTER
                               ? (DropdownButton<Category>(
                                   value: categoryValue,
@@ -139,40 +144,59 @@ class _FilterDropdownState extends State<FilterDropdown> {
                   widget.handleTransformationsUpdate([]);
                 }
                 if (value == Filter.SELLER_NAME_FILTER) {
-                  widget.handleTransformationsUpdate([...widget.transformations, SellerFilter(valueController.text)]);
+                  widget.handleTransformationsUpdate([
+                    ...widget.transformations,
+                    SellerFilter(sellerNameController.text)
+                  ]);
                 }
                 if (value == Filter.TITLE_FILTER) {
-                  widget.handleTransformationsUpdate([...widget.transformations, TitleFilter(titleNameValue.text)]);
+                  widget.handleTransformationsUpdate([
+                    ...widget.transformations,
+                    TitleFilter(titleNameValue.text)
+                  ]);
                 }
                 if (value == Filter.TICKETS_LESS_THAN_FILTER) {
                   var v = int.tryParse(valueController.text);
                   if (v != null) {
-                    widget.handleTransformationsUpdate([...widget.transformations, TicketsLessThanFilter(v)]);
+                    widget.handleTransformationsUpdate(
+                        [...widget.transformations, TicketsLessThanFilter(v)]);
                   }
                 }
                 if (value == Filter.CATEGORY_FILTER) {
                   if (categoryValue != null) {
-                    widget.handleTransformationsUpdate([...widget.transformations, CategoryFilter(categoryValue!)]);
+                    widget.handleTransformationsUpdate([
+                      ...widget.transformations,
+                      CategoryFilter(categoryValue!)
+                    ]);
                   }
                 }
                 if (value == Filter.COLLECT_TYPE_FILTER) {
                   if (collectTypeValue != null) {
-                    widget.handleTransformationsUpdate([...widget.transformations, CollectTypeFilter(collectTypeValue!)]);
+                    widget.handleTransformationsUpdate([
+                      ...widget.transformations,
+                      CollectTypeFilter(collectTypeValue!)
+                    ]);
                   }
                 }
                 if (value == Filter.CONDITION_FILTER) {
                   if (conditionValue != null) {
-                    widget.handleTransformationsUpdate([...widget.transformations, ConditionFilter(conditionValue!)]);
+                    widget.handleTransformationsUpdate([
+                      ...widget.transformations,
+                      ConditionFilter(conditionValue!)
+                    ]);
                   }
                 }
                 if (value == Filter.ENDING_SOONEST_SORT) {
-                  widget.handleTransformationsUpdate([...widget.transformations, EndingSoonestSort()]);
+                  widget.handleTransformationsUpdate(
+                      [...widget.transformations, EndingSoonestSort()]);
                 }
                 if (value == Filter.LEAST_BIDS_SORT) {
-                  widget.handleTransformationsUpdate([...widget.transformations, LeastBidsSort(asc: true)]);
+                  widget.handleTransformationsUpdate(
+                      [...widget.transformations, LeastBidsSort(asc: true)]);
                 }
                 if (value == Filter.MOST_BIDS_SORT) {
-                  widget.handleTransformationsUpdate([...widget.transformations, LeastBidsSort(asc: false)]);
+                  widget.handleTransformationsUpdate(
+                      [...widget.transformations, LeastBidsSort(asc: false)]);
                 }
               });
             },

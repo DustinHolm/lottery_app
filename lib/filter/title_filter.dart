@@ -8,6 +8,7 @@ class TitleFilter implements ITransform {
 
   @override
   Iterable<Lottery> transformLotteries(Iterable<Lottery> lotteries) {
-    return lotteries.where((lottery) => lottery.name.contains(_title));
+    return lotteries.where(
+        (lottery) => lottery.name.toLowerCase().contains(_title.toLowerCase()));
   }
 }

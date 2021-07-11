@@ -6,12 +6,13 @@ import 'package:lottery_app/components/new_product_page/condition_selector.dart'
 import 'package:lottery_app/components/new_product_page/description_selection.dart';
 import 'package:lottery_app/components/new_product_page/image_selection.dart';
 import 'package:lottery_app/components/new_product_page/name_selection.dart';
+import 'package:lottery_app/components/new_product_page/shipping_selector.dart';
 import 'package:lottery_app/enums/category.dart';
 import 'package:lottery_app/enums/collect_type.dart';
 import 'package:lottery_app/enums/condition.dart';
 import 'package:lottery_app/models/bid_tickets.dart';
 import 'package:lottery_app/models/lottery.dart';
-import 'package:lottery_app/controllers/firestore_controller.dart';
+import 'package:lottery_app/services/lottery_upload_service.dart';
 import 'package:lottery_app/sidebar.dart';
 import 'package:lottery_app/stores/user_store.dart';
 import 'package:provider/provider.dart';
@@ -25,21 +26,30 @@ class CreateNewProductPage extends StatefulWidget {
 }
 
 class _CreateNewProductPageState extends State<CreateNewProductPage> {
-//A Controller to get the TextField Value from Multiline TextFields
-//A onSubmit function in a Multiline TextFields does not work
-  final textFieldControllerProductName = TextEditingController();
-  final textFieldControllerProductDescription = TextEditingController();
-  final textFieldControllerProductDetails = TextEditingController();
+  final nameController = TextEditingController();
+  final descriptionController = TextEditingController();
+  final shippingCostController = TextEditingController();
+  final durationController = TextEditingController();
 
   Condition productCondition = Condition.OK; //default Condition
-  PickedFile? _productImage; //Store Image Path
+  Category productCategory = Category.OTHER; //default Category
+  CollectType productCollectType = CollectType.SELF_COLLECT; //default CollectType
+  PickedFile? productImage; //Store Image Path
+
+  @override
+  void initState() {
+    nameController.addListener(() {
+      setState(() {});
+    });
+    super.initState();
+  }
 
   @override
   void dispose() {
-    // cleans up the controller after use
-    textFieldControllerProductName.dispose();
-    textFieldControllerProductDescription.dispose();
-    textFieldControllerProductDetails.dispose();
+    nameController.dispose();
+    descriptionController.dispose();
+    shippingCostController.dispose();
+    durationController.dispose();
     super.dispose();
   }
 
@@ -49,7 +59,7 @@ class _CreateNewProductPageState extends State<CreateNewProductPage> {
 
     return Scaffold(
       drawer: const Sidebar(),
-      appBar: lotteryAppBar(widget.title),
+      appBar: LotteryAppBar(title: widget.title),
       body: userStore.status != Status.AUTHENTICATED
           ? Center(
               child: Text(
@@ -60,9 +70,9 @@ class _CreateNewProductPageState extends State<CreateNewProductPage> {
           : ListView(
               children: [
                 ImageSelection(
-                  productImage: _productImage,
+                  productImage: productImage,
                   handleImageUpdate: (PickedFile? file) =>
-                      setState(() => _productImage = file),
+                      setState(() => productImage = file),
                 ),
                 Card(
                   margin: const EdgeInsets.all(8),
@@ -71,40 +81,50 @@ class _CreateNewProductPageState extends State<CreateNewProductPage> {
                     child: Column(
                       children: [
                         NameSelection(
-                            controller: textFieldControllerProductName),
+                            controller: nameController),
                         DescriptionSelection(
-                            controller: textFieldControllerProductDescription),
+                            controller: descriptionController),
                       ],
                     ),
                   ),
                 ),
-                const CategorySelector(),
+                CategorySelector(
+                  productCategory: productCategory,
+                  handleCategoryUpdate: (Category category) =>
+                    setState(() => productCategory = category),
+                ),
                 ConditionSelector(
                   productCondition: productCondition,
                   handleConditionUpdate: (Condition condition) =>
                       setState(() => productCondition = condition),
                 ),
+                ShippingSelector(
+                  productCollectType: productCollectType,
+                  handleCollectTypeUpdate: (CollectType type) =>
+                      setState(() => productCollectType = type),
+                  controller: shippingCostController,
+                ),
                 Center(
                   // Button to send Information further to Backend/ Server
                   child: ElevatedButton(
-                    child: const Text('Inserieren'),
-                    onPressed: () async {
+                    child: (nameController.text.trim() != "") ? const Text('Inserieren') : const Text('Name wählen!'),
+                    onPressed: (nameController.text.trim() != "") ? () async {
                       Lottery lottery = Lottery.withRandomId(
-                        name: textFieldControllerProductName.text,
-                        description: textFieldControllerProductDescription.text,
+                        name: nameController.text.trim(),
+                        description: descriptionController.text.trim(),
                         image: null,
                         condition: productCondition,
-                        category: Category.OTHER,
-                        shippingCost: 0,
-                        endingDate: DateTime.now().add(const Duration(minutes: 30)),
+                        category: productCategory,
+                        shippingCost: (productCollectType == CollectType.SELF_COLLECT) ? 0 : int.parse(shippingCostController.text),
+                        endingDate: DateTime.now().add(const Duration(days: 7)),
                         bidTickets: BidTickets(ticketMap: {}),
                         seller: userStore.user,
                         winner: null,
-                        collectType: CollectType.SELF_COLLECT,
+                        collectType: productCollectType,
                       );
-                      FirestoreController.addLottery(lottery);
+                      LotteryUploadService.upload(lottery, productImage);
                       Navigator.pushNamed(context, "/seller");
-                    },
+                    } : null,
                   ),
                 ),
               ],
