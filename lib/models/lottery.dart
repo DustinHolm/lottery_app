@@ -1,7 +1,6 @@
 import 'dart:math';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/material.dart';
 import 'package:lottery_app/enums/category.dart';
 import 'package:lottery_app/enums/collect_type.dart';
 import 'package:lottery_app/enums/condition.dart';
@@ -14,7 +13,7 @@ class Lottery {
   String id;
   String name;
   String description;
-  Image? image;
+  String? image;
   Condition condition;
   Category category;
   int shippingCost;
@@ -79,7 +78,7 @@ class Lottery {
         "id": id,
         "name": name,
         "description": description,
-        "image": (image == null) ? "no" : "yes",
+        "image": image,
         "condition": condition.index,
         "category": category.index,
         "shippingCost": shippingCost,
@@ -94,7 +93,7 @@ class Lottery {
       : id = json["id"],
         name = json["name"],
         description = json["description"],
-        image = null,
+        image = json["image"],
         condition = Condition.values[json["condition"]],
         category = Category.values[json["category"]],
         shippingCost = json["shippingCost"],

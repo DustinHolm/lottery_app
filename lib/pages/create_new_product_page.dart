@@ -11,7 +11,7 @@ import 'package:lottery_app/enums/collect_type.dart';
 import 'package:lottery_app/enums/condition.dart';
 import 'package:lottery_app/models/bid_tickets.dart';
 import 'package:lottery_app/models/lottery.dart';
-import 'package:lottery_app/controllers/firestore_controller.dart';
+import 'package:lottery_app/services/lottery_upload_service.dart';
 import 'package:lottery_app/sidebar.dart';
 import 'package:lottery_app/stores/user_store.dart';
 import 'package:provider/provider.dart';
@@ -107,7 +107,7 @@ class _CreateNewProductPageState extends State<CreateNewProductPage> {
                         winner: null,
                         collectType: CollectType.SELF_COLLECT,
                       );
-                      FirestoreController.addLottery(lottery);
+                      LotteryUploadService.upload(lottery, _productImage);
                       Navigator.pushNamed(context, "/seller");
                     },
                   ),
