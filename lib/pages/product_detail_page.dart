@@ -32,7 +32,10 @@ class ProductDetailPage extends StatelessWidget {
                           style: Theme.of(context)
                               .textTheme
                               .headline3!
-                              .apply(color: Colors.black)),
+                              .apply(color: Colors.black),
+                      maxLines: 3,
+                      overflow: TextOverflow.ellipsis,
+                      ),
                     )),
                  /*
                   * TODO: Some kind of "Du hast gewonnen!" or

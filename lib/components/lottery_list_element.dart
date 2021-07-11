@@ -14,8 +14,14 @@ class LotteryListElement extends StatelessWidget {
     return Card(
       margin: const EdgeInsets.all(3.0),
       child: ListTile(
-        // TODO: Add small Image as leading
-        title: Text(lottery.name),
+        contentPadding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
+        leading: (lottery.image != null) ? Image(
+          image: NetworkImage(lottery.image!),
+          height: 60,
+          width: 60,
+          fit: BoxFit.cover,
+        ) : null,
+        title: Text(lottery.name, maxLines: 2, overflow: TextOverflow.ellipsis,),
         trailing: LotteryListTrailing(
             endingDate: lottery.endingDate,
             ticketsUsed: lottery.getTicketsUsed()),
