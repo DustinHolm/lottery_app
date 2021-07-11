@@ -93,7 +93,7 @@ void main() {
     test("Lottery is same with all attributes set", () {
       Lottery original = getBaseLottery();
       original.winner = getWinner();
-      original.image = null; //TODO: Images need to be implemented
+      original.image = "This is not an URL";
       Lottery copy = Lottery.fromJson(original.toJson());
       expect(copy, original);
     });

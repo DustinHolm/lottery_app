@@ -1,4 +1,5 @@
 import 'dart:math';
+import 'dart:ui';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:lottery_app/enums/category.dart';
@@ -100,6 +101,40 @@ class Lottery {
         endingDate = json["endingDate"].toDate(),
         bidTickets = BidTickets.fromJson(json["bidTickets"]),
         seller = AppUser.fromJson(json["seller"]),
-        winner = json["winner"] == null ? null : AppUser.fromJson(json["winner"]),
+        winner =
+            json["winner"] == null ? null : AppUser.fromJson(json["winner"]),
         collectType = CollectType.values[json["collectType"]];
+
+  @override
+  bool operator ==(Object other) {
+    return (other is Lottery) &&
+        other.id == id &&
+        other.name == name &&
+        other.description == description &&
+        other.image == image &&
+        other.condition == condition &&
+        other.category == category &&
+        other.shippingCost == shippingCost &&
+        other.endingDate == endingDate &&
+        other.bidTickets == bidTickets &&
+        other.seller == seller &&
+        other.winner == winner &&
+        other.collectType == collectType;
+  }
+
+  @override
+  int get hashCode => hashValues(
+        id.hashCode,
+        name.hashCode,
+        description.hashCode,
+        image.hashCode,
+        condition.hashCode,
+        category.hashCode,
+        shippingCost.hashCode,
+        endingDate.hashCode,
+        bidTickets.hashCode,
+        seller.hashCode,
+        winner.hashCode,
+        collectType.hashCode,
+      );
 }
