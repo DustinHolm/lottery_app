@@ -6,21 +6,18 @@ class NameSelection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.fromLTRB(0, 0, 5, 10),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          const Text('Geben Sie ihrem Produkt einen Name'),
-          TextField(
-            decoration: const InputDecoration(
-              border: OutlineInputBorder(),
-            ),
-            controller: controller,
-            maxLength: 40,
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        const Text('Geben Sie ihrem Produkt einen Name'),
+        TextField(
+          decoration: const InputDecoration(
+            border: OutlineInputBorder(),
           ),
-        ],
-      ),
+          controller: controller,
+          maxLength: 40,
+        ),
+      ],
     );
   }
 }

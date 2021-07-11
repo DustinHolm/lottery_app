@@ -28,7 +28,7 @@ class ShippingData extends StatelessWidget {
     } else {
       return GridTile(
         child: Text(
-          "$shippingCost Tickets",
+          "+$shippingCost Tickets",
           style: Theme.of(context).textTheme.headline5,
           textAlign: TextAlign.center,
         ),

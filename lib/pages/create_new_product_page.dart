@@ -4,8 +4,10 @@ import 'package:lottery_app/components/app_bar.dart';
 import 'package:lottery_app/components/new_product_page/category_selector.dart';
 import 'package:lottery_app/components/new_product_page/condition_selector.dart';
 import 'package:lottery_app/components/new_product_page/description_selection.dart';
+import 'package:lottery_app/components/new_product_page/duration_selector.dart';
 import 'package:lottery_app/components/new_product_page/image_selection.dart';
 import 'package:lottery_app/components/new_product_page/name_selection.dart';
+import 'package:lottery_app/components/new_product_page/shipping_selector.dart';
 import 'package:lottery_app/enums/category.dart';
 import 'package:lottery_app/enums/collect_type.dart';
 import 'package:lottery_app/enums/condition.dart';
@@ -27,17 +29,17 @@ class CreateNewProductPage extends StatefulWidget {
 class _CreateNewProductPageState extends State<CreateNewProductPage> {
   final nameController = TextEditingController();
   final descriptionController = TextEditingController();
+  final shippingCostController = TextEditingController();
+  final durationController = TextEditingController();
 
   Condition productCondition = Condition.OK; //default Condition
   Category productCategory = Category.OTHER; //default Category
+  CollectType productCollectType = CollectType.SELF_COLLECT; //default CollectType
   PickedFile? productImage; //Store Image Path
 
   @override
   void initState() {
     nameController.addListener(() {
-      setState(() {});
-    });
-    descriptionController.addListener(() {
       setState(() {});
     });
     super.initState();
@@ -47,6 +49,8 @@ class _CreateNewProductPageState extends State<CreateNewProductPage> {
   void dispose() {
     nameController.dispose();
     descriptionController.dispose();
+    shippingCostController.dispose();
+    durationController.dispose();
     super.dispose();
   }
 
@@ -95,6 +99,12 @@ class _CreateNewProductPageState extends State<CreateNewProductPage> {
                   handleConditionUpdate: (Condition condition) =>
                       setState(() => productCondition = condition),
                 ),
+                ShippingSelector(
+                  productCollectType: productCollectType,
+                  handleCollectTypeUpdate: (CollectType type) =>
+                      setState(() => productCollectType = type),
+                  controller: shippingCostController,
+                ),
                 Center(
                   // Button to send Information further to Backend/ Server
                   child: ElevatedButton(
@@ -106,12 +116,12 @@ class _CreateNewProductPageState extends State<CreateNewProductPage> {
                         image: null,
                         condition: productCondition,
                         category: productCategory,
-                        shippingCost: 0,
-                        endingDate: DateTime.now().add(const Duration(minutes: 30)),
+                        shippingCost: (productCollectType == CollectType.SELF_COLLECT) ? 0 : int.parse(shippingCostController.text),
+                        endingDate: DateTime.now().add(const Duration(days: 7)),
                         bidTickets: BidTickets(ticketMap: {}),
                         seller: userStore.user,
                         winner: null,
-                        collectType: CollectType.SELF_COLLECT,
+                        collectType: productCollectType,
                       );
                       LotteryUploadService.upload(lottery, productImage);
                       Navigator.pushNamed(context, "/seller");
