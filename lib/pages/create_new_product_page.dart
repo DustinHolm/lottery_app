@@ -4,7 +4,6 @@ import 'package:lottery_app/components/app_bar.dart';
 import 'package:lottery_app/components/new_product_page/category_selector.dart';
 import 'package:lottery_app/components/new_product_page/condition_selector.dart';
 import 'package:lottery_app/components/new_product_page/description_selection.dart';
-import 'package:lottery_app/components/new_product_page/duration_selector.dart';
 import 'package:lottery_app/components/new_product_page/image_selection.dart';
 import 'package:lottery_app/components/new_product_page/name_selection.dart';
 import 'package:lottery_app/components/new_product_page/shipping_selector.dart';
