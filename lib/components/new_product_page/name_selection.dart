@@ -17,6 +17,7 @@ class NameSelection extends StatelessWidget {
               border: OutlineInputBorder(),
             ),
             controller: controller,
+            maxLength: 40,
           ),
         ],
       ),

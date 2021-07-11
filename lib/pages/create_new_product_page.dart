@@ -25,22 +25,28 @@ class CreateNewProductPage extends StatefulWidget {
 }
 
 class _CreateNewProductPageState extends State<CreateNewProductPage> {
-//A Controller to get the TextField Value from Multiline TextFields
-//A onSubmit function in a Multiline TextFields does not work
-  final textFieldControllerProductName = TextEditingController();
-  final textFieldControllerProductDescription = TextEditingController();
-  final textFieldControllerProductDetails = TextEditingController();
+  final nameController = TextEditingController();
+  final descriptionController = TextEditingController();
 
   Condition productCondition = Condition.OK; //default Condition
   Category productCategory = Category.OTHER; //default Category
-  PickedFile? _productImage; //Store Image Path
+  PickedFile? productImage; //Store Image Path
+
+  @override
+  void initState() {
+    nameController.addListener(() {
+      setState(() {});
+    });
+    descriptionController.addListener(() {
+      setState(() {});
+    });
+    super.initState();
+  }
 
   @override
   void dispose() {
-    // cleans up the controller after use
-    textFieldControllerProductName.dispose();
-    textFieldControllerProductDescription.dispose();
-    textFieldControllerProductDetails.dispose();
+    nameController.dispose();
+    descriptionController.dispose();
     super.dispose();
   }
 
@@ -61,9 +67,9 @@ class _CreateNewProductPageState extends State<CreateNewProductPage> {
           : ListView(
               children: [
                 ImageSelection(
-                  productImage: _productImage,
+                  productImage: productImage,
                   handleImageUpdate: (PickedFile? file) =>
-                      setState(() => _productImage = file),
+                      setState(() => productImage = file),
                 ),
                 Card(
                   margin: const EdgeInsets.all(8),
@@ -72,9 +78,9 @@ class _CreateNewProductPageState extends State<CreateNewProductPage> {
                     child: Column(
                       children: [
                         NameSelection(
-                            controller: textFieldControllerProductName),
+                            controller: nameController),
                         DescriptionSelection(
-                            controller: textFieldControllerProductDescription),
+                            controller: descriptionController),
                       ],
                     ),
                   ),
@@ -92,11 +98,11 @@ class _CreateNewProductPageState extends State<CreateNewProductPage> {
                 Center(
                   // Button to send Information further to Backend/ Server
                   child: ElevatedButton(
-                    child: const Text('Inserieren'),
-                    onPressed: () async {
+                    child: (nameController.text.trim() != "") ? const Text('Inserieren') : const Text('Name wählen!'),
+                    onPressed: (nameController.text.trim() != "") ? () async {
                       Lottery lottery = Lottery.withRandomId(
-                        name: textFieldControllerProductName.text,
-                        description: textFieldControllerProductDescription.text,
+                        name: nameController.text.trim(),
+                        description: descriptionController.text.trim(),
                         image: null,
                         condition: productCondition,
                         category: productCategory,
@@ -107,9 +113,9 @@ class _CreateNewProductPageState extends State<CreateNewProductPage> {
                         winner: null,
                         collectType: CollectType.SELF_COLLECT,
                       );
-                      LotteryUploadService.upload(lottery, _productImage);
+                      LotteryUploadService.upload(lottery, productImage);
                       Navigator.pushNamed(context, "/seller");
-                    },
+                    } : null,
                   ),
                 ),
               ],
