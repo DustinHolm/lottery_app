@@ -2,11 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:lottery_app/components/product_detail_page/bidding_data.dart';
 import 'package:lottery_app/components/product_detail_page/description_data.dart';
 import 'package:lottery_app/components/product_detail_page/image_app_bar.dart';
+import 'package:lottery_app/components/product_detail_page/lottery_run_type_data.dart';
 import 'package:lottery_app/components/product_detail_page/seller_data.dart';
 import 'package:lottery_app/controllers/firestore_controller.dart';
-import 'package:provider/provider.dart';
+import 'package:lottery_app/enums/lottery_run_type.dart';
 import 'package:lottery_app/models/lottery.dart';
 import 'package:lottery_app/stores/user_store.dart';
+import 'package:provider/provider.dart';
 
 class ProductDetailPage extends StatelessWidget {
   const ProductDetailPage({required this.lottery, Key? key}) : super(key: key);
@@ -16,6 +18,7 @@ class ProductDetailPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     UserStore userStore = context.watch<UserStore>();
+    final lotteryRunType = getLotteryRunType(lottery, userStore.user);
 
     return Scaffold(
       body: CustomScrollView(
@@ -28,20 +31,16 @@ class ProductDetailPage extends StatelessWidget {
                     margin: const EdgeInsets.all(8),
                     child: Container(
                       padding: const EdgeInsets.all(8),
-                      child: Text(lottery.name,
-                          style: Theme.of(context)
-                              .textTheme
-                              .headline3!
-                              .apply(color: Colors.black),
-                      maxLines: 3,
-                      overflow: TextOverflow.ellipsis,
+                      child: Text(
+                        lottery.name,
+                        style: Theme.of(context)
+                            .textTheme
+                            .headline3!
+                            .apply(color: Colors.black),
+                        maxLines: 3,
+                        overflow: TextOverflow.ellipsis,
                       ),
                     )),
-                 /*
-                  * TODO: Some kind of "Du hast gewonnen!" or
-                  *  "Erfolgreich verkauft" on success. Maybe with a note
-                  *  "Tretet jetzt in Kontakt: ${otherUser.email}"
-                  */
                 BiddingData(
                   endingDate: lottery.endingDate,
                   ticketsUsed: lottery.getTicketsUsed(),
@@ -53,6 +52,11 @@ class ProductDetailPage extends StatelessWidget {
                 DescriptionData(
                     description: lottery.description,
                     condition: lottery.condition),
+                Center(
+                    child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: LotteryRunTypeMessage(
+                            lottery: lottery, lotteryRunType: lotteryRunType))),
               ],
             ),
           )
@@ -75,7 +79,8 @@ class ProductDetailPage extends StatelessWidget {
                     ),
                     const Spacer(),
                     ElevatedButton(
-                      onPressed: (userStore.status != Status.AUTHENTICATED || userStore.tickets <= 0)
+                      onPressed: (userStore.status != Status.AUTHENTICATED ||
+                              userStore.tickets <= 0)
                           ? null
                           : () {
                               lottery.addTicket(userStore.id);
