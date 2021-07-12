@@ -74,6 +74,12 @@ class Lottery {
     winner = AppUser(id: allTickets[randInt]);
   }
 
+  Lottery withoutTickets() {
+    Lottery copy = this;
+    copy.ticketMap = {};
+    return copy;
+  }
+
   Map<String, dynamic> toJson() => {
         "id": id,
         "name": name,

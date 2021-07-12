@@ -18,6 +18,7 @@ class FirestoreController {
   }
 
   static Future updateLottery(Lottery lottery) {
+    print(lottery.toJson());
     return _firestore
         .collection("lotteries")
         .doc(lottery.id)

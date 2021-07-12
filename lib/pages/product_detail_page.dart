@@ -63,7 +63,29 @@ class ProductDetailPage extends StatelessWidget {
         ],
       ),
       bottomNavigationBar: lottery.seller == userStore.user
-          ? null
+          ? (lotteryRunType == LotteryRunType.SOLD)
+              ? BottomAppBar(
+                  child: Container(
+                    padding: const EdgeInsets.all(8),
+                    child: Padding(
+                        padding: const EdgeInsets.fromLTRB(64, 8, 64, 8),
+                        child: ElevatedButton(
+                          onPressed: (lottery.getTicketsUsed() > 0) ? () {
+                            userStore.addTickets(lottery.getTicketsUsed() - 1);
+                            FirestoreController.updateLottery(
+                                lottery.withoutTickets());
+                          } : null,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: const [
+                              Icon(Icons.attach_money),
+                              Text("Auszahlen"),
+                            ],
+                          ),
+                        )),
+                  ),
+                )
+              : null
           : BottomAppBar(
               child: Container(
                 padding: const EdgeInsets.all(8),
