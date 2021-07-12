@@ -33,7 +33,8 @@ class _CreateNewProductPageState extends State<CreateNewProductPage> {
 
   Condition productCondition = Condition.OK; //default Condition
   Category productCategory = Category.OTHER; //default Category
-  CollectType productCollectType = CollectType.SELF_COLLECT; //default CollectType
+  CollectType productCollectType =
+      CollectType.SELF_COLLECT; //default CollectType
   PickedFile? productImage; //Store Image Path
 
   @override
@@ -51,6 +52,15 @@ class _CreateNewProductPageState extends State<CreateNewProductPage> {
     shippingCostController.dispose();
     durationController.dispose();
     super.dispose();
+  }
+
+  int parseShippingCost(
+      CollectType collectType, TextEditingController controller) {
+    if (collectType == CollectType.SELF_COLLECT) {
+      return 0;
+    }
+    var cost = int.tryParse(controller.text);
+    return cost ?? 0;
   }
 
   @override
@@ -80,10 +90,8 @@ class _CreateNewProductPageState extends State<CreateNewProductPage> {
                     padding: const EdgeInsets.all(8),
                     child: Column(
                       children: [
-                        NameSelection(
-                            controller: nameController),
-                        DescriptionSelection(
-                            controller: descriptionController),
+                        NameSelection(controller: nameController),
+                        DescriptionSelection(controller: descriptionController),
                       ],
                     ),
                   ),
@@ -91,7 +99,7 @@ class _CreateNewProductPageState extends State<CreateNewProductPage> {
                 CategorySelector(
                   productCategory: productCategory,
                   handleCategoryUpdate: (Category category) =>
-                    setState(() => productCategory = category),
+                      setState(() => productCategory = category),
                 ),
                 ConditionSelector(
                   productCondition: productCondition,
@@ -107,24 +115,30 @@ class _CreateNewProductPageState extends State<CreateNewProductPage> {
                 Center(
                   // Button to send Information further to Backend/ Server
                   child: ElevatedButton(
-                    child: (nameController.text.trim() != "") ? const Text('Inserieren') : const Text('Name wählen!'),
-                    onPressed: (nameController.text.trim() != "") ? () async {
-                      Lottery lottery = Lottery.withRandomId(
-                        name: nameController.text.trim(),
-                        description: descriptionController.text.trim(),
-                        image: null,
-                        condition: productCondition,
-                        category: productCategory,
-                        shippingCost: (productCollectType == CollectType.SELF_COLLECT) ? 0 : int.parse(shippingCostController.text),
-                        endingDate: DateTime.now().add(const Duration(days: 7)),
-                        bidTickets: BidTickets(ticketMap: {}),
-                        seller: userStore.user,
-                        winner: null,
-                        collectType: productCollectType,
-                      );
-                      LotteryUploadService.upload(lottery, productImage);
-                      Navigator.pushNamed(context, "/seller");
-                    } : null,
+                    child: (nameController.text.trim() != "")
+                        ? const Text('Inserieren')
+                        : const Text('Name wählen!'),
+                    onPressed: (nameController.text.trim() != "")
+                        ? () async {
+                            Lottery lottery = Lottery.withRandomId(
+                              name: nameController.text.trim(),
+                              description: descriptionController.text.trim(),
+                              image: null,
+                              condition: productCondition,
+                              category: productCategory,
+                              shippingCost: parseShippingCost(
+                                  productCollectType, shippingCostController),
+                              endingDate:
+                                  DateTime.now().add(const Duration(days: 7)),
+                              bidTickets: BidTickets(ticketMap: {}),
+                              seller: userStore.user,
+                              winner: null,
+                              collectType: productCollectType,
+                            );
+                            LotteryUploadService.upload(lottery, productImage);
+                            Navigator.pushNamed(context, "/seller");
+                          }
+                        : null,
                   ),
                 ),
               ],
