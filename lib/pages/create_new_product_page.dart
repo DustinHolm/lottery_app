@@ -10,7 +10,6 @@ import 'package:lottery_app/components/new_product_page/shipping_selector.dart';
 import 'package:lottery_app/enums/category.dart';
 import 'package:lottery_app/enums/collect_type.dart';
 import 'package:lottery_app/enums/condition.dart';
-import 'package:lottery_app/models/bid_tickets.dart';
 import 'package:lottery_app/models/lottery.dart';
 import 'package:lottery_app/services/lottery_upload_service.dart';
 import 'package:lottery_app/sidebar.dart';
@@ -130,7 +129,7 @@ class _CreateNewProductPageState extends State<CreateNewProductPage> {
                                   productCollectType, shippingCostController),
                               endingDate:
                                   DateTime.now().add(const Duration(days: 7)),
-                              bidTickets: BidTickets(ticketMap: {}),
+                              ticketMap: {},
                               seller: userStore.user,
                               winner: null,
                               collectType: productCollectType,

@@ -8,6 +8,6 @@ class BidOnFilter implements ITransform {
 
   @override
   Iterable<Lottery> transformLotteries(Iterable<Lottery> lotteries) {
-    return lotteries.where((lottery) => lottery.bidTickets.ticketMap.keys.contains(userId));
+    return lotteries.where((lottery) => lottery.ticketMap.keys.contains(userId));
   }
 }

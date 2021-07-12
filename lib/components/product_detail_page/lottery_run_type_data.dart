@@ -20,13 +20,13 @@ class LotteryRunTypeMessage extends StatelessWidget {
             "Tretet jetzt in Kontakt: ${lottery.seller.name}", //TODO add email
             style: Theme.of(context)
                 .textTheme
-                .bodyText1!
+                .headline6!
                 .apply(color: Colors.green));
       case (LotteryRunType.NO_WIN):
         return Text("Leider nicht gewonnen",
             style: Theme.of(context)
                 .textTheme
-                .bodyText1!
+                .headline6!
                 .apply(color: Colors.red));
       case (LotteryRunType.SOLD):
         return Text(
@@ -34,13 +34,13 @@ class LotteryRunTypeMessage extends StatelessWidget {
             "Tretet jetzt in Kontakt: ${lottery.winner!.name}",
             style: Theme.of(context)
                 .textTheme
-                .bodyText1!
+                .headline6!
                 .apply(color: Colors.green));
       case (LotteryRunType.NO_SELL):
         return Text("Leider nicht verkauft",
             style: Theme.of(context)
                 .textTheme
-                .bodyText1!
+                .headline6!
                 .apply(color: Colors.red));
       default:
         return const SizedBox();

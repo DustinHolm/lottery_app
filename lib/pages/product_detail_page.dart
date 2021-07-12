@@ -41,6 +41,11 @@ class ProductDetailPage extends StatelessWidget {
                         overflow: TextOverflow.ellipsis,
                       ),
                     )),
+                Center(
+                    child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: LotteryRunTypeMessage(
+                            lottery: lottery, lotteryRunType: lotteryRunType))),
                 BiddingData(
                   endingDate: lottery.endingDate,
                   ticketsUsed: lottery.getTicketsUsed(),
@@ -52,11 +57,6 @@ class ProductDetailPage extends StatelessWidget {
                 DescriptionData(
                     description: lottery.description,
                     condition: lottery.condition),
-                Center(
-                    child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: LotteryRunTypeMessage(
-                            lottery: lottery, lotteryRunType: lotteryRunType))),
               ],
             ),
           )

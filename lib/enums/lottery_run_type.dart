@@ -4,7 +4,7 @@ import 'package:lottery_app/models/lottery.dart';
 enum LotteryRunType { RUNNING, WIN, NO_WIN, SOLD, NO_SELL }
 
 LotteryRunType getLotteryRunType(Lottery lottery, AppUser currentUser) {
-  if (lottery.winner == null && lottery.endingDate.isAfter(DateTime.now())) {
+  if (lottery.endingDate.isAfter(DateTime.now())) {
     return LotteryRunType.RUNNING;
   } else if (lottery.winner == null) {
     return LotteryRunType.NO_SELL;
