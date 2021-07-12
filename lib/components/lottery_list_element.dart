@@ -15,8 +15,7 @@ class LotteryListElement extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     UserStore userStore = context.watch<UserStore>();
-    final lotteryRunType =
-        getLotteryRunType(lottery, userStore.user); //TODO maybe auto update
+    final lotteryRunType = getLotteryRunType(lottery, userStore.user);
 
     return Card(
       margin: const EdgeInsets.all(3.0),
