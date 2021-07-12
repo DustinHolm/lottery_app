@@ -22,7 +22,7 @@ class UserDialog extends StatelessWidget {
             children: [
               ListTile(
                   title: (userStore.status == Status.AUTHENTICATED)
-                      ? Text(userStore.name)
+                      ? Text(userStore.name ?? "")
                       : const Text("Nicht bei Google angemeldet")),
               if (userStore.status == Status.AUTHENTICATED)
                 ListTile(

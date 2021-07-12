@@ -71,7 +71,7 @@ class ProductDetailPage extends StatelessWidget {
                   children: [
                     const Text("Tickets verbleibend: "),
                     Text(
-                      "${userStore.tickets}",
+                      "${userStore.tickets ?? 0}",
                       style: Theme.of(context)
                           .textTheme
                           .bodyText1!
@@ -80,7 +80,7 @@ class ProductDetailPage extends StatelessWidget {
                     const Spacer(),
                     ElevatedButton(
                       onPressed: (userStore.status != Status.AUTHENTICATED ||
-                              userStore.tickets <= 0)
+                              (userStore.tickets ?? 0) <= 0)
                           ? null
                           : () {
                               lottery.addTicket(userStore.id);

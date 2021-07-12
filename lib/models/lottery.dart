@@ -71,7 +71,7 @@ class Lottery {
       return tickets;
     }).reduce((a, b) => a + b);
     int randInt = Random().nextInt(allTickets.length);
-    winner = AppUser(id: allTickets[randInt], name: '');
+    winner = AppUser(id: allTickets[randInt]);
   }
 
   Map<String, dynamic> toJson() => {

@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:lottery_app/controllers/auth_controller.dart';
+import 'package:lottery_app/controllers/firestore_controller.dart';
 import 'package:lottery_app/models/app_user.dart';
 import 'package:nanoid/nanoid.dart';
 
@@ -16,26 +17,15 @@ class UserStore extends ChangeNotifier {
   User? _user;
   Status _status = Status.UNAUTHENTICATED;
 
-  int get tickets {
-    if (_status == Status.AUTHENTICATED) {
-      return _tickets;
-    } else {
-      return 0;
-    }
-  }
-
-  set tickets(int tickets) {
-    _tickets = tickets;
-    notifyListeners();
-  }
-
   void addTickets(int n) {
     _tickets += n;
+    FirestoreController.updateUser(user);
     notifyListeners();
   }
 
   void removeTickets(int n) {
     _tickets -= n;
+    FirestoreController.updateUser(user);
     notifyListeners();
   }
 
@@ -47,12 +37,21 @@ class UserStore extends ChangeNotifier {
   }
 
   String get id => (_user == null) ? "GUEST-" + nanoid(3) : _user!.uid;
-  String get name => (_user == null || _user!.displayName == null) ? "" : _user!.displayName!;
-  AppUser get user => AppUser(id: id, name: name);
+  String? get name => _user?.displayName;
+  String? get email => _user?.email;
+  int? get tickets => (_user == null) ? null : _tickets;
+  AppUser get user => AppUser(id: id, name: name, email: email, tickets: tickets);
 
   _init() async {
     _user = await AuthController.getSignedInUser();
-    if (_user != null) _status = Status.AUTHENTICATED;
+    if (_user != null) {
+      _status = Status.AUTHENTICATED;
+      AppUser? foundUser = await FirestoreController.getUser(id);
+      if (foundUser == null) {
+        FirestoreController.setUser(user);
+      }
+      _tickets = foundUser?.tickets ?? 0;
+    }
   }
 
   Future<bool> signIn() async {
@@ -63,7 +62,11 @@ class UserStore extends ChangeNotifier {
 
     if (_user != null) {
       _status = Status.AUTHENTICATED;
-      notifyListeners();
+      AppUser? foundUser = await FirestoreController.getUser(id);
+      if (foundUser == null) {
+        FirestoreController.setUser(user);
+      }
+      _tickets = foundUser?.tickets ?? 0;      notifyListeners();
       return true;
     } else {
       _status = Status.UNAUTHENTICATED;
@@ -75,6 +78,7 @@ class UserStore extends ChangeNotifier {
   Future<void> signOut() async {
     await AuthController.signOut();
     _user = null;
+    _tickets = 0;
     _status = Status.UNAUTHENTICATED;
     notifyListeners();
   }

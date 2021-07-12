@@ -8,7 +8,7 @@ class SellerFilter implements ITransform {
 
   @override
   Iterable<Lottery> transformLotteries(Iterable<Lottery> lotteries) {
-    return lotteries.where((lottery) => lottery.seller.name
+    return lotteries.where((lottery) => (lottery.seller.name ?? "")
         .toLowerCase()
         .replaceAll(" ", "")
         .contains(_name.toLowerCase().replaceAll(" ", "")));
