@@ -48,10 +48,7 @@ class _WelcomePageState extends State<WelcomePage> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              SizedBox(
-                  child: Image.asset("assets/logo.png"),
-                  width: 200,
-                  height: 200),
+              SizedBox(child: Image.asset("assets/logo.png"), height: 300),
               Padding(
                 padding: const EdgeInsets.only(top: 10),
                 child: Text(

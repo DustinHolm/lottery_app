@@ -3,7 +3,7 @@ import 'package:lottery_app/components/user_dialog.dart';
 
 class LotteryAppBar extends StatelessWidget implements PreferredSizeWidget {
   const LotteryAppBar({required this.title, Key? key}) : super(key: key);
-  
+
   final String title;
 
   @override
@@ -11,10 +11,7 @@ class LotteryAppBar extends StatelessWidget implements PreferredSizeWidget {
     return AppBar(
       title: Row(
         children: [
-          SizedBox(
-              child: Image.asset("assets/logo.png"),
-              width: kToolbarHeight,
-              height: kToolbarHeight),
+          SizedBox(child: Image.asset("assets/logo.png"), height: 83),
           const SizedBox(width: 20),
           Text(title),
         ],
@@ -26,5 +23,5 @@ class LotteryAppBar extends StatelessWidget implements PreferredSizeWidget {
   }
 
   @override
-  Size get preferredSize => const Size.fromHeight(60);
+  Size get preferredSize => const Size.fromHeight(58);
 }
