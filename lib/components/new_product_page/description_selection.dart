@@ -11,7 +11,7 @@ class DescriptionSelection extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
         const Text('Geben Sie ihrem Produkt eine Beschreibung'),
-        TextField(
+        TextFormField(
           decoration: const InputDecoration(
             border: OutlineInputBorder(),
           ),

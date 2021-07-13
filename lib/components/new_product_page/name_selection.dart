@@ -10,7 +10,7 @@ class NameSelection extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
         const Text('Geben Sie ihrem Produkt einen Name'),
-        TextField(
+        TextFormField(
           decoration: const InputDecoration(
             border: OutlineInputBorder(),
           ),

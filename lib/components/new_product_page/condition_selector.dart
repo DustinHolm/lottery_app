@@ -59,6 +59,7 @@ class ConditionSelector extends StatelessWidget {
                     handleConditionUpdate(Condition.OK);
                 }
               },
+              onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
             )
           ],
         ),

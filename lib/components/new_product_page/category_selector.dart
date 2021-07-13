@@ -67,6 +67,7 @@ class CategorySelector extends StatelessWidget {
                     handleCategoryUpdate(Category.OTHER);
                 }
               },
+              onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
             )
           ],
         ),

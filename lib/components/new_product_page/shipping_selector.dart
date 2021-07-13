@@ -23,7 +23,7 @@ class ShippingSelector extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            const Text('Geben Sie die gewünschte Versandart an'),
+            const Text('Geben Sie die gewünschte Versandart (und -kosten) an'),
             Row(
               children: [
                 DropdownButton<CollectType>(
@@ -52,6 +52,7 @@ class ShippingSelector extends StatelessWidget {
                         handleCollectTypeUpdate(CollectType.SELF_COLLECT);
                     }
                   },
+                  onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
                 ),
                 const Spacer(),
                 if (productCollectType != CollectType.SELF_COLLECT)
