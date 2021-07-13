@@ -12,15 +12,15 @@ class FavoritesStore extends ChangeNotifier {
 
   List<String> get favorites => _favorites;
 
-  void add(String favorite) {
-    LocalStorageService.addFavoriteId(favorite);
+  void add(String favorite) async {
     _favorites.add(favorite);
     notifyListeners();
+    LocalStorageService.addFavoriteId(favorite);
   }
 
-  void remove(String favorite) {
-    LocalStorageService.removeFavoriteId(favorite);
+  void remove(String favorite) async {
     _favorites.remove(favorite);
     notifyListeners();
+    LocalStorageService.removeFavoriteId(favorite);
   }
 }

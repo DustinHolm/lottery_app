@@ -21,7 +21,7 @@ class _FavoriteButtonState extends State<FavoriteButton> {
 
     return IconButton(
       icon: icon,
-      onPressed: () async {
+      onPressed: () {
         if (favoritesStore.favorites.contains(widget.id)) {
           favoritesStore.remove(widget.id);
         } else {
