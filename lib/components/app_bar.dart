@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:lottery_app/components/filter_button.dart';
 import 'package:lottery_app/components/user_dialog.dart';
 
 class LotteryAppBar extends StatelessWidget implements PreferredSizeWidget {
-  const LotteryAppBar({required this.title, Key? key}) : super(key: key);
+  const LotteryAppBar({required this.title, this.filterButton, Key? key}) : super(key: key);
 
   final String title;
+  final FilterButton? filterButton;
 
   @override
   Widget build(BuildContext context) {
@@ -17,6 +19,7 @@ class LotteryAppBar extends StatelessWidget implements PreferredSizeWidget {
         ],
       ),
       actions: [
+        if (filterButton != null) filterButton!,
         UserDialog(),
       ],
     );

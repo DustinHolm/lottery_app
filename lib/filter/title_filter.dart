@@ -3,14 +3,14 @@ import 'package:lottery_app/filter/transform.dart';
 import 'package:lottery_app/models/lottery.dart';
 
 class TitleFilter implements ITransform {
-  final String _title;
+  final String title;
 
-  TitleFilter(String title) : _title = title;
+  TitleFilter(String title) : title = title;
 
   @override
   Iterable<Lottery> transformLotteries(Iterable<Lottery> lotteries) {
     return lotteries.where(
-        (lottery) => lottery.name.toLowerCase().contains(_title.toLowerCase()));
+        (lottery) => lottery.name.toLowerCase().contains(title.toLowerCase()));
   }
 
   @override
