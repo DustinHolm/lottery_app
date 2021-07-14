@@ -1,5 +1,4 @@
-import 'package:lottery_app/enums/filter.dart';
-import 'package:lottery_app/filter/transform.dart';
+import 'package:lottery_app/filter/i_transform.dart';
 import 'package:lottery_app/models/lottery.dart';
 
 class BidOnFilter implements ITransform {
@@ -9,12 +8,6 @@ class BidOnFilter implements ITransform {
 
   @override
   Iterable<Lottery> transformLotteries(Iterable<Lottery> lotteries) {
-    return lotteries
-        .where((lottery) => lottery.ticketMap.keys.contains(userId));
-  }
-
-  @override
-  Filter? getEnum() {
-    return null;
+    return lotteries.where((lottery) => lottery.ticketMap.keys.contains(userId));
   }
 }

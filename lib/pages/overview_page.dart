@@ -5,7 +5,7 @@ import 'package:lottery_app/components/filter_button.dart';
 import 'package:lottery_app/components/lottery_list_element.dart';
 import 'package:lottery_app/filter/not_ended_filter.dart';
 import 'package:lottery_app/filter/not_owned_filter.dart';
-import 'package:lottery_app/filter/transform.dart';
+import 'package:lottery_app/filter/i_transform.dart';
 import 'package:lottery_app/models/lottery.dart';
 import 'package:lottery_app/services/transform_service.dart';
 import 'package:lottery_app/sidebar.dart';

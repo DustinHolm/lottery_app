@@ -32,7 +32,7 @@ class ConditionSelector extends StatelessWidget {
                   child: Row(children: [
                     Padding(
                       padding: const EdgeInsets.fromLTRB(8, 0, 16, 0),
-                      child: ConditionIcon(condition: value),
+                      child: ConditionIcon(value),
                     ),
                     Text(value.toFormattedString()),
                   ]),

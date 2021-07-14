@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:lottery_app/filter/transform.dart';
+import 'package:lottery_app/filter/i_transform.dart';
 
 import 'filter_dialog.dart';
 

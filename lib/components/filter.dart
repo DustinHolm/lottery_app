@@ -11,7 +11,7 @@ import 'package:lottery_app/filter/least_bids_sort.dart';
 import 'package:lottery_app/filter/seller_filter.dart';
 import 'package:lottery_app/filter/tickets_less_than_filter.dart';
 import 'package:lottery_app/filter/title_filter.dart';
-import 'package:lottery_app/filter/transform.dart';
+import 'package:lottery_app/filter/i_transform.dart';
 
 import 'number_form_field.dart';
 

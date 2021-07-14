@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lottery_app/components/lottery_list_element.dart';
 import 'package:lottery_app/filter/owned_filter.dart';
-import 'package:lottery_app/filter/transform.dart';
+import 'package:lottery_app/filter/i_transform.dart';
 import 'package:lottery_app/components/app_bar.dart';
 import 'package:lottery_app/models/lottery.dart';
 import 'package:lottery_app/services/transform_service.dart';

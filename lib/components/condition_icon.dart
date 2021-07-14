@@ -3,10 +3,10 @@ import 'package:flutter/widgets.dart';
 import 'package:lottery_app/enums/condition.dart';
 
 class ConditionIcon extends StatelessWidget {
-  const ConditionIcon({
-    required this.condition,
-    Key? key,
-  }) : super(key: key);
+  const ConditionIcon(
+    this.condition,
+    [Key? key]
+  ) : super(key: key);
 
   final Condition condition;
 

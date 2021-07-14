@@ -33,7 +33,7 @@ class DescriptionData extends StatelessWidget {
                 ),
                 Padding(
                   padding: const EdgeInsets.fromLTRB(8, 0, 0, 0),
-                  child: ConditionIcon(condition: condition),
+                  child: ConditionIcon(condition),
                 ),
               ],
             ),

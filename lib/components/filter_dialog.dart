@@ -1,13 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
+import 'package:lottery_app/components/enum_dropdown_button.dart';
 import 'package:lottery_app/enums/category.dart';
 import 'package:lottery_app/enums/collect_type.dart';
 import 'package:lottery_app/enums/condition.dart';
+import 'package:lottery_app/filter/category_filter.dart';
+import 'package:lottery_app/filter/collect_type_filter.dart';
+import 'package:lottery_app/filter/condition_filter.dart';
 import 'package:lottery_app/filter/seller_filter.dart';
 import 'package:lottery_app/filter/tickets_less_than_filter.dart';
 import 'package:lottery_app/filter/title_filter.dart';
-import 'package:lottery_app/filter/transform.dart';
+import 'package:lottery_app/filter/i_transform.dart';
 
 class FilterDialog extends StatefulWidget {
   const FilterDialog(
@@ -23,9 +27,9 @@ class FilterDialog extends StatefulWidget {
 }
 
 class _FilterDialogState extends State<FilterDialog> {
-  CollectType? collectTypeValue = CollectType.PACKET_INLAND;
-  Condition? conditionValue = Condition.LIKE_NEW;
-  Category? categoryValue = Category.OTHER;
+  CollectType? collectTypeValue;
+  Condition? conditionValue;
+  Category? categoryValue;
   TextEditingController valueController = TextEditingController();
   TextEditingController sellerController = TextEditingController();
   TextEditingController titleController = TextEditingController();
@@ -33,6 +37,9 @@ class _FilterDialogState extends State<FilterDialog> {
     TitleFilter: false,
     SellerFilter: false,
     TicketsLessThanFilter: false,
+    CollectTypeFilter: false,
+    ConditionFilter: false,
+    CategoryFilter: false,
   };
   List<ITransform> nextTransforms = [];
 
@@ -51,6 +58,15 @@ class _FilterDialogState extends State<FilterDialog> {
       } else if (transformation.runtimeType == TicketsLessThanFilter) {
         enabledFilters[TicketsLessThanFilter] = true;
         initialValue = (transformation as TicketsLessThanFilter).n;
+      } else if (transformation.runtimeType == CollectTypeFilter) {
+        enabledFilters[CollectTypeFilter] = true;
+        collectTypeValue = (transformation as CollectTypeFilter).collectType;
+      } else if (transformation.runtimeType == ConditionFilter) {
+        enabledFilters[ConditionFilter] = true;
+        conditionValue = (transformation as ConditionFilter).condition;
+      } else if (transformation.runtimeType == CategoryFilter) {
+        enabledFilters[CategoryFilter] = true;
+        categoryValue = (transformation as CategoryFilter).category;
       }
     }
     valueController = TextEditingController(
@@ -97,9 +113,10 @@ class _FilterDialogState extends State<FilterDialog> {
                       () => enabledFilters[SellerFilter] = val ?? false),
                 )),
             Expanded(
+                flex: 1,
                 child: TextFormField(
-              controller: sellerController,
-            ))
+                  controller: sellerController,
+                ))
           ],
         ),
         Row(
@@ -114,13 +131,77 @@ class _FilterDialogState extends State<FilterDialog> {
                       enabledFilters[TicketsLessThanFilter] = val ?? false),
                 )),
             Expanded(
+                flex: 1,
                 child: TextFormField(
-              keyboardType: TextInputType.number,
-              inputFormatters: [
-                FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
-              ],
-              controller: valueController,
-            ))
+                  keyboardType: TextInputType.number,
+                  inputFormatters: [
+                    FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
+                  ],
+                  controller: valueController,
+                ))
+          ],
+        ),
+        Row(
+          children: [
+            Expanded(
+                flex: 1,
+                child: CheckboxListTile(
+                  controlAffinity: ListTileControlAffinity.leading,
+                  value: enabledFilters[CollectTypeFilter],
+                  onChanged: (val) => setState(
+                      () => enabledFilters[CollectTypeFilter] = val ?? false),
+                )),
+            Expanded(
+                flex: 2,
+                child: EnumDropdownButton<CollectType>(
+                  types: CollectType.values,
+                  currentValue: collectTypeValue,
+                  handleValueUpdate: (val) =>
+                      setState(() => collectTypeValue = val),
+                  helperText: "Versandart",
+                ))
+          ],
+        ),
+        Row(
+          children: [
+            Expanded(
+                flex: 1,
+                child: CheckboxListTile(
+                  controlAffinity: ListTileControlAffinity.leading,
+                  value: enabledFilters[ConditionFilter],
+                  onChanged: (val) => setState(
+                      () => enabledFilters[ConditionFilter] = val ?? false),
+                )),
+            Expanded(
+                flex: 2,
+                child: EnumDropdownButton<Condition>(
+                  types: Condition.values,
+                  currentValue: conditionValue,
+                  handleValueUpdate: (val) =>
+                      setState(() => conditionValue = val),
+                  helperText: "Zustand",
+                ))
+          ],
+        ),
+        Row(
+          children: [
+            Expanded(
+                flex: 1,
+                child: CheckboxListTile(
+                  controlAffinity: ListTileControlAffinity.leading,
+                  value: enabledFilters[CategoryFilter],
+                  onChanged: (val) => setState(
+                      () => enabledFilters[CategoryFilter] = val ?? false),
+                )),
+            Expanded(
+                flex: 2,
+                child: EnumDropdownButton<Category>(
+                  types: Category.values,
+                  currentValue: categoryValue,
+                  handleValueUpdate: (val) =>
+                      setState(() => categoryValue = val),
+                  helperText: "Kategorie",
+                ))
           ],
         ),
         Padding(
@@ -137,6 +218,15 @@ class _FilterDialogState extends State<FilterDialog> {
                     } else if (entry.key == TicketsLessThanFilter) {
                       nextTransforms.add(TicketsLessThanFilter(
                           int.tryParse(valueController.text) ?? 0));
+                    } else if (entry.key == CollectTypeFilter &&
+                        collectTypeValue != null) {
+                      nextTransforms.add(CollectTypeFilter(collectTypeValue!));
+                    } else if (entry.key == ConditionFilter &&
+                        conditionValue != null) {
+                      nextTransforms.add(ConditionFilter(conditionValue!));
+                    } else if (entry.key == CategoryFilter &&
+                        categoryValue != null) {
+                      nextTransforms.add(CategoryFilter(categoryValue!));
                     }
                   }
                   widget.handleTransformationsUpdate(nextTransforms);
