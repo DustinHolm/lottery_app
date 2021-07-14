@@ -25,6 +25,27 @@ class FilterDropdown extends StatefulWidget {
   final List<ITransform> transformations;
   final Function(List<ITransform>) handleTransformationsUpdate;
 
+  Icon getFilterIcon(Filter filter) {
+    switch (filter) {
+      case Filter.NO_FILTER:
+        return const Icon(Icons.clear);
+      case Filter.SELLER_NAME_FILTER:
+        return const Icon(Icons.text_fields);
+      case Filter.TITLE_FILTER:
+        return const Icon(Icons.text_fields);
+      case Filter.TICKETS_LESS_THAN_FILTER:
+        return const Icon(Icons.text_fields);
+      case Filter.CATEGORY_FILTER:
+        return const Icon(Icons.arrow_drop_down);
+      case Filter.COLLECT_TYPE_FILTER:
+        return const Icon(Icons.arrow_drop_down);
+      case Filter.CONDITION_FILTER:
+        return const Icon(Icons.arrow_drop_down);
+      default:
+        return const Icon(Icons.sort);
+    }
+  }
+
   @override
   _FilterDropdownState createState() => _FilterDropdownState();
 }
@@ -59,9 +80,17 @@ class _FilterDropdownState extends State<FilterDropdown> {
             items: Filter.values.map<DropdownMenuItem<Filter>>((Filter value) {
               return DropdownMenuItem<Filter>(
                 value: value,
-                child: Text(
-                  value.toFormattedString(),
-                ),
+                child: Row(children: [
+                  widget.getFilterIcon(value),
+                  Flexible(
+                    child: Text(
+                      value.toFormattedString(),
+                    ),
+                  ),
+                  if (widget.transformations
+                      .any((t) => t.getEnum() != null && t.getEnum()! == value))
+                    const Icon(Icons.check),
+                ]),
               );
             }).toList(),
           )),
@@ -140,63 +169,71 @@ class _FilterDropdownState extends State<FilterDropdown> {
           ElevatedButton(
             onPressed: () {
               setState(() {
-                if (value == Filter.NO_FILTER) {
-                  widget.handleTransformationsUpdate([]);
-                }
-                if (value == Filter.SELLER_NAME_FILTER) {
-                  widget.handleTransformationsUpdate([
-                    ...widget.transformations,
-                    SellerFilter(sellerNameController.text)
-                  ]);
-                }
-                if (value == Filter.TITLE_FILTER) {
-                  widget.handleTransformationsUpdate([
-                    ...widget.transformations,
-                    TitleFilter(titleNameValue.text)
-                  ]);
-                }
-                if (value == Filter.TICKETS_LESS_THAN_FILTER) {
-                  var v = int.tryParse(valueController.text);
-                  if (v != null) {
+                switch (value) {
+                  case Filter.NO_FILTER:
+                    widget.handleTransformationsUpdate([]);
+                    break;
+                  case Filter.SELLER_NAME_FILTER:
+                    var transforms =
+                        widget.transformations.where((t) => t is! SellerFilter);
+                    widget.handleTransformationsUpdate([
+                      ...transforms,
+                      SellerFilter(sellerNameController.text)
+                    ]);
+                    break;
+                  case Filter.TITLE_FILTER:
+                    var transforms =
+                        widget.transformations.where((t) => t is! TitleFilter);
                     widget.handleTransformationsUpdate(
-                        [...widget.transformations, TicketsLessThanFilter(v)]);
-                  }
-                }
-                if (value == Filter.CATEGORY_FILTER) {
-                  if (categoryValue != null) {
-                    widget.handleTransformationsUpdate([
-                      ...widget.transformations,
-                      CategoryFilter(categoryValue!)
-                    ]);
-                  }
-                }
-                if (value == Filter.COLLECT_TYPE_FILTER) {
-                  if (collectTypeValue != null) {
-                    widget.handleTransformationsUpdate([
-                      ...widget.transformations,
-                      CollectTypeFilter(collectTypeValue!)
-                    ]);
-                  }
-                }
-                if (value == Filter.CONDITION_FILTER) {
-                  if (conditionValue != null) {
-                    widget.handleTransformationsUpdate([
-                      ...widget.transformations,
-                      ConditionFilter(conditionValue!)
-                    ]);
-                  }
-                }
-                if (value == Filter.ENDING_SOONEST_SORT) {
-                  widget.handleTransformationsUpdate(
-                      [...widget.transformations, EndingSoonestSort()]);
-                }
-                if (value == Filter.LEAST_BIDS_SORT) {
-                  widget.handleTransformationsUpdate(
-                      [...widget.transformations, LeastBidsSort(asc: true)]);
-                }
-                if (value == Filter.MOST_BIDS_SORT) {
-                  widget.handleTransformationsUpdate(
-                      [...widget.transformations, LeastBidsSort(asc: false)]);
+                        [...transforms, TitleFilter(titleNameValue.text)]);
+                    break;
+                  case Filter.TICKETS_LESS_THAN_FILTER:
+                    var v = int.tryParse(valueController.text);
+                    if (v != null) {
+                      var transforms = widget.transformations
+                          .where((t) => t is! TicketsLessThanFilter);
+                      widget.handleTransformationsUpdate(
+                          [...transforms, TicketsLessThanFilter(v)]);
+                    }
+                    break;
+                  case Filter.CATEGORY_FILTER:
+                    if (categoryValue != null) {
+                      var transforms = widget.transformations
+                          .where((t) => t is! CategoryFilter);
+                      widget.handleTransformationsUpdate(
+                          [...transforms, CategoryFilter(categoryValue!)]);
+                    }
+                    break;
+                  case Filter.COLLECT_TYPE_FILTER:
+                    var transforms = widget.transformations
+                        .where((t) => t is! CollectTypeFilter);
+                    if (collectTypeValue != null) {
+                      widget.handleTransformationsUpdate([
+                        ...transforms,
+                        CollectTypeFilter(collectTypeValue!)
+                      ]);
+                    }
+                    break;
+                  case Filter.CONDITION_FILTER:
+                    if (conditionValue != null) {
+                      var transforms = widget.transformations
+                          .where((t) => t is! ConditionFilter);
+                      widget.handleTransformationsUpdate(
+                          [...transforms, ConditionFilter(conditionValue!)]);
+                    }
+                    break;
+                  case Filter.ENDING_SOONEST_SORT:
+                    widget.handleTransformationsUpdate(
+                        [...widget.transformations, EndingSoonestSort()]);
+                    break;
+                  case Filter.LEAST_BIDS_SORT:
+                    widget.handleTransformationsUpdate(
+                        [...widget.transformations, LeastBidsSort(asc: true)]);
+                    break;
+                  default:
+                    widget.handleTransformationsUpdate(
+                        [...widget.transformations, LeastBidsSort(asc: false)]);
+                    break;
                 }
               });
             },

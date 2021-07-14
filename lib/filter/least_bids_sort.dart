@@ -1,3 +1,4 @@
+import 'package:lottery_app/enums/filter.dart';
 import 'package:lottery_app/filter/transform.dart';
 import 'package:lottery_app/models/lottery.dart';
 
@@ -13,5 +14,10 @@ class LeastBidsSort implements ITransform {
         ? a.getTicketsUsed().compareTo(b.getTicketsUsed())
         : b.getTicketsUsed().compareTo(a.getTicketsUsed()));
     return sortedLotteries;
+  }
+
+  @override
+  Filter? getEnum() {
+    return null;
   }
 }
