@@ -154,7 +154,7 @@ class _FilterDialogState extends State<FilterDialog> {
                       () => enabledFilters[CollectTypeFilter] = val ?? false),
                 )),
             Expanded(
-                flex: 2,
+                flex: 4,
                 child: EnumDropdownButton<CollectType>(
                   types: CollectType.values,
                   currentValue: collectTypeValue,
@@ -175,7 +175,7 @@ class _FilterDialogState extends State<FilterDialog> {
                       () => enabledFilters[ConditionFilter] = val ?? false),
                 )),
             Expanded(
-                flex: 2,
+                flex: 4,
                 child: EnumDropdownButton<Condition>(
                   types: Condition.values,
                   currentValue: conditionValue,
@@ -197,7 +197,7 @@ class _FilterDialogState extends State<FilterDialog> {
                       () => enabledFilters[CategoryFilter] = val ?? false),
                 )),
             Expanded(
-                flex: 2,
+                flex: 4,
                 child: EnumDropdownButton<Category>(
                   types: Category.values,
                   currentValue: categoryValue,
