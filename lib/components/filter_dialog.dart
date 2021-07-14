@@ -99,6 +99,8 @@ class _FilterDialogState extends State<FilterDialog> {
             Expanded(
                 child: TextFormField(
               controller: titleController,
+              onChanged: (val) =>
+                  setState(() => enabledFilters[TitleFilter] = true),
             )),
           ],
         ),
@@ -116,6 +118,8 @@ class _FilterDialogState extends State<FilterDialog> {
             Expanded(
                 child: TextFormField(
               controller: sellerController,
+              onChanged: (val) =>
+                  setState(() => enabledFilters[SellerFilter] = true),
             ))
           ],
         ),
@@ -138,6 +142,8 @@ class _FilterDialogState extends State<FilterDialog> {
                 FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
               ],
               controller: valueController,
+              onChanged: (val) =>
+                  setState(() => enabledFilters[TicketsLessThanFilter] = true),
             ))
           ],
         ),
@@ -154,8 +160,10 @@ class _FilterDialogState extends State<FilterDialog> {
                 child: EnumDropdownButton<CollectType>(
               types: CollectType.values,
               currentValue: collectTypeValue,
-              handleValueUpdate: (val) =>
-                  setState(() => collectTypeValue = val),
+              handleValueUpdate: (val) {
+                setState(() => collectTypeValue = val);
+                setState(() => enabledFilters[CollectTypeFilter] = true);
+              },
               helperText: "Versandart",
             ))
           ],
@@ -173,7 +181,10 @@ class _FilterDialogState extends State<FilterDialog> {
                 child: EnumDropdownButton<Condition>(
               types: Condition.values,
               currentValue: conditionValue,
-              handleValueUpdate: (val) => setState(() => conditionValue = val),
+              handleValueUpdate: (val) {
+                setState(() => conditionValue = val);
+                setState(() => enabledFilters[ConditionFilter] = true);
+              },
               iconWidget: ConditionIcon.from,
               helperText: "Zustand",
             ))
@@ -192,7 +203,10 @@ class _FilterDialogState extends State<FilterDialog> {
                 child: EnumDropdownButton<Category>(
               types: Category.values,
               currentValue: categoryValue,
-              handleValueUpdate: (val) => setState(() => categoryValue = val),
+              handleValueUpdate: (val) {
+                setState(() => categoryValue = val);
+                setState(() => enabledFilters[CategoryFilter] = true);
+              },
               helperText: "Kategorie",
             ))
           ],
@@ -204,11 +218,14 @@ class _FilterDialogState extends State<FilterDialog> {
                   for (MapEntry entry in enabledFilters.entries) {
                     if (entry.value == false) continue;
 
-                    if (entry.key == TitleFilter) {
+                    if (entry.key == TitleFilter &&
+                        titleController.text.trim().isNotEmpty) {
                       nextTransforms.add(TitleFilter(titleController.text));
-                    } else if (entry.key == SellerFilter) {
+                    } else if (entry.key == SellerFilter &&
+                        sellerController.text.trim().isNotEmpty) {
                       nextTransforms.add(SellerFilter(sellerController.text));
-                    } else if (entry.key == TicketsLessThanFilter) {
+                    } else if (entry.key == TicketsLessThanFilter &&
+                        valueController.text.trim().isNotEmpty) {
                       nextTransforms.add(TicketsLessThanFilter(
                           int.tryParse(valueController.text) ?? 0));
                     } else if (entry.key == CollectTypeFilter &&
