@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:lottery_app/components/user_dialog.dart';
+import 'package:lottery_app/components/app_bar/user_dialog_button.dart';
 import 'package:lottery_app/services/local_storage_service.dart';
 import 'package:lottery_app/stores/user_store.dart';
 import 'package:provider/provider.dart';
@@ -77,7 +77,7 @@ class _WelcomePageState extends State<WelcomePage> {
                             style: Theme.of(context).textTheme.bodyText2,
                           ),
                         ),
-                        UserDialog(
+                        UserDialogButton(
                             buttonText: buttonText,
                             notifyParent: () => setState(() {}))
                       ],

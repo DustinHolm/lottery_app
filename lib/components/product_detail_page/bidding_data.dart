@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:lottery_app/components/lottery_countdown.dart';
+import 'package:lottery_app/components/lottery_elements/lottery_countdown.dart';
 import 'package:timer_count_down/timer_controller.dart';
 
 class BiddingData extends StatelessWidget {

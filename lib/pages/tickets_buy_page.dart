@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:lottery_app/components/app_bar.dart';
+import 'package:lottery_app/components/app_bar/app_bar.dart';
 import 'package:lottery_app/components/tickets_buy_form.dart';
 import 'package:lottery_app/sidebar.dart';
 import 'package:lottery_app/stores/user_store.dart';

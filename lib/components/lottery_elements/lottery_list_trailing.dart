@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:lottery_app/components/lottery_countdown.dart';
+import 'package:lottery_app/components/lottery_elements/lottery_countdown.dart';
 import 'package:lottery_app/enums/lottery_run_type.dart';
 
 class LotteryListTrailing extends StatelessWidget {

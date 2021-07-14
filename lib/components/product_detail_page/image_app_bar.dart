@@ -3,8 +3,8 @@ import 'package:lottery_app/models/lottery.dart';
 import 'package:lottery_app/stores/user_store.dart';
 import 'package:provider/provider.dart';
 
-import '../favorite_button.dart';
-import '../user_dialog.dart';
+import '../app_bar/favorite_button.dart';
+import '../app_bar/user_dialog_button.dart';
 
 class ImageAppBar extends StatelessWidget {
   const ImageAppBar({required this.lottery, Key? key}) : super(key: key);
@@ -41,7 +41,7 @@ class ImageAppBar extends StatelessWidget {
           ),
         ),
         actions: [
-          UserDialog(),
+          UserDialogButton(),
           if (lottery.seller != userStore.user) FavoriteButton(id: lottery.id)
         ],
       );
@@ -49,7 +49,7 @@ class ImageAppBar extends StatelessWidget {
       return SliverAppBar(
         pinned: true,
         actions: [
-          UserDialog(),
+          UserDialogButton(),
           if (lottery.seller != userStore.user) FavoriteButton(id: lottery.id)
         ],
       );

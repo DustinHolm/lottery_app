@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:lottery_app/components/app_bar.dart';
+import 'package:lottery_app/components/app_bar/app_bar.dart';
 import 'package:lottery_app/components/new_product_page/category_selector.dart';
 import 'package:lottery_app/components/new_product_page/condition_selector.dart';
 import 'package:lottery_app/components/new_product_page/description_selection.dart';

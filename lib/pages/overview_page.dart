@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:lottery_app/components/app_bar.dart';
-import 'package:lottery_app/components/filter_button.dart';
-import 'package:lottery_app/components/lottery_list_element.dart';
+import 'package:lottery_app/components/app_bar/app_bar.dart';
+import 'package:lottery_app/components/app_bar/filter_button.dart';
+import 'package:lottery_app/components/lottery_elements/lottery_list_element.dart';
 import 'package:lottery_app/filter/not_ended_filter.dart';
 import 'package:lottery_app/filter/not_owned_filter.dart';
 import 'package:lottery_app/filter/i_transform.dart';

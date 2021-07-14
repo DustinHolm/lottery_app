@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lottery_app/filter/i_transform.dart';
 
-import 'filter_dialog.dart';
+import '../filter_dialog.dart';
 
 class FilterButton extends StatelessWidget {
   const FilterButton(
