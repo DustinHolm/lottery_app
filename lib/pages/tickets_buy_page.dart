@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:lottery_app/components/app_bar/lottery_app_bar.dart';
@@ -15,13 +17,21 @@ class TicketsBuyPage extends StatefulWidget {
 }
 
 class _TicketsBuyPageState extends State<TicketsBuyPage> {
+  int ticketsBought = 0;
+
+  handleTicketsBought(int tickets) {
+    setState(() => ticketsBought = tickets);
+    Timer(const Duration(seconds: 5), () => setState(() => ticketsBought = 0));
+  }
+
   @override
   Widget build(BuildContext context) {
     UserStore userStore = context.watch<UserStore>();
 
     return Scaffold(
       drawer: const Sidebar(),
-      appBar: LotteryAppBar(title: widget.title, notifyParent: (() => setState(() {}))),
+      appBar: LotteryAppBar(
+          title: widget.title, notifyParent: (() => setState(() {}))),
       body: userStore.status != Status.AUTHENTICATED
           ? Center(
               child: Text(
@@ -34,8 +44,24 @@ class _TicketsBuyPageState extends State<TicketsBuyPage> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text("Aktuell ${userStore.tickets} Tickets"),
-                  const TicketsBuyForm(),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 48),
+                    child: Row(children: [
+                      Text(
+                        "Aktuell ${userStore.tickets} Tickets",
+                        style: Theme.of(context).textTheme.headline6,
+                      ),
+                      if (ticketsBought != 0)
+                          Text("  +$ticketsBought gekauft!",
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .headline6!
+                                    .apply(color: Colors.green)),
+                    ],)
+                  ),
+
+                  TicketsBuyForm(
+                      handleTicketsBought: handleTicketsBought),
                 ],
               )),
     );
