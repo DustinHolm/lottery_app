@@ -87,124 +87,114 @@ class _FilterDialogState extends State<FilterDialog> {
       children: [
         Row(
           children: [
-            Expanded(
-                flex: 2,
-                child: CheckboxListTile(
-                  controlAffinity: ListTileControlAffinity.leading,
-                  title: const Text("Name"),
+            Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 8),
+                child: Checkbox(
                   value: enabledFilters[TitleFilter],
                   onChanged: (val) => setState(
                       () => enabledFilters[TitleFilter] = val ?? false),
                 )),
+            const Padding(
+                padding: EdgeInsets.only(right: 8), child: Text("Name")),
             Expanded(
-                flex: 1,
                 child: TextFormField(
-                  controller: titleController,
-                )),
+              controller: titleController,
+            )),
           ],
         ),
         Row(
           children: [
-            Expanded(
-                flex: 2,
-                child: CheckboxListTile(
-                  controlAffinity: ListTileControlAffinity.leading,
-                  title: const Text("Verkäufer"),
+            Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 8),
+                child: Checkbox(
                   value: enabledFilters[SellerFilter],
                   onChanged: (val) => setState(
                       () => enabledFilters[SellerFilter] = val ?? false),
                 )),
+            const Padding(
+                padding: EdgeInsets.only(right: 8), child: Text("Verkäufer")),
             Expanded(
-                flex: 1,
                 child: TextFormField(
-                  controller: sellerController,
-                ))
+              controller: sellerController,
+            ))
           ],
         ),
         Row(
           children: [
-            Expanded(
-                flex: 2,
-                child: CheckboxListTile(
-                  controlAffinity: ListTileControlAffinity.leading,
-                  title: const Text("Weniger Tickets als"),
+            Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 8),
+                child: Checkbox(
                   value: enabledFilters[TicketsLessThanFilter],
                   onChanged: (val) => setState(() =>
                       enabledFilters[TicketsLessThanFilter] = val ?? false),
                 )),
+            const Padding(
+                padding: EdgeInsets.only(right: 8),
+                child: Text("Weniger Tickets als")),
             Expanded(
-                flex: 1,
                 child: TextFormField(
-                  keyboardType: TextInputType.number,
-                  inputFormatters: [
-                    FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
-                  ],
-                  controller: valueController,
-                ))
+              keyboardType: TextInputType.number,
+              inputFormatters: [
+                FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
+              ],
+              controller: valueController,
+            ))
           ],
         ),
         Row(
           children: [
-            Expanded(
-                flex: 1,
-                child: CheckboxListTile(
-                  controlAffinity: ListTileControlAffinity.leading,
+            Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 8),
+                child: Checkbox(
                   value: enabledFilters[CollectTypeFilter],
                   onChanged: (val) => setState(
                       () => enabledFilters[CollectTypeFilter] = val ?? false),
                 )),
             Expanded(
-                flex: 3,
                 child: EnumDropdownButton<CollectType>(
-                  types: CollectType.values,
-                  currentValue: collectTypeValue,
-                  handleValueUpdate: (val) =>
-                      setState(() => collectTypeValue = val),
-                  helperText: "Versandart",
-                ))
+              types: CollectType.values,
+              currentValue: collectTypeValue,
+              handleValueUpdate: (val) =>
+                  setState(() => collectTypeValue = val),
+              helperText: "Versandart",
+            ))
           ],
         ),
         Row(
           children: [
-            Expanded(
-                flex: 1,
-                child: CheckboxListTile(
-                  controlAffinity: ListTileControlAffinity.leading,
+            Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 8),
+                child: Checkbox(
                   value: enabledFilters[ConditionFilter],
                   onChanged: (val) => setState(
                       () => enabledFilters[ConditionFilter] = val ?? false),
                 )),
             Expanded(
-                flex: 3,
                 child: EnumDropdownButton<Condition>(
-                  types: Condition.values,
-                  currentValue: conditionValue,
-                  handleValueUpdate: (val) =>
-                      setState(() => conditionValue = val),
-                  iconWidget: ConditionIcon.from,
-                  helperText: "Zustand",
-                ))
+              types: Condition.values,
+              currentValue: conditionValue,
+              handleValueUpdate: (val) => setState(() => conditionValue = val),
+              iconWidget: ConditionIcon.from,
+              helperText: "Zustand",
+            ))
           ],
         ),
         Row(
           children: [
-            Expanded(
-                flex: 1,
-                child: CheckboxListTile(
-                  controlAffinity: ListTileControlAffinity.leading,
+            Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 8),
+                child: Checkbox(
                   value: enabledFilters[CategoryFilter],
                   onChanged: (val) => setState(
                       () => enabledFilters[CategoryFilter] = val ?? false),
                 )),
             Expanded(
-                flex: 3,
                 child: EnumDropdownButton<Category>(
-                  types: Category.values,
-                  currentValue: categoryValue,
-                  handleValueUpdate: (val) =>
-                      setState(() => categoryValue = val),
-                  helperText: "Kategorie",
-                ))
+              types: Category.values,
+              currentValue: categoryValue,
+              handleValueUpdate: (val) => setState(() => categoryValue = val),
+              helperText: "Kategorie",
+            ))
           ],
         ),
         Padding(
