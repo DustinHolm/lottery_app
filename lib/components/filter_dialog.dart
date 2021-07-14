@@ -13,6 +13,8 @@ import 'package:lottery_app/filter/tickets_less_than_filter.dart';
 import 'package:lottery_app/filter/title_filter.dart';
 import 'package:lottery_app/filter/i_transform.dart';
 
+import 'condition_icon.dart';
+
 class FilterDialog extends StatefulWidget {
   const FilterDialog(
       {required this.transformations,
@@ -179,6 +181,7 @@ class _FilterDialogState extends State<FilterDialog> {
                   currentValue: conditionValue,
                   handleValueUpdate: (val) =>
                       setState(() => conditionValue = val),
+                  iconWidget: ConditionIcon.from,
                   helperText: "Zustand",
                 ))
           ],
