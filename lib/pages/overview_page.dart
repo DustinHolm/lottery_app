@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:lottery_app/components/app_bar/app_bar.dart';
+import 'package:lottery_app/components/app_bar/lottery_app_bar.dart';
 import 'package:lottery_app/components/app_bar/filter_button.dart';
 import 'package:lottery_app/components/lottery_elements/lottery_list_element.dart';
 import 'package:lottery_app/filter/not_ended_filter.dart';
@@ -41,7 +41,8 @@ class _OverviewPageState extends State<OverviewPage> {
           filterButton: FilterButton(
               transformations: transformations,
               handleTransformationsUpdate: (List<ITransform> update) =>
-                  setState(() => transformations = update))),
+                  setState(() => transformations = update)),
+          notifyParent: (() => setState(() {}))),
       body: ListView.builder(
         itemCount: lotteries.length,
         itemBuilder: (context, index) {

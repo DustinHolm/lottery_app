@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:lottery_app/components/app_bar/app_bar.dart';
+import 'package:lottery_app/components/app_bar/lottery_app_bar.dart';
 import 'package:lottery_app/components/tickets_buy_form.dart';
 import 'package:lottery_app/sidebar.dart';
 import 'package:lottery_app/stores/user_store.dart';
@@ -21,7 +21,7 @@ class _TicketsBuyPageState extends State<TicketsBuyPage> {
 
     return Scaffold(
       drawer: const Sidebar(),
-      appBar: LotteryAppBar(title: widget.title),
+      appBar: LotteryAppBar(title: widget.title, notifyParent: (() => setState(() {}))),
       body: userStore.status != Status.AUTHENTICATED
           ? Center(
               child: Text(
