@@ -2,6 +2,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:lottery_app/components/enum_dropdown_button.dart';
 import 'package:lottery_app/components/new_product_page/category_selector.dart';
 import 'package:lottery_app/components/new_product_page/description_selection.dart';
 import 'package:lottery_app/components/new_product_page/name_selection.dart';
@@ -45,12 +46,23 @@ void main() {
     expect(find.text('Beschreibung'), findsOneWidget);
 
     //Choose a Category from the Dropdown Menu
-    tester.any(find.byWidget(CategorySelector(productCategory: Category.BOOKS, handleCategoryUpdate: (Category category) =>
+    var finder = find.byType(CategorySelector);
+    tester.tap(finder);
+    await tester.pump();
+
+    var category = find.text('Bücher');
+    tester.tap(category);
+    await tester.pump();
+
+    expect(find.text('Bücher'), findsOneWidget);
+
+
+    /*tester.any(find.byWidget(CategorySelector(productCategory: Category.BOOKS, handleCategoryUpdate: (Category category) =>
     testCategory = category)));
     await tester.pump();
     expect(testCategory, Category.BOOKS);
 
-    /*
+
     //Choose a Condition from Dropdown Menu
     await tester.any(find.byWidget(ConditionSelector(productCondition: Condition.OK, handleConditionUpdate: (Condition condition) =>
         testCondition = condition)));
