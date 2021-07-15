@@ -7,7 +7,7 @@ extension ParseToString on CollectType {
         return 'Nur Selbstabholung';
       case CollectType.PACKET:
         return 'Lieferung möglich';
-      default:
+      case CollectType.PACKET_INLAND:
         return 'Lieferung möglich (Inland)';
     }
   }

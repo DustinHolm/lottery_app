@@ -38,10 +38,13 @@ class LotteryListElement extends StatelessWidget {
             endingDate: lottery.endingDate,
             ticketsUsed: lottery.getTicketsUsed(),
             lotteryRunType: lotteryRunType),
-        onTap: () => Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) => ProductDetailPage(lottery: lottery))),
+        onTap: () {
+          FocusManager.instance.primaryFocus?.unfocus();
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => ProductDetailPage(lottery: lottery)));
+        }
       ),
     );
   }

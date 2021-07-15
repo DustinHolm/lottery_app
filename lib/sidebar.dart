@@ -8,6 +8,17 @@ class Sidebar extends StatelessWidget {
     return Drawer(
       child: ListView(
         children: [
+          DrawerHeader(
+              decoration: const BoxDecoration(color: Colors.blue),
+              child: Align(
+                  alignment: Alignment.bottomLeft,
+                  child: Text(
+                    "Lotteriespiel-App",
+                    style: Theme.of(context)
+                        .textTheme
+                        .headline4!
+                        .apply(color: Colors.white),
+                  ))),
           ListTile(
               title: const Text('Übersicht'),
               onTap: () => Navigator.pushNamed(context, '/overview')),

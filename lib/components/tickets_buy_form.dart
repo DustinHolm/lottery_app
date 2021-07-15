@@ -4,8 +4,10 @@ import 'package:lottery_app/stores/user_store.dart';
 import 'package:provider/provider.dart';
 
 class TicketsBuyForm extends StatefulWidget {
-  const TicketsBuyForm({Key? key}) : super(key: key);
-  
+  const TicketsBuyForm({required this.handleTicketsBought, Key? key}) : super(key: key);
+
+  final Function(int) handleTicketsBought;
+
   @override
   _TicketsBuyFormState createState() => _TicketsBuyFormState();
 }
@@ -33,6 +35,7 @@ class _TicketsBuyFormState extends State<TicketsBuyForm> {
                   var v = int.tryParse(numTicketsController.text);
                   if (v != null) {
                     userStore.addTickets(v);
+                    widget.handleTicketsBought(v);
                   } else {
                     showDialog(
                       context: context,

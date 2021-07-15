@@ -2,13 +2,12 @@ import 'dart:math';
 import 'dart:ui';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:collection/collection.dart';
 import 'package:lottery_app/enums/category.dart';
 import 'package:lottery_app/enums/collect_type.dart';
 import 'package:lottery_app/enums/condition.dart';
 import 'package:lottery_app/models/app_user.dart';
 import 'package:nanoid/nanoid.dart';
-
-import 'bid_tickets.dart';
 
 class Lottery {
   String id;
@@ -19,7 +18,7 @@ class Lottery {
   Category category;
   int shippingCost;
   DateTime endingDate;
-  BidTickets bidTickets;
+  Map<String, int> ticketMap;
   AppUser seller;
   AppUser? winner;
   CollectType collectType;
@@ -33,7 +32,7 @@ class Lottery {
     required this.category,
     required this.shippingCost,
     required this.endingDate,
-    required this.bidTickets,
+    required this.ticketMap,
     required this.seller,
     required this.winner,
     required this.collectType,
@@ -47,24 +46,24 @@ class Lottery {
     required this.category,
     required this.shippingCost,
     required this.endingDate,
-    required this.bidTickets,
+    required this.ticketMap,
     required this.seller,
     required this.winner,
     required this.collectType,
   }) : id = nanoid();
 
   int getTicketsUsed() {
-    if (bidTickets.ticketMap.isNotEmpty) {
-      return bidTickets.ticketMap.values.reduce((a, b) => a + b);
+    if (ticketMap.isNotEmpty) {
+      return ticketMap.values.reduce((a, b) => a + b);
     } else {
       return 0;
     }
   }
 
   addTicket(String userId) {
-    int old = bidTickets.ticketMap[userId] ?? 0;
-    bidTickets.ticketMap[userId] = old + 1;
-    List<String> allTickets = bidTickets.ticketMap.entries.map((entry) {
+    int old = ticketMap[userId] ?? 0;
+    ticketMap[userId] = old + 1;
+    List<String> allTickets = ticketMap.entries.map((entry) {
       List<String> tickets = [];
       for (int i = 0; i < entry.value; i++) {
         tickets.add(entry.key);
@@ -72,7 +71,13 @@ class Lottery {
       return tickets;
     }).reduce((a, b) => a + b);
     int randInt = Random().nextInt(allTickets.length);
-    bidTickets.nextWinner = allTickets[randInt];
+    winner = AppUser(id: allTickets[randInt]);
+  }
+
+  Lottery withoutTickets() {
+    Lottery copy = this;
+    copy.ticketMap = {};
+    return copy;
   }
 
   Map<String, dynamic> toJson() => {
@@ -84,7 +89,7 @@ class Lottery {
         "category": category.index,
         "shippingCost": shippingCost,
         "endingDate": Timestamp.fromDate(endingDate),
-        "bidTickets": bidTickets.toJson(),
+        "ticketMap": ticketMap,
         "seller": seller.toJson(),
         "winner": winner?.toJson(),
         "collectType": collectType.index,
@@ -99,7 +104,7 @@ class Lottery {
         category = Category.values[json["category"]],
         shippingCost = json["shippingCost"],
         endingDate = json["endingDate"].toDate(),
-        bidTickets = BidTickets.fromJson(json["bidTickets"]),
+        ticketMap = Map<String, int>.from(json["ticketMap"]),
         seller = AppUser.fromJson(json["seller"]),
         winner =
             json["winner"] == null ? null : AppUser.fromJson(json["winner"]),
@@ -116,10 +121,10 @@ class Lottery {
         other.category == category &&
         other.shippingCost == shippingCost &&
         other.endingDate == endingDate &&
-        other.bidTickets == bidTickets &&
         other.seller == seller &&
         other.winner == winner &&
-        other.collectType == collectType;
+        other.collectType == collectType &&
+        const DeepCollectionEquality().equals(ticketMap, other.ticketMap);
   }
 
   @override
@@ -132,9 +137,9 @@ class Lottery {
         category.hashCode,
         shippingCost.hashCode,
         endingDate.hashCode,
-        bidTickets.hashCode,
         seller.hashCode,
         winner.hashCode,
         collectType.hashCode,
+        const DeepCollectionEquality().hash(ticketMap),
       );
 }

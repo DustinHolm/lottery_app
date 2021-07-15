@@ -1,16 +1,15 @@
-import 'package:lottery_app/filter/transform.dart';
+import 'package:lottery_app/filter/i_transform.dart';
 import 'package:lottery_app/models/lottery.dart';
 
 class SellerFilter implements ITransform {
-  final String _name;
-
-  SellerFilter(String name) : _name = name;
+  SellerFilter(this.name);
+  final String name;
 
   @override
   Iterable<Lottery> transformLotteries(Iterable<Lottery> lotteries) {
-    return lotteries.where((lottery) => lottery.seller.name
+    return lotteries.where((lottery) => (lottery.seller.name ?? "")
         .toLowerCase()
         .replaceAll(" ", "")
-        .contains(_name.toLowerCase().replaceAll(" ", "")));
+        .contains(name.toLowerCase().replaceAll(" ", "")));
   }
 }

@@ -29,7 +29,7 @@ class SellerData extends StatelessWidget {
             Expanded(
                 child: GridTile(
               child: Text(
-                seller.name,
+                seller.name ?? "",
                 style: Theme.of(context).textTheme.headline5,
                 textAlign: TextAlign.center,
               ),

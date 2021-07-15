@@ -41,6 +41,11 @@ class ProductDetailPage extends StatelessWidget {
                         overflow: TextOverflow.ellipsis,
                       ),
                     )),
+                Center(
+                    child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: LotteryRunTypeMessage(
+                            lottery: lottery, lotteryRunType: lotteryRunType))),
                 BiddingData(
                   endingDate: lottery.endingDate,
                   ticketsUsed: lottery.getTicketsUsed(),
@@ -52,18 +57,35 @@ class ProductDetailPage extends StatelessWidget {
                 DescriptionData(
                     description: lottery.description,
                     condition: lottery.condition),
-                Center(
-                    child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: LotteryRunTypeMessage(
-                            lottery: lottery, lotteryRunType: lotteryRunType))),
               ],
             ),
           )
         ],
       ),
       bottomNavigationBar: lottery.seller == userStore.user
-          ? null
+          ? (lotteryRunType == LotteryRunType.SOLD)
+              ? BottomAppBar(
+                  child: Container(
+                    padding: const EdgeInsets.all(8),
+                    child: Padding(
+                        padding: const EdgeInsets.fromLTRB(64, 8, 64, 8),
+                        child: ElevatedButton(
+                          onPressed: (lottery.getTicketsUsed() > 0) ? () {
+                            userStore.addTickets(lottery.getTicketsUsed() - 1);
+                            FirestoreController.updateLottery(
+                                lottery.withoutTickets());
+                          } : null,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: const [
+                              Icon(Icons.attach_money),
+                              Text("Auszahlen"),
+                            ],
+                          ),
+                        )),
+                  ),
+                )
+              : null
           : BottomAppBar(
               child: Container(
                 padding: const EdgeInsets.all(8),
@@ -71,7 +93,7 @@ class ProductDetailPage extends StatelessWidget {
                   children: [
                     const Text("Tickets verbleibend: "),
                     Text(
-                      "${userStore.tickets}",
+                      "${userStore.tickets ?? 0}",
                       style: Theme.of(context)
                           .textTheme
                           .bodyText1!
@@ -80,7 +102,7 @@ class ProductDetailPage extends StatelessWidget {
                     const Spacer(),
                     ElevatedButton(
                       onPressed: (userStore.status != Status.AUTHENTICATED ||
-                              userStore.tickets <= 0)
+                              (userStore.tickets ?? 0) <= 0)
                           ? null
                           : () {
                               lottery.addTicket(userStore.id);

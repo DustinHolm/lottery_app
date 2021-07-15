@@ -1,4 +1,4 @@
-import 'package:lottery_app/filter/transform.dart';
+import 'package:lottery_app/filter/i_transform.dart';
 import 'package:lottery_app/models/lottery.dart';
 
 class IdFilter implements ITransform {

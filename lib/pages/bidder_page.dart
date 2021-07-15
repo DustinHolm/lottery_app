@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:lottery_app/components/lottery_list_element.dart';
+import 'package:lottery_app/components/lottery_elements/lottery_list_element.dart';
 import 'package:lottery_app/filter/bid_on_filter.dart';
 import 'package:lottery_app/filter/favorited_filter.dart';
-import 'package:lottery_app/filter/transform.dart';
-import 'package:lottery_app/components/app_bar.dart';
+import 'package:lottery_app/filter/i_transform.dart';
+import 'package:lottery_app/components/app_bar/lottery_app_bar.dart';
 import 'package:lottery_app/models/lottery.dart';
 import 'package:lottery_app/services/transform_service.dart';
 import 'package:lottery_app/sidebar.dart';
@@ -33,7 +33,7 @@ class _BidderPageState extends State<BidderPage> {
 
     return Scaffold(
       drawer: const Sidebar(),
-      appBar: LotteryAppBar(title: widget.title),
+      appBar: LotteryAppBar(title: widget.title, notifyParent: (() => setState(() {})),),
       body: userStore.status != Status.AUTHENTICATED
           ? Center(
               child: Text(
