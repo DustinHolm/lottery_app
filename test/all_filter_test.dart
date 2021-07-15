@@ -4,7 +4,6 @@ import 'package:lottery_app/models/lottery.dart';
 import 'package:lottery_app/enums/category.dart';
 import 'package:lottery_app/enums/collect_type.dart';
 import 'package:lottery_app/enums/condition.dart';
-import 'package:lottery_app/models/app_user.dart';
 import 'package:lottery_app/filter/category_filter.dart';
 import 'package:lottery_app/filter/collect_type_filter.dart';
 import 'package:lottery_app/filter/condition_filter.dart';
@@ -14,33 +13,11 @@ import 'package:lottery_app/filter/seller_filter.dart';
 import 'package:lottery_app/filter/tickets_less_than_filter.dart';
 import 'package:lottery_app/filter/title_filter.dart';
 
+import 'defaults.dart';
+
 void main(){
 
-  AppUser getSeller() => AppUser(id: "SellerId", name: "SellerName",);
-  AppUser getWinner() => AppUser(id: "WinnerId", name: "WinnerName",);
-  List<Lottery> lotteries =[];
-  Category _category;
-  Condition _con;
-  CollectType _col;
-
-  Lottery getBaseLottery(var name, var c, var i, var ct) => Lottery.withRandomId(
-    name: name,
-    description: "Description",
-    image: null,
-    condition: _con=Condition.values[c],
-    category: _category=Category.values[i],
-    shippingCost: 21,
-    endingDate: DateTime.now(),
-    ticketMap: {},
-    seller: getSeller(),
-    winner: null,
-    collectType: _col=CollectType.values[ct],
-  );
-
-  for (var i=0;i<=8;i++){
-    lotteries.add(getBaseLottery("Test"+i.toString(),i%5, i, i%3));
-    lotteries.add(getBaseLottery("2Test"+i.toString(),i%5, i, i%3));
-  }
+  List<Lottery> lotteries = Defaults.getLotteries();
   List<Lottery> lotteries2 = lotteries;
 
   group('Category', (){
@@ -111,11 +88,11 @@ void main(){
   });
 
   test('Lotteries should be filtered by seller', (){
-    Iterable<Lottery> filteredLotteries = SellerFilter(getSeller().name.toString()).transformLotteries(lotteries);
+    Iterable<Lottery> filteredLotteries = SellerFilter(Defaults.getSeller().name.toString()).transformLotteries(lotteries);
     expect(filteredLotteries,lotteries2.where((lottery) => (lottery.seller.name ?? "")
         .toLowerCase()
         .replaceAll(" ", "")
-        .contains(getSeller().name.toString().toLowerCase().replaceAll(" ", ""))));
+        .contains(Defaults.getSeller().name.toString().toLowerCase().replaceAll(" ", ""))));
     expect(filteredLotteries.toList().length, 18);
   });
 
