@@ -1,0 +1,153 @@
+  bash arg: -p
+  bash arg: de.group7.lottery_app
+  bash arg: -v
+  bash arg: 500
+:Monkey: seed=1626422692088 count=500
+:AllowPackage: de.group7.lottery_app
+:IncludeCategory: android.intent.category.LAUNCHER
+:IncludeCategory: android.intent.category.MONKEY
+// Event percentages:
+//   0: 15.0%
+//   1: 10.0%
+//   2: 2.0%
+//   3: 15.0%
+//   4: -0.0%
+//   5: -0.0%
+//   6: 25.0%
+//   7: 15.0%
+//   8: 2.0%
+//   9: 2.0%
+//   10: 1.0%
+//   11: 13.0%
+:Switch: #Intent;action=android.intent.action.MAIN;category=android.intent.category.LAUNCHER;launchFlags=0x10200000;component=de.group7.lottery_app/.MainActivity;end
+    // Allowing start of Intent { act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] cmp=de.group7.lottery_app/.MainActivity } in package de.group7.lottery_app
+:Sending Touch (ACTION_DOWN): 0:(991.0,1050.0)
+:Sending Touch (ACTION_UP): 0:(958.4739,1116.199)
+:Sending Touch (ACTION_DOWN): 0:(758.0,698.0)
+:Sending Touch (ACTION_UP): 0:(758.42236,719.2571)
+:Switch: #Intent;action=android.intent.action.MAIN;category=android.intent.category.LAUNCHER;launchFlags=0x10200000;component=de.group7.lottery_app/.MainActivity;end
+    // Allowing start of Intent { act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] cmp=de.group7.lottery_app/.MainActivity } in package de.group7.lottery_app
+:Sending Touch (ACTION_DOWN): 0:(624.0,25.0)
+:Sending Touch (ACTION_UP): 0:(628.8347,20.168032)
+:Sending Touch (ACTION_DOWN): 0:(131.0,1694.0)
+:Sending Touch (ACTION_UP): 0:(113.671616,1689.4633)
+    // Allowing start of Intent { act=android.intent.action.MAIN cat=[android.intent.category.HOME] cmp=com.sec.android.app.launcher/.activities.LauncherActivity } in package com.sec.android.app.launcher
+:Sending Trackball (ACTION_MOVE): 0:(3.0,-5.0)
+:Sending Touch (ACTION_DOWN): 0:(1020.0,1790.0)
+:Sending Touch (ACTION_UP): 0:(1001.73145,1832.4099)
+:Sending Trackball (ACTION_MOVE): 0:(-4.0,-2.0)
+:Sending Trackball (ACTION_MOVE): 0:(-5.0,1.0)
+:Sending Trackball (ACTION_UP): 0:(0.0,0.0)
+:Sending Trackball (ACTION_MOVE): 0:(1.0,-5.0)
+:Sending Trackball (ACTION_UP): 0:(0.0,0.0)
+:Sending Touch (ACTION_DOWN): 0:(943.0,532.0)
+:Sending Touch (ACTION_UP): 0:(941.6997,554.15356)
+    // Injection Failed
+    // Rejecting start of Intent { act=com.samsung.android.weather.intent.action.internal.SELECT_LOCATIONS cmp=com.sec.android.daemonapp/com.samsung.android.weather.app.locations.activity.WXLocationsActivity } in package com.sec.android.daemonapp
+:Sending Trackball (ACTION_MOVE): 0:(-5.0,-3.0)
+    //[calendar_time:2021-07-13 19:38:24.914  system_uptime:633525717]
+    // Sending event #100
+:Sending Trackball (ACTION_MOVE): 0:(0.0,4.0)
+:Sending Touch (ACTION_DOWN): 0:(491.0,1126.0)
+:Sending Touch (ACTION_UP): 0:(491.56857,1113.1967)
+:Sending Trackball (ACTION_MOVE): 0:(-5.0,-1.0)
+    // Rejecting start of Intent { act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] cmp=com.samsung.android.dialer/.DialtactsActivity } in package com.samsung.android.dialer
+:Sending Touch (ACTION_DOWN): 0:(351.0,1416.0)
+:Sending Touch (ACTION_UP): 0:(345.74387,1429.7563)
+    // Rejecting start of Intent { act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] cmp=com.sec.android.app.camera/.Camera } in package com.sec.android.app.camera
+    // Rejecting start of Intent { act=android.search.action.GLOBAL_SEARCH cmp=com.google.android.googlequicksearchbox/.SearchActivity } in package com.google.android.googlequicksearchbox
+:Sending Touch (ACTION_DOWN): 0:(16.0,1526.0)
+:Sending Touch (ACTION_UP): 0:(11.504851,1542.0791)
+:Sending Trackball (ACTION_MOVE): 0:(3.0,-2.0)
+:Sending Touch (ACTION_DOWN): 0:(324.0,22.0)
+:Sending Touch (ACTION_UP): 0:(321.62497,22.592495)
+:Sending Flip keyboardOpen=false
+Got IOException performing flipjava.io.FileNotFoundException: /dev/input/event0: open failed: EACCES (Permission denied)
+    // Injection Failed
+:Sending Touch (ACTION_DOWN): 0:(450.0,1293.0)
+:Sending Touch (ACTION_UP): 0:(442.6991,1289.2273)
+:Sending Touch (ACTION_DOWN): 0:(363.0,259.0)
+:Sending Touch (ACTION_UP): 0:(370.33768,255.51115)
+:Sending Trackball (ACTION_MOVE): 0:(3.0,-5.0)
+:Sending Touch (ACTION_DOWN): 0:(902.0,1631.0)
+:Sending Touch (ACTION_UP): 0:(823.0251,1647.4484)
+    // Rejecting start of Intent { act=android.search.action.GLOBAL_SEARCH cmp=com.google.android.googlequicksearchbox/.SearchActivity } in package com.google.android.googlequicksearchbox
+    //[calendar_time:2021-07-13 19:38:25.234  system_uptime:633526017]
+    // Sending event #200
+    //[calendar_time:2021-07-13 19:38:25.234  system_uptime:633526018]
+    // Sending event #200
+:Sending Trackball (ACTION_MOVE): 0:(0.0,-3.0)
+:Sending Touch (ACTION_DOWN): 0:(477.0,434.0)
+:Sending Touch (ACTION_UP): 0:(533.9176,425.00623)
+:Sending Touch (ACTION_DOWN): 0:(258.0,1345.0)
+:Sending Touch (ACTION_UP): 0:(260.43848,1353.8131)
+:Sending Touch (ACTION_DOWN): 0:(534.0,1425.0)
+:Sending Touch (ACTION_UP): 0:(532.4745,1417.3845)
+:Sending Touch (ACTION_DOWN): 0:(238.0,700.0)
+:Sending Touch (ACTION_UP): 0:(235.32983,691.68036)
+:Sending Trackball (ACTION_MOVE): 0:(-4.0,-5.0)
+    // Rejecting start of Intent { act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] cmp=com.samsung.android.dialer/.DialtactsActivity } in package com.samsung.android.dialer
+:Sending Trackball (ACTION_MOVE): 0:(-2.0,3.0)
+    // Rejecting start of Intent { act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] cmp=com.samsung.android.messaging/com.android.mms.ui.ConversationComposer } in package com.samsung.android.messaging
+:Sending Touch (ACTION_DOWN): 0:(472.0,1485.0)
+:Sending Touch (ACTION_UP): 0:(458.7779,1465.7582)
+:Sending Trackball (ACTION_MOVE): 0:(-3.0,-5.0)
+:Sending Trackball (ACTION_MOVE): 0:(0.0,0.0)
+:Sending Trackball (ACTION_UP): 0:(0.0,0.0)
+:Sending Trackball (ACTION_MOVE): 0:(0.0,-4.0)
+:Sending Touch (ACTION_DOWN): 0:(1037.0,474.0)
+:Sending Touch (ACTION_UP): 0:(1026.9961,477.76038)
+    // Rejecting start of Intent { act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] cmp=com.samsung.android.dialer/.DialtactsActivity } in package com.samsung.android.dialer
+    //[calendar_time:2021-07-13 19:38:25.437  system_uptime:633526220]
+    // Sending event #300
+:Sending Trackball (ACTION_MOVE): 0:(1.0,-4.0)
+:Sending Trackball (ACTION_MOVE): 0:(-4.0,3.0)
+:Sending Trackball (ACTION_UP): 0:(0.0,0.0)
+:Sending Trackball (ACTION_MOVE): 0:(3.0,4.0)
+    // Rejecting start of Intent { act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] cmp=com.ninegag.android.app/.ui.home.HomeActivity } in package com.ninegag.android.app
+:Sending Touch (ACTION_DOWN): 0:(603.0,1184.0)
+:Sending Touch (ACTION_UP): 0:(605.8601,1270.839)
+    // Rejecting start of Intent { act=android.search.action.GLOBAL_SEARCH cmp=com.google.android.googlequicksearchbox/.SearchActivity } in package com.google.android.googlequicksearchbox
+:Sending Touch (ACTION_DOWN): 0:(854.0,675.0)
+:Sending Touch (ACTION_UP): 0:(851.4341,672.7863)
+:Sending Trackball (ACTION_MOVE): 0:(-5.0,0.0)
+    // Rejecting start of Intent { act=android.search.action.GLOBAL_SEARCH cmp=com.google.android.googlequicksearchbox/.SearchActivity } in package com.google.android.googlequicksearchbox
+:Sending Trackball (ACTION_MOVE): 0:(-1.0,3.0)
+:Sending Trackball (ACTION_MOVE): 0:(1.0,0.0)
+    //[calendar_time:2021-07-13 19:38:26.011  system_uptime:633526794]
+    // Sending event #400
+:Sending Trackball (ACTION_MOVE): 0:(1.0,-3.0)
+:Sending Touch (ACTION_DOWN): 0:(823.0,538.0)
+:Sending Touch (ACTION_UP): 0:(816.645,515.2181)
+:Sending Touch (ACTION_DOWN): 0:(326.0,1398.0)
+:Sending Touch (ACTION_UP): 0:(314.57544,1393.1095)
+:Sending Touch (ACTION_DOWN): 0:(1074.0,1867.0)
+    // Rejecting start of Intent { act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] cmp=com.sec.android.app.clockpackage/.ClockPackage } in package com.sec.android.app.clockpackage
+:Sending Touch (ACTION_UP): 0:(1053.8066,1820.4548)
+    // Rejecting start of Intent { act=android.search.action.GLOBAL_SEARCH cmp=com.google.android.googlequicksearchbox/.SearchActivity } in package com.google.android.googlequicksearchbox
+:Sending Touch (ACTION_DOWN): 0:(837.0,750.0)
+:Sending Touch (ACTION_UP): 0:(828.585,752.87024)
+:Switch: #Intent;action=android.intent.action.MAIN;category=android.intent.category.LAUNCHER;launchFlags=0x10200000;component=de.group7.lottery_app/.MainActivity;end
+    // Rejecting start of Intent { act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] cmp=com.android.settings/.Settings } in package com.android.settings
+    // Allowing start of Intent { act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] cmp=de.group7.lottery_app/.MainActivity } in package de.group7.lottery_app
+:Sending Touch (ACTION_DOWN): 0:(661.0,638.0)
+:Sending Touch (ACTION_UP): 0:(753.91003,587.91187)
+    // Allowing start of Intent { act=android.intent.action.MAIN cat=[android.intent.category.HOME] pkg=com.sec.android.app.launcher cmp=com.sec.android.app.launcher/.activities.LauncherActivity } in package com.sec.android.app.launcher
+:Switch: #Intent;action=android.intent.action.MAIN;category=android.intent.category.LAUNCHER;launchFlags=0x10200000;component=de.group7.lottery_app/.MainActivity;end
+    // Allowing start of Intent { act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] cmp=de.group7.lottery_app/.MainActivity } in package de.group7.lottery_app
+:Sending Touch (ACTION_DOWN): 0:(431.0,210.0)
+:Sending Touch (ACTION_UP): 0:(432.10995,210.18741)
+:Sending Touch (ACTION_DOWN): 0:(728.0,2141.0)
+:Sending Touch (ACTION_UP): 0:(779.6639,2138.4622)
+:Sending Touch (ACTION_DOWN): 0:(573.0,1959.0)
+:Sending Touch (ACTION_UP): 0:(587.3783,1960.3187)
+:Sending Trackball (ACTION_MOVE): 0:(-5.0,-1.0)
+    // Injection Failed
+:Sending Touch (ACTION_DOWN): 0:(869.0,826.0)
+:Sending Touch (ACTION_UP): 0:(884.8947,830.67126)
+:Sending Trackball (ACTION_MOVE): 0:(1.0,-2.0)
+Events injected: 500
+:Sending rotation degree=0, persist=false
+:Dropped: keys=1 pointers=1 trackballs=0 flips=1 rotations=0
+## Network stats: elapsed time=2848ms (0ms mobile, 0ms wifi, 2848ms not connected)
+// Monkey finished
