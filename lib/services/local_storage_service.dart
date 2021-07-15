@@ -13,18 +13,21 @@ class LocalStorageService {
 
   static Future<List<String>> getFavoriteIds() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    return prefs.getStringList("favoriteIds") ?? List.empty();
+    return prefs.getStringList("favoriteIds") ?? List.empty(growable: true);
   }
 
   static Future<bool> addFavoriteId(String favoriteId) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    List<String> favorites = prefs.getStringList("favoriteIds") ?? List.empty();
+    List<String> favorites =
+        prefs.getStringList("favoriteIds") ?? List.empty(growable: true);
     return prefs.setStringList("favoriteIds", [...favorites, favoriteId]);
   }
 
   static Future<bool> removeFavoriteId(String favoriteId) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    List<String> favorites = prefs.getStringList("favoriteIds") ?? List.empty();
-    return prefs.setStringList("favoriteIds", favorites.where((id) => id != favoriteId).toList());
+    List<String> favorites =
+        prefs.getStringList("favoriteIds") ?? List.empty(growable: true);
+    return prefs.setStringList(
+        "favoriteIds", favorites.where((id) => id != favoriteId).toList());
   }
 }
