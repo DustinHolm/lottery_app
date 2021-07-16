@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:lottery_app/components/app_bar/filter_button.dart';
 import 'package:lottery_app/components/app_bar/user_dialog_button.dart';
 
 class LotteryAppBar extends StatelessWidget implements PreferredSizeWidget {

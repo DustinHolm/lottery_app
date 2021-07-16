@@ -5,6 +5,7 @@ import 'package:lottery_app/models/app_user.dart';
 import 'package:lottery_app/models/lottery.dart';
 
 class Defaults {
+  static AppUser getUser() => AppUser(id: "UserId", name: "UserName",);
   static AppUser getSeller() => AppUser(id: "SellerId", name: "SellerName",);
   static AppUser getWinner() => AppUser(id: "WinnerId", name: "WinnerName",);
 
@@ -16,7 +17,7 @@ class Defaults {
         condition: Condition.values[condition],
         category: Category.values[category],
         shippingCost: 21,
-        endingDate: DateTime.parse("2012-02-27 13:27:00"),
+        endingDate: DateTime.parse("2099-02-27 13:27:00"),
         ticketMap: {},
         seller: getSeller(),
         winner: null,
