@@ -66,6 +66,7 @@ class _CreateNewProductPageState extends State<CreateNewProductPage> {
   Widget build(BuildContext context) {
     UserStore userStore = context.read<UserStore>();
 
+
     return Scaffold(
       drawer: const Sidebar(),
       appBar: LotteryAppBar(title: widget.title, notifyParent: (() => setState(() {}))),
